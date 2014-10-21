@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 /**
  *
- * @author florian
+ * @author Maurice Busch & Florian Loch
  */
 public class Game {
     private Board board;

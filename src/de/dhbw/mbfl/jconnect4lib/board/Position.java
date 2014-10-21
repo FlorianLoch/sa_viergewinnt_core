@@ -2,7 +2,7 @@ package de.dhbw.mbfl.jconnect4lib.board;
 
 /**
  *
- * @author florian
+ * @author Maurice Busch & Florian Loch
  */
 
 public class Position {
