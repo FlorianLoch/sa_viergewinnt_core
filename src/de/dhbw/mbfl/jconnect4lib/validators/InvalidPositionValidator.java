@@ -13,8 +13,7 @@ import java.util.ArrayList;
  */
 public class InvalidPositionValidator implements Validator
 {
-    public static final String MSG = "Fehlerhafte Position. Unter dem neuen Stein muss sich ein weiterer Stein befinden.";
-    
+    public static final String MSG = "Fehlerhafte Position. Unter dem neuen Stein ($s) muss sich ein weiterer Stein befinden.";  
     
     @Override
     public void validate(ArrayList<Difference> differences, Board board) throws ValidationException
@@ -22,9 +21,9 @@ public class InvalidPositionValidator implements Validator
         for (Difference difference : differences)
         {
             Position difPos = difference.getPosition();
-            if (board.getStone(new Position(difPos.getColumn(), difPos.getRow() -1)) == null)
+            if (difPos.getRow() >= 1 && board.getStone(new Position(difPos.getColumn(), difPos.getRow() - 1)) == null)
             {
-                throw new ValidationException(MSG);
+                throw new ValidationException(String.format(MSG, difPos), difPos);
             }
         }
     }

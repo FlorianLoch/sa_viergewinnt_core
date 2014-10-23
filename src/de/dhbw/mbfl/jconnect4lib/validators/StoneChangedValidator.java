@@ -17,7 +17,7 @@ public class StoneChangedValidator implements Validator {
     public void validate(ArrayList<Difference> differences, Board board) throws ValidationException {
         for (Difference dif : differences) {
             if (dif.getOldStone() != null && dif.getNewStone() != dif.getOldStone()) {
-                throw new ValidationException(String.format(MSG, dif.getPosition()));
+                throw new ValidationException(String.format(MSG, dif.getPosition()), dif.getPosition());
             }
         }
     }

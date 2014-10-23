@@ -8,6 +8,8 @@ public class Difference {
     private Stone oldStone;
     private Stone newStone;
     private Position position;
+    
+    private static final String TOSTRING_TEMPLATE = "$s at $s changed to $s";
 
     public Difference(Stone oldStone, Stone newStone, Position position) {
         this.oldStone = oldStone;
@@ -34,5 +36,10 @@ public class Difference {
      */
     public Position getPosition() {
         return this.position;
+    }
+
+    @Override
+    public String toString() {
+        return String.format(TOSTRING_TEMPLATE, this.oldStone, this.position, this.newStone);
     }
 }

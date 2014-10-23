@@ -119,4 +119,23 @@ public class Board {
     public Position getLastTurn() {
         return this.log.get(this.log.size() - 1);
     }
+
+    @Override
+    public String toString() {
+        String s = String.format("Board after $i moves.%n", this.log.size());
+        
+        for (int i = ROW_COUNT - 1; i >= 0; i++) {
+            s = s + (i + 1) + " ";
+            for (int j = 0; j < COLUMN_COUNT; j++) {
+                 s = s + this.getStone(new Position(j, i)).getSign() + " | ";
+            }
+            s = s + String.format("%n");
+        }
+        s = s + "    ";
+        for (int i = 0; i < COLUMN_COUNT; i++) {
+            s = s + "   " + ((char) 65 + i);
+        }
+        
+        return s; //To change body of generated methods, choose Tools | Templates.
+    }
 }
