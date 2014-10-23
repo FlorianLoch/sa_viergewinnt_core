@@ -6,25 +6,27 @@ package de.dhbw.mbfl.jconnect4lib.board;
  */
 
 public class Position {
-    private int pos;
+    private int col, row;
     
     public Position(int position) {
-        this.pos = position;
+        this.col = position % Board.COLUMN_COUNT;
+        this.row = (int) position / Board.COLUMN_COUNT;
     }
     
     public Position(int col, int row) {
-        this.pos = row * Board.COLUMN_COUNT + col;
+        this.col = col;
+        this.row = row;
     }
     
     public int getRow() {
-        return (int) this.pos / Board.COLUMN_COUNT;
+        return this.row;
     }
     
     public int getColumn() {
-        return this.pos % Board.COLUMN_COUNT;
+        return this.col;
     }
     
     public int getPosition() {
-        return this.pos;
+        return this.col + this.row * Board.COLUMN_COUNT;
     }
 }

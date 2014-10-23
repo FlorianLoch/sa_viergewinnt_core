@@ -9,6 +9,6 @@ import de.dhbw.mbfl.jconnect4lib.board.Position;
  */
 public interface AI {
     
-    public Position calculateTurn(Board board, Position lastMove);
+    public Position calculateTurn(Board board);
     
 }
