@@ -16,5 +16,10 @@
             <file>file:/Users/florian/Documents/STUDIUM/800)%20Studienarbeit/JConnect4Lib/src/de/dhbw/mbfl/jconnect4lib/board/Difference.java</file>
             <file>file:/Users/florian/Documents/STUDIUM/800)%20Studienarbeit/JConnect4Lib/src/de/dhbw/mbfl/jconnect4lib/exceptions/ValidationException.java</file>
         </group>
+        <group name="Connect4">
+            <file>file:/home/maurice/Dokumente/studienarbeit/JConnect4Lib/src/de/dhbw/mbfl/jconnect4lib/validators/NoChangeValidator.java</file>
+            <file>file:/home/maurice/Dokumente/studienarbeit/JConnect4Lib/src/de/dhbw/mbfl/jconnect4lib/Game4Commandline.java</file>
+            <file>file:/home/maurice/Dokumente/studienarbeit/JConnect4Lib/src/de/dhbw/mbfl/jconnect4lib/ai/random/RandomAI.java</file>
+        </group>
     </open-files>
 </project-private>

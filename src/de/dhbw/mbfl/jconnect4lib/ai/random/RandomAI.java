@@ -34,7 +34,7 @@ public class RandomAI implements AI
                 col = -1;
             }
         }
-
+        
         return new Position(col, row);
     }
 
