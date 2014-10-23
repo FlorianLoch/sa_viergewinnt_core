@@ -1,5 +1,6 @@
 package de.dhbw.mbfl.jconnect4lib.validators;
 
+import de.dhbw.mbfl.jconnect4lib.board.Board;
 import de.dhbw.mbfl.jconnect4lib.board.Difference;
 import de.dhbw.mbfl.jconnect4lib.exceptions.ValidationException;
 import java.util.ArrayList;
@@ -10,6 +11,6 @@ import java.util.ArrayList;
  */
 public interface Validator {
     
-    public void validate(ArrayList<Difference> differences) throws ValidationException; 
+    public void validate(ArrayList<Difference> differences, Board board) throws ValidationException; 
 
 }
