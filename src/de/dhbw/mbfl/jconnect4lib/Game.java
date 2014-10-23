@@ -68,7 +68,7 @@ public class Game {
         
         try {
             for (Validator validator : this.validators) {
-                validator.validate(differences);
+                validator.validate(differences, board);
             }
         } catch (ValidationException ex) {
             System.out.println("");
