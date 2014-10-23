@@ -71,9 +71,14 @@ public class Game {
                 validator.validate(differences, board);
             }
         } catch (ValidationException ex) {
-            System.out.println("");
+            System.out.println(ex.toString());
         }
         
         return differences.get(0).getPosition();
+    }
+    
+    public String getCurrentBoardAsString()
+    {
+        return this.board.toString();
     }
 }
