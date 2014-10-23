@@ -11,7 +11,7 @@ import java.util.ArrayList;
  */
 public class StoneChangedValidator implements Validator {
 
-    public static final String MSG = "Stone at position $s changed!";
+    public static final String MSG = "Stone at position %s changed!";
     
     @Override
     public void validate(ArrayList<Difference> differences, Board board) throws ValidationException {

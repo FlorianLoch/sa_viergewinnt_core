@@ -1,5 +1,6 @@
 package de.dhbw.mbfl.jconnect4lib.board;
 
+import de.dhbw.mbfl.jconnect4lib.validators.StoneChangedValidator;
 import java.util.ArrayList;
 
 /**
@@ -24,7 +25,14 @@ public class Board {
     }
 
     public Board clone() {
-        return new Board(this.board);
+        Stone[][] tmp = new Stone[ROW_COUNT][COLUMN_COUNT];
+        for (int i = 0; i < ROW_COUNT; i++) {
+            for (int j = 0; j < COLUMN_COUNT; j++) {
+                tmp[i][j] = this.board[i][j];
+            }
+        }
+        
+        return new Board(tmp);
     }
     
     public void addStone(Position pos, Stone stone) {
@@ -122,18 +130,19 @@ public class Board {
 
     @Override
     public String toString() {
-        String s = String.format("Board after $i moves.%n", this.log.size());
+        String s = String.format("Board after %d moves.%n", this.log.size());
         
-        for (int i = ROW_COUNT - 1; i >= 0; i++) {
-            s = s + (i + 1) + " ";
+        for (int i = ROW_COUNT - 1; i >= 0; i--) {
+            s = s + (i + 1) + " | ";
             for (int j = 0; j < COLUMN_COUNT; j++) {
-                 s = s + this.getStone(new Position(j, i)).getSign() + " | ";
+                Stone stone = this.getStone(new Position(j, i));
+                 s = s + ((stone != null) ? stone.getSign() : " ") + " | ";
             }
             s = s + String.format("%n");
         }
         s = s + "    ";
         for (int i = 0; i < COLUMN_COUNT; i++) {
-            s = s + "   " + ((char) 65 + i);
+            s = s + (char) (65 + i) + "   ";
         }
         
         return s; //To change body of generated methods, choose Tools | Templates.

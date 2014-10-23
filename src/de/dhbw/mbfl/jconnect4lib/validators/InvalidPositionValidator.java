@@ -13,7 +13,7 @@ import java.util.ArrayList;
  */
 public class InvalidPositionValidator implements Validator
 {
-    public static final String MSG = "Fehlerhafte Position. Unter dem neuen Stein ($s) muss sich ein weiterer Stein befinden.";  
+    public static final String MSG = "Fehlerhafte Position. Unter dem neuen Stein (%s) muss sich ein weiterer Stein befinden.";  
     
     @Override
     public void validate(ArrayList<Difference> differences, Board board) throws ValidationException
