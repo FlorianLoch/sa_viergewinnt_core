@@ -1,5 +1,6 @@
 package de.dhbw.mbfl.jconnect4lib.validators;
 
+import de.dhbw.mbfl.jconnect4lib.board.Board;
 import de.dhbw.mbfl.jconnect4lib.board.Difference;
 import de.dhbw.mbfl.jconnect4lib.exceptions.ValidationException;
 import java.util.ArrayList;
@@ -10,9 +11,14 @@ import java.util.ArrayList;
  */
 public class NoChangeValidator implements Validator {
 
+    public static final String MSG = "Es wurden keine Änderungen vorgenommen.";
+    
     @Override
-    public void validate(ArrayList<Difference> differences) throws ValidationException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void validate(ArrayList<Difference> differences, Board board) throws ValidationException {
+        if(differences.size() < 1)
+        {
+            throw new ValidationException(MSG);
+        }
     }
     
 }
