@@ -29,4 +29,9 @@ public class Position {
     public int getPosition() {
         return this.col + this.row * Board.COLUMN_COUNT;
     }
+
+    @Override
+    public String toString() {
+        return ((char) (65 + this.col)) + String.valueOf(this.row + 1);
+    }
 }
