@@ -35,7 +35,7 @@ public class Game4Commandline
             {
                 System.out.print("Bitte Spalte eingeben: ");
                 col = input.nextInt() -1;
-                if(col > 0 && col < Board.COLUMN_COUNT)
+                if(col >= 0 && col < Board.COLUMN_COUNT)
                 {
                     break;
                 }
@@ -44,7 +44,7 @@ public class Game4Commandline
             {
                 System.out.print("Bitte Zeile eingeben: ");
                 row = input.nextInt() -1;
-                if(row > 0 && row < Board.ROW_COUNT)
+                if(row >= 0 && row < Board.ROW_COUNT)
                 {
                     break;
                 }
