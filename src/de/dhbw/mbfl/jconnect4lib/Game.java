@@ -7,6 +7,10 @@ import de.dhbw.mbfl.jconnect4lib.board.Position;
 import de.dhbw.mbfl.jconnect4lib.board.Stone;
 import de.dhbw.mbfl.jconnect4lib.board.TurnSummary;
 import de.dhbw.mbfl.jconnect4lib.exceptions.ValidationException;
+import de.dhbw.mbfl.jconnect4lib.validators.InvalidPositionValidator;
+import de.dhbw.mbfl.jconnect4lib.validators.MoreThanOneValidator;
+import de.dhbw.mbfl.jconnect4lib.validators.NoChangeValidator;
+import de.dhbw.mbfl.jconnect4lib.validators.StoneChangedValidator;
 import de.dhbw.mbfl.jconnect4lib.validators.Validator;
 import java.util.ArrayList;
 
@@ -33,18 +37,22 @@ public class Game {
     
     private static ArrayList<Validator> initValidatorList() {
         ArrayList<Validator> validators = new ArrayList<>();
+        validators.add(new NoChangeValidator());
+        validators.add(new InvalidPositionValidator());
+        validators.add(new MoreThanOneValidator());
+        validators.add(new StoneChangedValidator());
         
         return validators;
     }
     
-    public TurnSummary doPlayerTurn(Position pos) {
+    public TurnSummary doPlayerTurn(Position pos) throws ValidationException {
         Board newBoard = (Board) this.board.clone();
         newBoard.addStone(pos, this.playerStone);
         
         return this.doPlayerTurn(newBoard);
     }    
     
-    public TurnSummary doPlayerTurn(Board board) {
+    public TurnSummary doPlayerTurn(Board board) throws ValidationException {
         Position userTurn = handleUserTurn(board);
         this.board.addStone(userTurn, playerStone);
         
@@ -61,7 +69,7 @@ public class Game {
         return new TurnSummary(aiTurn, state == Board.STATE_WIN, state == Board.STATE_REMI);        
     }
     
-    private Position handleUserTurn(Board board) {
+    private Position handleUserTurn(Board board) throws ValidationException {
         // TODO Run validators, if differnce list only contains one item (only if this is a valid difference) 
         // this is the lastTurn done which can be given to the AI
         ArrayList<Difference> differences = this.board.determineDifferences(board);
@@ -71,7 +79,7 @@ public class Game {
                 validator.validate(differences, board);
             }
         } catch (ValidationException ex) {
-            System.out.println(ex.toString());
+            throw ex;
         }
         
         return differences.get(0).getPosition();

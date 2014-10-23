@@ -45,7 +45,7 @@ public class Board {
     }
     
     public boolean isOnBoard(Position pos) {
-        return !(pos.getPosition() < 0 || pos.getPosition() >= COLUMN_COUNT * ROW_COUNT);
+        return !(pos.getRow() < 0 || pos.getColumn()< 0 || pos.getRow() >= ROW_COUNT || pos.getColumn() >= COLUMN_COUNT);
     }
     
     public ArrayList<Difference> determineDifferences(Board newBoard) {
@@ -77,25 +77,25 @@ public class Board {
         
         int streakNorth = countStreak(0, 1, lastTurn, 1, lastStone);
         int streakSouth = countStreak(0, -1, lastTurn, streakNorth, lastStone);
-        if (streakNorth + streakSouth >= 4) {
+        if (streakSouth >= 4) {
             return STATE_WIN;
         }
         
         int streakEast = countStreak(-1, 0, lastTurn, 1, lastStone);
         int streakWest = countStreak(1, 0, lastTurn, streakEast, lastStone);
-        if (streakEast + streakWest >= 4) {
+        if (streakWest >= 4) {
             return STATE_WIN;
         }
         
         int streakNorthEast = countStreak(1, 1, lastTurn, 1, lastStone);
         int streakSouthWest = countStreak(-1, -1, lastTurn, streakNorthEast, lastStone);
-        if (streakNorthEast + streakSouthWest >= 4) {
+        if (streakSouthWest >= 4) {
             return STATE_WIN;
         }
         
         int streakSouthEast = countStreak(1, -1, lastTurn, 1, lastStone);
         int streakNorthWest = countStreak(-1, 1, lastTurn, streakSouthEast, lastStone);        
-        if (streakNorthWest + streakSouthEast >= 4) {
+        if (streakSouthEast >= 4) {
             return STATE_WIN;
         }
         

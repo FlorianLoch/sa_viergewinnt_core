@@ -10,6 +10,7 @@ import de.dhbw.mbfl.jconnect4lib.board.Board;
 import de.dhbw.mbfl.jconnect4lib.board.Position;
 import de.dhbw.mbfl.jconnect4lib.board.Stone;
 import de.dhbw.mbfl.jconnect4lib.board.TurnSummary;
+import de.dhbw.mbfl.jconnect4lib.exceptions.ValidationException;
 import java.util.Scanner;
 
 /**
@@ -52,35 +53,41 @@ public class Game4Commandline
 
             System.out.println();
 
-            TurnSummary playerSummary = game.doPlayerTurn(new Position(col, row));
-            if(playerSummary.isRemi())
-            {
-                System.out.println("Remi");
-                break;
-            }
+            try {
+                TurnSummary playerSummary = game.doPlayerTurn(new Position(col, row));
+                if(playerSummary.isRemi())
+                {
+                    System.out.println("Remi");
+                    break;
+                }
 
-            if(playerSummary.isWon())
-            {
-                System.out.println("You win!");
-                break;
-            }
+                if(playerSummary.isWon())
+                {
+                    System.out.println("You win!");
+                    break;
+                }
 
-            TurnSummary aiSummary = game.doAITurn();
-            if(playerSummary.isRemi())
-            {
-                System.out.println("Remi");
-                break;
-            }
+                TurnSummary aiSummary = game.doAITurn();
+                if(playerSummary.isRemi())
+                {
+                    System.out.println("Remi");
+                    break;
+                }
 
-            if(playerSummary.isWon())
-            {
-                System.out.println("You lose!");
-                break;
-            }
+                if(playerSummary.isWon())
+                {
+                    System.out.println("You lose!");
+                    break;
+                }
 
-            System.out.println(game.getCurrentBoardAsString());
+                System.out.println(game.getCurrentBoardAsString());                
+            }
+            catch (ValidationException ex) {
+                System.out.println(ex);
+                System.out.println(game.getCurrentBoardAsString()); 
+            }
         }
-
+        System.out.println(game.getCurrentBoardAsString());
     }
 
 }

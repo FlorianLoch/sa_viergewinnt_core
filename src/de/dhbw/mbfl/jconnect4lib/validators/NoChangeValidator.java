@@ -13,7 +13,7 @@ import java.util.ArrayList;
 public class NoChangeValidator implements Validator {
 
     public static final String MSG = "Es wurden keine Änderungen vorgenommen.";
-    public static final String MSG_UNDEFINED_POSITION = "Undefined positon";
+    public static final String MSG_UNDEFINED_POSITION = "Undefined position";
     
     @Override
     public void validate(ArrayList<Difference> differences, Board board) throws ValidationException {
