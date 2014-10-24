@@ -5,8 +5,8 @@
  */
 package de.dhbw.mbfl.jconnect4lib;
 
-import de.dhbw.mbfl.jconnect4lib.ai.interrupt.EasyAI;
-import de.dhbw.mbfl.jconnect4lib.ai.random.RandomAI;
+import de.dhbw.mbfl.jconnect4lib.ai.EasyAI;
+import de.dhbw.mbfl.jconnect4lib.ai.RandomAI;
 import de.dhbw.mbfl.jconnect4lib.board.Board;
 import de.dhbw.mbfl.jconnect4lib.board.Position;
 import de.dhbw.mbfl.jconnect4lib.board.Stone;

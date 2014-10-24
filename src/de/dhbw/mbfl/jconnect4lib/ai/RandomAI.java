@@ -1,4 +1,4 @@
-package de.dhbw.mbfl.jconnect4lib.ai.random;
+package de.dhbw.mbfl.jconnect4lib.ai;
 
 import de.dhbw.mbfl.jconnect4lib.ai.AI;
 import de.dhbw.mbfl.jconnect4lib.board.Board;

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package de.dhbw.mbfl.jconnect4lib.ai.interrupt;
+package de.dhbw.mbfl.jconnect4lib.ai;
 
 import de.dhbw.mbfl.jconnect4lib.ai.AI;
 import de.dhbw.mbfl.jconnect4lib.board.Board;
