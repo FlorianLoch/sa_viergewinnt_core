@@ -2,6 +2,7 @@ package de.dhbw.mbfl.jconnect4lib.ai;
 
 import de.dhbw.mbfl.jconnect4lib.board.Board;
 import de.dhbw.mbfl.jconnect4lib.board.Position;
+import de.dhbw.mbfl.jconnect4lib.board.Stone;
 
 /**
  *
@@ -9,6 +10,6 @@ import de.dhbw.mbfl.jconnect4lib.board.Position;
  */
 public interface AI {
     
-    public Position calculateTurn(Board board);
+    public Position calculateTurn(Board board, Stone stoneAI);
     
 }

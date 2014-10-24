@@ -3,6 +3,7 @@ package de.dhbw.mbfl.jconnect4lib.ai.random;
 import de.dhbw.mbfl.jconnect4lib.ai.AI;
 import de.dhbw.mbfl.jconnect4lib.board.Board;
 import de.dhbw.mbfl.jconnect4lib.board.Position;
+import de.dhbw.mbfl.jconnect4lib.board.Stone;
 
 /**
  * A AI which place randomly a Stone into the Board.
@@ -20,7 +21,7 @@ public class RandomAI implements AI
      * @return position of the made turn.
      */
     @Override
-    public Position calculateTurn(Board board)
+    public Position calculateTurn(Board board, Stone stoneAI)
     {
         int col = -1;
         int row = -1;

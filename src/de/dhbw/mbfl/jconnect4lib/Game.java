@@ -22,17 +22,19 @@ public class Game {
     private Board board;
     private ArrayList<Validator> validators;
     private AI ai;
-    private Stone playerStone;
+    private Stone stonePlayer;
+    private Stone stoneAI;
     
-    public Game(AI ai, Stone playerColor) {   
-        this(new Board(), initValidatorList(), ai, playerColor);
+    public Game(AI ai, Stone stonePlayer) {   
+        this(new Board(), initValidatorList(), ai, stonePlayer);
     }
 
-    public Game(Board board, ArrayList<Validator> validators, AI ai, Stone playerStone) {
+    public Game(Board board, ArrayList<Validator> validators, AI ai, Stone stonePlayer) {
         this.board = board;
         this.validators = validators;
         this.ai = ai;
-        this.playerStone = playerStone;
+        this.stonePlayer = stonePlayer;
+        this.stoneAI = (this.stonePlayer == Stone.RED) ? Stone.YELLOW : Stone.RED;
     }
     
     private static ArrayList<Validator> initValidatorList() {
@@ -47,22 +49,22 @@ public class Game {
     
     public TurnSummary doPlayerTurn(Position pos) throws ValidationException {
         Board newBoard = (Board) this.board.clone();
-        newBoard.addStone(pos, this.playerStone);
+        newBoard.addStone(pos, this.stonePlayer);
         
         return this.doPlayerTurn(newBoard);
     }    
     
     public TurnSummary doPlayerTurn(Board board) throws ValidationException {
         Position userTurn = handleUserTurn(board);
-        this.board.addStone(userTurn, playerStone);
+        this.board.addStone(userTurn, stonePlayer);
         
         int state = this.board.turnEndedGame();
         return new TurnSummary(userTurn, state == Board.STATE_WIN, state == Board.STATE_REMI);
     }
     
     public TurnSummary doAITurn() {
-        Position aiTurn = this.ai.calculateTurn(this.board);
-        this.board.addStone(aiTurn, (this.playerStone == Stone.RED) ? Stone.YELLOW : Stone.RED);
+        Position aiTurn = this.ai.calculateTurn(this.board, this.stoneAI);
+        this.board.addStone(aiTurn, this.stoneAI);
         
         int state = this.board.turnEndedGame();
         
