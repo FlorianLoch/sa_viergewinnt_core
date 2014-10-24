@@ -22,10 +22,12 @@ import java.util.ArrayList;
  */
 public class EasyAI implements AI
 {
-    private static int PLAYER_WIN_NEXT = 0;
-    private static int NOTHING_HAPPENS = 1;
-    private static int PLAYER_WIN = 2;
-    private static int AI_WIN = 3;
+    //When changing these values, also the order of the checks perfomed in rankTurn() has to be adapted
+    private static int NOTHING_HAPPENS = 0;
+    private static int PLAYER_WIN_NEXT = 1;
+    private static int AI_WINS_NEXT = 2;     
+    private static int PLAYER_WIN = 3;
+    private static int AI_WIN = 4;
     
     
     @Override
@@ -36,7 +38,7 @@ public class EasyAI implements AI
         
         for(Position pos : this.getPosiblePositions(board))
         {
-            int turn = this.calculateTurn(board, pos, stoneAI);
+            int turn = this.rankTurn(board, pos, stoneAI);
             if(turn >= bestTurn)
             {
                 if(turn > bestTurn)
@@ -97,28 +99,20 @@ public class EasyAI implements AI
      * @param pos
      * @return 
      */
-    private int calculateTurn(Board board, Position pos, Stone stoneAI)
+    private int rankTurn(Board board, Position pos, Stone stoneAI)
     {
         Stone stonePlayer = (stoneAI == Stone.RED)? Stone.YELLOW : Stone.RED;
         
+        // AI WINS
         board.addStone(pos, stoneAI);
         if(board.turnEndedGame() == Board.STATE_WIN)
         {
             board.undoLastTurn();
             return AI_WIN;
         }
-        if(pos.getPosition() + 1 < Board.ROW_COUNT)
-        {
-            board.addStone(new Position(pos.getColumn(), pos.getPosition() + 1), stonePlayer);
-            if(board.turnEndedGame() == Board.STATE_WIN)
-            {
-                board.undoLastTurn();
-                return PLAYER_WIN_NEXT;
-            }
-            board.undoLastTurn();
-        }
         board.undoLastTurn();
         
+        // PLAYER WINS
         board.addStone(pos, stonePlayer);
         if(board.turnEndedGame() == Board.STATE_WIN)
         {
@@ -127,6 +121,37 @@ public class EasyAI implements AI
         }
         board.undoLastTurn();
         
+        // AI WINS NEXT TURN
+        if(pos.getRow() + 1 < Board.ROW_COUNT)
+        {
+            board.addStone(pos, stoneAI);
+            board.addStone(new Position(pos.getColumn(), pos.getRow() + 1), stoneAI);
+            if(board.turnEndedGame() == Board.STATE_WIN)
+            {
+                board.undoLastTurn();
+                board.undoLastTurn();
+                return AI_WINS_NEXT;
+            }
+            board.undoLastTurn();
+            board.undoLastTurn();
+        }
+        
+        // PLAYER WINS NEXT TURN
+        if(pos.getRow() + 1 < Board.ROW_COUNT)
+        {
+            board.addStone(pos, stonePlayer);
+            board.addStone(new Position(pos.getColumn(), pos.getRow() + 1), stonePlayer);
+            if(board.turnEndedGame() == Board.STATE_WIN)
+            {
+                board.undoLastTurn();
+                board.undoLastTurn();
+                return PLAYER_WIN_NEXT;
+            }
+            board.undoLastTurn();
+            board.undoLastTurn();
+        }        
+        
+        // NOTHING special will HAPPEN
         return NOTHING_HAPPENS;
     }
     
