@@ -127,6 +127,12 @@ public class Board {
     public Position getLastTurn() {
         return this.log.get(this.log.size() - 1);
     }
+    
+    public void undoLastTurn() {
+        Position pos = this.getLastTurn();
+        this.log.remove(pos);
+        this.board[pos.getRow()][pos.getColumn()] = null;
+    }
 
     @Override
     public String toString() {
