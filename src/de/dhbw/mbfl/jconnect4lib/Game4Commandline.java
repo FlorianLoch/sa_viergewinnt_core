@@ -27,35 +27,18 @@ public class Game4Commandline
     public static void main(String[] args)
     {
         Game game = new Game(new EasyAI(), Stone.YELLOW);
-        Scanner input = new Scanner(System.in);
+        Scanner input = new Scanner(System.in);        
         int col = 0;
         int row = 0;
 
         while(true)
         {
-            while(true)
-            {
-                System.out.print("Bitte Spalte eingeben: ");
-                col = input.nextInt() -1;
-                if(col >= 0 && col < Board.COLUMN_COUNT)
-                {
-                    break;
-                }
-            }
-            while(true)
-            {
-                System.out.print("Bitte Zeile eingeben: ");
-                row = input.nextInt() -1;
-                if(row >= 0 && row < Board.ROW_COUNT)
-                {
-                    break;
-                }
-            }
+            Position pos = readPositionFromInput(input);
 
             System.out.println();
 
             try {
-                TurnSummary playerSummary = game.doPlayerTurn(new Position(col, row));
+                TurnSummary playerSummary = game.doPlayerTurn(pos);
                 if(playerSummary.isRemi())
                 {
                     System.out.println("Remi");
@@ -89,6 +72,25 @@ public class Game4Commandline
             }
         }
         System.out.println(game.getCurrentBoardAsString());
+    }
+
+    private static Position readPositionFromInput(Scanner input) {
+        String posStr;
+        do {
+            System.out.println("Please enter a valid field: ");
+            posStr = input.nextLine().toUpperCase();
+        } while (!isStringValidPosition(posStr));
+        
+        return new Position((Integer.parseInt(posStr.substring(1)) - 1) * 7 + (posStr.codePointAt(0) - 65));
+    }
+    
+    private static boolean isStringValidPosition(String posStr) {
+        if (posStr.length() != 2) return false;
+        
+        int asciiFirstChar = posStr.codePointAt(0);
+        int digitSecondChar = Integer.parseInt(posStr.substring(1));
+        
+        return (asciiFirstChar > 64 && asciiFirstChar < 72 && digitSecondChar > 0 && digitSecondChar < 7);
     }
 
 }
