@@ -69,13 +69,13 @@ public class Game4Commandline
                 }
 
                 TurnSummary aiSummary = game.doAITurn();
-                if(playerSummary.isRemi())
+                if(aiSummary.isRemi())
                 {
                     System.out.println("Remi");
                     break;
                 }
 
-                if(playerSummary.isWon())
+                if(aiSummary.isWon())
                 {
                     System.out.println("You lose!");
                     break;
