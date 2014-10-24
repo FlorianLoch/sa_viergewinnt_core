@@ -10,6 +10,7 @@ import java.util.ArrayList;
 public class Board {
     public static final int COLUMN_COUNT = 7;
     public static final int ROW_COUNT = 6;
+    
     public static final int STATE_WIN = 2;
     public static final int STATE_REMI = 1;
     public static final int STATE_NOTYETOVER = 0;

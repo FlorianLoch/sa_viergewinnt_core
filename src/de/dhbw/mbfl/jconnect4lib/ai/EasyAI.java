@@ -23,11 +23,12 @@ import java.util.ArrayList;
 public class EasyAI implements AI
 {
     //When changing these values, also the order of the checks perfomed in rankTurn() has to be adapted
-    private static int NOTHING_HAPPENS = 0;
-    private static int PLAYER_WIN_NEXT = 1;
-    private static int AI_WINS_NEXT = 2;     
-    private static int PLAYER_WIN = 3;
-    private static int AI_WIN = 4;
+    private static int WOULD_HELP_PLAYER = 0;
+    private static int NOTHING_HAPPENS = 1;
+    private static int PLAYER_WIN_NEXT = 2;
+    private static int AI_WINS_NEXT = 3;     
+    private static int PLAYER_WIN = 4;
+    private static int AI_WIN = 5;
     
     
     @Override
@@ -121,11 +122,18 @@ public class EasyAI implements AI
         }
         board.undoLastTurn();
         
-        // AI WINS NEXT TURN
-        if(pos.getRow() + 1 < Board.ROW_COUNT)
+        // AI MIGHT WIN NEXT TURN (OR AI MIGHT HELP PLAYER)
+        Position above = new Position(pos.getColumn(), pos.getRow() + 1);
+        if(board.isOnBoard(above))
         {
             board.addStone(pos, stoneAI);
-            board.addStone(new Position(pos.getColumn(), pos.getRow() + 1), stoneAI);
+            board.addStone(above, stonePlayer);
+            if (board.turnEndedGame() == Board.STATE_WIN) {
+                board.undoLastTurn();
+                return WOULD_HELP_PLAYER;
+            }
+            board.undoLastTurn();
+            board.addStone(above, stoneAI);
             if(board.turnEndedGame() == Board.STATE_WIN)
             {
                 board.undoLastTurn();
@@ -136,11 +144,11 @@ public class EasyAI implements AI
             board.undoLastTurn();
         }
         
-        // PLAYER WINS NEXT TURN
-        if(pos.getRow() + 1 < Board.ROW_COUNT)
+        // PLAYER MIGHT WIN NEXT TURN
+        if(board.isOnBoard(above))
         {
             board.addStone(pos, stonePlayer);
-            board.addStone(new Position(pos.getColumn(), pos.getRow() + 1), stonePlayer);
+            board.addStone(above, stonePlayer);
             if(board.turnEndedGame() == Board.STATE_WIN)
             {
                 board.undoLastTurn();
