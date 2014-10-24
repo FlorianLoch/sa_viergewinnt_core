@@ -31,10 +31,31 @@ public class EasyAI implements AI
     private static int PLAYER_WIN = 4;
     private static int AI_WIN = 5;
     
+    private int turn = 0;
     
     @Override
     public Position calculateTurn(Board board, Stone stoneAI)
     {
+        //Prevent "Oma"-Trick by setting to C or D at the first turn
+        if (turn == 0) {
+            int firstTry, secondTry;
+            if (Math.random() >= 0.5) {
+                firstTry = 2;
+                secondTry = 3;
+            }
+            else {
+                firstTry = 3;
+                secondTry = 2;
+            }
+            if (board.getStone(new Position(firstTry)) == null) {
+                return new Position(firstTry);
+            }
+            else {
+                return new Position(secondTry);
+            }
+            
+        }
+        
         int bestTurn = -2;
         ArrayList<Position> bestTurns = new ArrayList();
         
@@ -51,6 +72,8 @@ public class EasyAI implements AI
                 bestTurns.add(pos);
             }
         }
+        
+        this.turn++;
         
         return bestTurns.get((int) (Math.random() * bestTurns.size()));
     }
