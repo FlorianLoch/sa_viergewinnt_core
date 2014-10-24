@@ -23,6 +23,7 @@ import java.util.ArrayList;
 public class EasyAI implements AI
 {
     //When changing these values, also the order of the checks perfomed in rankTurn() has to be adapted
+    private static int POTENTIALLY_STUPID_MOVE = -1;
     private static int WOULD_HELP_PLAYER = 0;
     private static int NOTHING_HAPPENS = 1;
     private static int PLAYER_WIN_NEXT = 2;
@@ -34,7 +35,7 @@ public class EasyAI implements AI
     @Override
     public Position calculateTurn(Board board, Stone stoneAI)
     {
-        int bestTurn = -1;
+        int bestTurn = -2;
         ArrayList<Position> bestTurns = new ArrayList();
         
         for(Position pos : this.getPosiblePositions(board))
@@ -158,6 +159,10 @@ public class EasyAI implements AI
             board.undoLastTurn();
             board.undoLastTurn();
         }        
+        
+        // Try to avoid a move when above the current field less then two rows are available - because when this position in code is reached, at least two more stones above are needed two win.
+        // If there is no stone of same color below even 3 rows above would be needed - but we do not want to restrict this case because otherwise AI would also try to place stones in the lower rows
+        if (Board.ROW_COUNT - pos.getRow() - 1 < 2) return POTENTIALLY_STUPID_MOVE;
         
         // NOTHING special will HAPPEN
         return NOTHING_HAPPENS;
