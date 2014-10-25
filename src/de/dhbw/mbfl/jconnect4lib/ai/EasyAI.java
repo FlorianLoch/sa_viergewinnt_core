@@ -38,6 +38,7 @@ public class EasyAI implements AI
     {
         //Prevent "Oma"-Trick by setting to C or D at the first turn
         if (turn == 0) {
+            turn = 1;
             int firstTry, secondTry;
             if (Math.random() >= 0.5) {
                 firstTry = 2;
@@ -53,7 +54,6 @@ public class EasyAI implements AI
             else {
                 return new Position(secondTry);
             }
-            
         }
         
         int bestTurn = -2;
