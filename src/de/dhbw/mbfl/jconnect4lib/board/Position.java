@@ -29,6 +29,11 @@ public class Position {
     public int getPosition() {
         return this.col + this.row * Board.COLUMN_COUNT;
     }
+    
+    public Position getNewPosition(Direction direction)
+    {
+        return new Position(this.col + direction.verticalDirection(), row + direction.horizontalDirection());
+    }
 
     @Override
     public String toString() {
