@@ -1,6 +1,5 @@
 package de.dhbw.mbfl.jconnect4lib.validators;
 
-import com.sun.xml.internal.ws.util.StringUtils;
 import de.dhbw.mbfl.jconnect4lib.board.Board;
 import de.dhbw.mbfl.jconnect4lib.board.Difference;
 import de.dhbw.mbfl.jconnect4lib.board.Position;

@@ -5,7 +5,6 @@
  */
 package de.dhbw.mbfl.jconnect4lib.ai;
 
-import de.dhbw.mbfl.jconnect4lib.ai.AI;
 import de.dhbw.mbfl.jconnect4lib.board.Board;
 import de.dhbw.mbfl.jconnect4lib.board.Position;
 import de.dhbw.mbfl.jconnect4lib.board.Stone;
@@ -153,6 +152,7 @@ public class EasyAI implements AI
             board.addStone(pos, stoneAI);
             board.addStone(above, stonePlayer);
             if (board.turnEndedGame() == Board.STATE_WIN) {
+                board.undoLastTurn();
                 board.undoLastTurn();
                 return WOULD_HELP_PLAYER;
             }
