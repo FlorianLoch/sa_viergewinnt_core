@@ -15,7 +15,8 @@ public class MoreThanOneValidator implements Validator {
     public static final String MSG = "Es wurde mehr als ein Stein geändert.";
 
     @Override
-    public void validate(ArrayList<Difference> differences, Board board) throws ValidationException {
+    public void validate(ArrayList<Difference> difference, Board board) throws ValidationException {
+        final ArrayList<Difference> differences = difference;
         if(differences.size() > 1)
         {
             throw new ValidationException(MSG, new Position(0) {
