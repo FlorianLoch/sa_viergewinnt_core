@@ -76,21 +76,12 @@ public class Game4Commandline
 
     private static Position readPositionFromInput(Scanner input) {
         String posStr;
+        Position pos;
         do {
             System.out.println("Please enter a valid field: ");
             posStr = input.nextLine().toUpperCase();
-        } while (!isStringValidPosition(posStr));
+        } while ((pos = Position.parsePosition(posStr)) == null);
         
-        return new Position((Integer.parseInt(posStr.substring(1)) - 1) * 7 + (posStr.codePointAt(0) - 65));
+        return pos;
     }
-    
-    private static boolean isStringValidPosition(String posStr) {
-        if (posStr.length() != 2) return false;
-        
-        int asciiFirstChar = posStr.codePointAt(0);
-        int digitSecondChar = Integer.parseInt(posStr.substring(1));
-        
-        return (asciiFirstChar > 64 && asciiFirstChar < 72 && digitSecondChar > 0 && digitSecondChar < 7);
-    }
-
 }

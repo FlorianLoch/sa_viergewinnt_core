@@ -8,6 +8,22 @@ package de.dhbw.mbfl.jconnect4lib.board;
 public class Position {
     private int col, row;
     
+    public static Position parsePosition(String posStr) {
+        posStr = posStr.toUpperCase();
+        
+        if (posStr.length() != 2) return null;
+        
+        int asciiFirstChar = posStr.codePointAt(0);
+        int digitSecondChar = Integer.parseInt(posStr.substring(1));
+        
+        // TODO make this check more generic or remove the check here and let it be handled by isOnBoard()
+        if (asciiFirstChar > 64 && asciiFirstChar < 72 && digitSecondChar > 0 && digitSecondChar < 7) {
+            return new Position((Integer.parseInt(posStr.substring(1)) - 1) * 7 + (posStr.codePointAt(0) - 65));
+        }   
+        
+        return null;
+    }
+    
     public Position(int position) {
         this.col = position % Board.COLUMN_COUNT;
         this.row = (int) position / Board.COLUMN_COUNT;

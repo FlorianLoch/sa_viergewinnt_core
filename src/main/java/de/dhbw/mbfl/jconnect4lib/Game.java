@@ -71,6 +71,10 @@ public class Game {
         return new TurnSummary(aiTurn, state == Board.STATE_WIN, state == Board.STATE_REMI);        
     }
     
+    public Position getLastTurn() {
+        return this.board.getLastTurn();
+    }
+    
     private Position handleUserTurn(Board board) throws ValidationException {
         // TODO Run validators, if differnce list only contains one item (only if this is a valid difference) 
         // this is the lastTurn done which can be given to the AI
