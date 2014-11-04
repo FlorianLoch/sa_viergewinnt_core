@@ -25,19 +25,25 @@ public class Board {
     public Board() {
     }
 
-    private Board(Stone[][] board) {
+    private Board(Stone[][] board, ArrayList<Position> log) {
         this.board = board;
+        this.log = log;
     }
 
     public Board clone() {
-        Stone[][] tmp = new Stone[ROW_COUNT][COLUMN_COUNT];
+        Stone[][] tmpBoard = new Stone[ROW_COUNT][COLUMN_COUNT];
         for (int i = 0; i < ROW_COUNT; i++) {
             for (int j = 0; j < COLUMN_COUNT; j++) {
-                tmp[i][j] = this.board[i][j];
+                tmpBoard[i][j] = this.board[i][j];
             }
         }
+        
+        ArrayList<Position> tmpLog = new ArrayList<>();
+        for (Position p : this.log) {
+            tmpLog.add(p.clone());
+        }
 
-        return new Board(tmp);
+        return new Board(tmpBoard, tmpLog);
     }
 
     public void addStone(Position pos, Stone stone) throws PositionOccupiedException, OutOfBoardException {

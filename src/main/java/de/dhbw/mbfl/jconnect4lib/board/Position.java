@@ -34,6 +34,19 @@ public class Position {
         this.row = row;
     }
     
+    public Position clone() {
+        return new Position(this.col, this.row);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof Position)) return false;
+        
+        Position p = (Position) obj;
+        
+        return (p.col == this.col && p.row == this.row);
+    }
+    
     public int getRow() {
         return this.row;
     }
