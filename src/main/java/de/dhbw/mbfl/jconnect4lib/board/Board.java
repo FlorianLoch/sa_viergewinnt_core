@@ -93,32 +93,31 @@ public class Board {
      */
     public int turnEndedGame() {
         Position lastTurn = this.log.get(this.log.size() - 1);
-        Stone lastStone = this.getStone(lastTurn);
 
         Streak streakNorthSouth = new Streak(STREAK_COUNT_END, 1);
-        streakNorthSouth = countStreak(Direction.NORTH, lastTurn, streakNorthSouth, lastStone);
-        streakNorthSouth = countStreak(Direction.SOUTH, lastTurn, streakNorthSouth, lastStone);
+        streakNorthSouth = countStreak(Direction.NORTH, lastTurn, streakNorthSouth);
+        streakNorthSouth = countStreak(Direction.SOUTH, lastTurn, streakNorthSouth);
         if (streakNorthSouth.isEnd()) {
             return STATE_WIN;
         }
 
         Streak streakEastWest = new Streak(STREAK_COUNT_END, 1);
-        streakEastWest = countStreak(Direction.EAST, lastTurn, streakEastWest, lastStone);
-        streakEastWest = countStreak(Direction.WEST, lastTurn, streakEastWest, lastStone);
+        streakEastWest = countStreak(Direction.EAST, lastTurn, streakEastWest);
+        streakEastWest = countStreak(Direction.WEST, lastTurn, streakEastWest);
         if (streakEastWest.isEnd()) {
             return STATE_WIN;
         }
 
         Streak streakNortheastSouthwest = new Streak(STREAK_COUNT_END, 1);
-        streakNortheastSouthwest = countStreak(Direction.NORTH_EAST, lastTurn, streakNortheastSouthwest, lastStone);
-        streakNortheastSouthwest = countStreak(Direction.SOUTH_WEST, lastTurn, streakNortheastSouthwest, lastStone);
+        streakNortheastSouthwest = countStreak(Direction.NORTH_EAST, lastTurn, streakNortheastSouthwest);
+        streakNortheastSouthwest = countStreak(Direction.SOUTH_WEST, lastTurn, streakNortheastSouthwest);
         if (streakNortheastSouthwest.isEnd()) {
             return STATE_WIN;
         }
 
         Streak streakSoutheastNorthwest = new Streak(STREAK_COUNT_END, 1);
-        streakSoutheastNorthwest = countStreak(Direction.SOUTH_EAST, lastTurn, streakSoutheastNorthwest, lastStone);
-        streakSoutheastNorthwest = countStreak(Direction.NORTH_WEST, lastTurn, streakSoutheastNorthwest, lastStone);
+        streakSoutheastNorthwest = countStreak(Direction.SOUTH_EAST, lastTurn, streakSoutheastNorthwest);
+        streakSoutheastNorthwest = countStreak(Direction.NORTH_WEST, lastTurn, streakSoutheastNorthwest);
         if (streakSoutheastNorthwest.isEnd()) {
             return STATE_WIN;
         }
@@ -139,7 +138,7 @@ public class Board {
      * @param color
      * @return the streak
      */
-    public Streak countStreak(Direction direction, Position pos, Streak streak, Stone color) {
+    private Streak countStreak(Direction direction, Position pos, Streak streak, Stone color) {
         if (streak.isEnd()) {
             return streak;
         }
@@ -152,6 +151,10 @@ public class Board {
 
         streak.countUp();
         return countStreak(direction, nextPos, streak, color);
+    }
+    
+    public Streak countStreak(Direction direction, Position pos, Streak streak) {
+        return this.countStreak(direction, pos, streak, this.getStone(pos));
     }
 
     public Position getLastTurn() {

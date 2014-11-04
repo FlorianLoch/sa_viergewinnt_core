@@ -20,6 +20,8 @@ import static org.junit.Assert.*;
 public class BoardTest {
     private Board b = new Board();
     
+    private static final String GAMESITUATION_1 = "C1;D1$D2;A1$B1;A2$C2;A3$D3;A4";
+    
     @Before
     public void setUp() {
         b = new Board();
@@ -50,6 +52,7 @@ public class BoardTest {
         
         assertEquals(b.getStone(new Position(0)), Stone.RED);
         assertNull(b.getStone(new Position(2)));
+        assertEquals(b.getLastTurn(), new Position(0));
     }
 
     @Test (expected = PositionOccupiedException.class)
@@ -109,13 +112,11 @@ public class BoardTest {
     @Test
     public void testCountStreak() {
         //testCountStreak() always counts beginning from the last added stone
-    }
-
-    /**
-     * Test of getLastTurn method, of class Board.
-     */
-    @Test
-    public void testGetLastTurn() {
+        reconstructBoard(this.b, GAMESITUATION_1);
+        
+        Streak s1 = b.countStreak(Direction.SOUTH, b.getLastTurn(), new Streak(4, 1));
+        
+        assertTrue(s1.isEnd());
     }
 
     /**
@@ -123,6 +124,14 @@ public class BoardTest {
      */
     @Test
     public void testUndoLastTurn() {
+        Board clone = b.clone();
+        b.addStone(new Position(0), Stone.RED);
+        
+        assertEquals(clone.determineDifferences(b).size(), 1);
+        
+        b.undoLastTurn();
+        
+        assertEquals(clone.determineDifferences(b).size(), 0);
     }
 
     /**
@@ -132,4 +141,18 @@ public class BoardTest {
     public void testToString() {
     }
     
+    public static void reconstructBoard(Board board, String logStr) {
+        int addedStones = 0;
+        
+        String[] lines = logStr.split("\\$");
+        for (String line : lines) {
+            String[] positions = line.split(";");
+            for (String positionStr : positions) {
+                if (positionStr.isEmpty()) continue;
+                
+                board.addStone(Position.parsePosition(positionStr), (addedStones % 2 == 1) ? Stone.RED : Stone.YELLOW);
+                addedStones++;
+            }
+        }
+    }
 }
