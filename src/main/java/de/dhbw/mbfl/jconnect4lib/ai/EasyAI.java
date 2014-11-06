@@ -83,7 +83,7 @@ public class EasyAI implements AI {
 
     private ArrayList<Position> getPosiblePositions(Board board) {
         ArrayList<Position> posiblePositions = new ArrayList();
-        for (int i = 0; i < Board.COLUMN_COUNT; i++) {
+        for (int i = 0; i < Board.COUNT_COLUMN; i++) {
             int row = this.calculateRow(i, board);
             if (row >= 0) {
                 posiblePositions.add(new Position(i, row));
@@ -102,7 +102,7 @@ public class EasyAI implements AI {
      * @return row
      */
     private int calculateRow(int col, Board board) {
-        for (int i = 0; i < Board.ROW_COUNT; i++) {
+        for (int i = 0; i < Board.COUNT_ROW; i++) {
             if (board.getStone(new Position(col, i)) == null) {
                 return i;
             }
@@ -179,7 +179,7 @@ public class EasyAI implements AI {
 
         if (board.isOnBoard(below) && board.getStone(below) == stoneAI) sameColorBelow = true;
         
-        if (Board.ROW_COUNT - pos.getRow() - 1 < 3 || (sameColorBelow && Board.ROW_COUNT - pos.getRow() - 1 < 2)) {
+        if (Board.COUNT_ROW - pos.getRow() - 1 < 3 || (sameColorBelow && Board.COUNT_ROW - pos.getRow() - 1 < 2)) {
             return POTENTIALLY_STUPID_MOVE;
         }
 

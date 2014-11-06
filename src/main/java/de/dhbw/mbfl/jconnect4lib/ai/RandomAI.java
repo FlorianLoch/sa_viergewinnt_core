@@ -2,6 +2,7 @@ package de.dhbw.mbfl.jconnect4lib.ai;
 
 import de.dhbw.mbfl.jconnect4lib.board.Board;
 import de.dhbw.mbfl.jconnect4lib.board.Position;
+import de.dhbw.mbfl.jconnect4lib.board.Size;
 import de.dhbw.mbfl.jconnect4lib.board.Stone;
 
 /**
@@ -44,7 +45,7 @@ public class RandomAI implements AI
      */
     private int getRandomColumn()
     {
-        return (int) (Math.random() * Board.COLUMN_COUNT);
+        return (int) (Math.random() * Size.BOARD.column());
     }
 
     /**
@@ -57,7 +58,7 @@ public class RandomAI implements AI
      */
     private int calculateRow(int col, Board board)
     {
-        for(int i = 0; i < Board.ROW_COUNT; i++)
+        for(int i = 0; i < Size.BOARD.row(); i++)
         {
             if(board.getStone(new Position(col, i)) == null)
             {

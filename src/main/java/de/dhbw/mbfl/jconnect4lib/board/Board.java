@@ -10,19 +10,18 @@ import java.util.ArrayList;
  */
 public class Board {
 
-    public static final int COLUMN_COUNT = 7;
-    public static final int ROW_COUNT = 6;
-
     public static final int STATE_WIN = 2;
     public static final int STATE_REMI = 1;
     public static final int STATE_NOTYETOVER = 0;
 
     private static final int STREAK_COUNT_END = 4;
 
-    private Stone[][] board = new Stone[ROW_COUNT][COLUMN_COUNT];
+    private Stone[][] board;
     private ArrayList<Position> log = new ArrayList<>();
 
-    public Board() {
+    public Board()
+    {
+        board = new Stone[Size.BOARD.column()][Size.BOARD.row()];
     }
 
     private Board(Stone[][] board, ArrayList<Position> log) {
@@ -60,7 +59,7 @@ public class Board {
      * @return true if pos is on board and fals if not
      */
     public boolean isOnBoard(Position pos) {
-        return !(pos.getRow() < 0 || pos.getColumn() < 0 || pos.getRow() >= ROW_COUNT || pos.getColumn() >= COLUMN_COUNT);
+        return !(pos.getRow() < 0 || pos.getColumn() < 0 || pos.getRow() >= Size.BOARD.row() || pos.getColumn() >= Size.BOARD.column());
     }
 
     /**
@@ -71,7 +70,7 @@ public class Board {
     public ArrayList<Difference> determineDifferences(Board newBoard) {
         ArrayList<Difference> dif = new ArrayList<>();
 
-        for (int i = 0; i < COLUMN_COUNT * ROW_COUNT; i++) {
+        for (int i = 0; i < Size.BOARD.column() * Size.BOARD.row(); i++) {
             Position pos = new Position(i);
             Stone oldStone = this.getStone(pos);
             Stone newStone = newBoard.getStone(pos);
@@ -121,7 +120,7 @@ public class Board {
             return STATE_WIN;
         }
 
-        if (this.log.size() == COLUMN_COUNT * ROW_COUNT) {
+        if (this.log.size() == Size.BOARD.column() * Size.BOARD.row()) {
             return STATE_REMI;
         }
 
@@ -185,9 +184,9 @@ public class Board {
      * @return board
      */
     public Board clone() {
-        Stone[][] tmpBoard = new Stone[ROW_COUNT][COLUMN_COUNT];
-        for (int i = 0; i < ROW_COUNT; i++) {
-            for (int j = 0; j < COLUMN_COUNT; j++) {
+        Stone[][] tmpBoard = new Stone[Size.BOARD.row()][Size.BOARD.column()];
+        for (int i = 0; i < Size.BOARD.row(); i++) {
+            for (int j = 0; j < Size.BOARD.column(); j++) {
                 tmpBoard[i][j] = this.board[i][j];
             }
         }
@@ -208,16 +207,16 @@ public class Board {
     public String toString() {
         String s = String.format("Board after %d moves.%n", this.log.size());
 
-        for (int i = ROW_COUNT - 1; i >= 0; i--) {
+        for (int i = Size.BOARD.row() - 1; i >= 0; i--) {
             s = s + (i + 1) + " | ";
-            for (int j = 0; j < COLUMN_COUNT; j++) {
+            for (int j = 0; j < Size.BOARD.column(); j++) {
                 Stone stone = this.getStone(new Position(j, i));
                 s = s + ((stone != null) ? stone.getSign() : " ") + " | ";
             }
             s = s + String.format("%n");
         }
         s = s + "    ";
-        for (int i = 0; i < COLUMN_COUNT; i++) {
+        for (int i = 0; i < Size.BOARD.column(); i++) {
             s = s + (char) (65 + i) + "   ";
         }
 

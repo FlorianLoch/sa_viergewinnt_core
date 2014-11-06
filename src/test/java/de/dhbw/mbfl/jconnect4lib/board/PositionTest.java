@@ -96,14 +96,14 @@ public class PositionTest
         Position pos = new Position(1, 1);
         
         
-        Position north = pos.getNewPosition(Direction.NORTH);
-        Position south = pos.getNewPosition(Direction.SOUTH);
-        Position east = pos.getNewPosition(Direction.EAST);
-        Position west = pos.getNewPosition(Direction.WEST);
-        Position northEast = pos.getNewPosition(Direction.NORTH_EAST);
-        Position northWest = pos.getNewPosition(Direction.NORTH_WEST);
-        Position southEast = pos.getNewPosition(Direction.SOUTH_EAST);
-        Position southWest = pos.getNewPosition(Direction.SOUTH_WEST);
+        Position north = pos.newPosition(Direction.NORTH);
+        Position south = pos.newPosition(Direction.SOUTH);
+        Position east = pos.newPosition(Direction.EAST);
+        Position west = pos.newPosition(Direction.WEST);
+        Position northEast = pos.newPosition(Direction.NORTH_EAST);
+        Position northWest = pos.newPosition(Direction.NORTH_WEST);
+        Position southEast = pos.newPosition(Direction.SOUTH_EAST);
+        Position southWest = pos.newPosition(Direction.SOUTH_WEST);
         
         
         assertEquals("Direction north is in column not correct.", 1, north.getColumn());

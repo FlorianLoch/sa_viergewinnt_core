@@ -44,8 +44,8 @@ public class Position {
      * @param position 
      */
     public Position(int position) {
-        this.col = position % Board.COLUMN_COUNT;
-        this.row = (int) position / Board.COLUMN_COUNT;
+        this.col = position % Size.BOARD.column();
+        this.row = (int) position / Size.BOARD.column();
     }
     
     /**
@@ -68,7 +68,7 @@ public class Position {
     }
     
     public int getPosition() {
-        return this.col + this.row * Board.COLUMN_COUNT;
+        return this.col + this.row * Size.BOARD.column();
     }
     
     /**
