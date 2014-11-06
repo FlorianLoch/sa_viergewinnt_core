@@ -11,7 +11,16 @@ package de.dhbw.mbfl.jconnect4lib.board;
  */
 public enum Direction
 {
-    NORTH, EAST, SOUTH, WEST, NORTH_EAST, NORTH_WEST, SOUTH_EAST, SOUTH_WEST;
+    NORTH("North"), EAST("East"), SOUTH("South"), WEST("West"), 
+    NORTH_EAST("North-East"), NORTH_WEST("North-West"), 
+    SOUTH_EAST("South-East"), SOUTH_WEST("South-West");
+    
+    private String direction;
+    
+    private Direction(String direction)
+    {
+        this.direction = direction;
+    }
     
     public int horizontalDirection()
     {
@@ -33,5 +42,11 @@ public enum Direction
             case WEST: case NORTH_WEST: case SOUTH_WEST: return -1;
             default: return 0;
         }
+    }
+    
+    @Override
+    public String toString()
+    {
+        return direction;
     }
 }

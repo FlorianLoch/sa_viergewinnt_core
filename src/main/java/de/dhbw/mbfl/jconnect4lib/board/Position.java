@@ -34,7 +34,6 @@ public class Position {
         this.row = row;
     }
     
-<<<<<<< HEAD
     public Position clone() {
         return new Position(this.col, this.row);
     }
@@ -46,13 +45,13 @@ public class Position {
         Position p = (Position) obj;
         
         return (p.col == this.col && p.row == this.row);
-=======
+    }
+        
     public Position(String position)
     {
         Position pos = Position.parsePosition(position);
         this.col = pos.getColumn();
         this.row = pos.getRow();
->>>>>>> Implemented Position test
     }
     
     public int getRow() {
