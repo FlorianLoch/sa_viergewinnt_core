@@ -68,7 +68,7 @@ public class Position {
     
     public Position getNewPosition(Direction direction)
     {
-        return new Position(this.col + direction.verticalDirection(), row + direction.horizontalDirection());
+        return new Position(this.col + direction.horizontalDirection(), row + direction.verticalDirection());
     }
 
     @Override

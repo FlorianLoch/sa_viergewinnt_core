@@ -26,9 +26,9 @@ public enum Direction
     {
         switch (this)
         {
-            case EAST: case WEST: return 0;
-            case NORTH: case NORTH_EAST: case NORTH_WEST: return 1;
-            case SOUTH: case SOUTH_EAST: case SOUTH_WEST: return -1;
+            case NORTH: case SOUTH: return 0;
+            case EAST: case NORTH_EAST: case SOUTH_EAST: return 1;
+            case WEST: case NORTH_WEST: case SOUTH_WEST: return -1;
             default: return 0;
         }
     }
@@ -37,9 +37,9 @@ public enum Direction
     {
         switch (this)
         {
-            case NORTH: case SOUTH: return 0;
-            case EAST: case NORTH_EAST: case SOUTH_EAST: return 1;
-            case WEST: case NORTH_WEST: case SOUTH_WEST: return -1;
+            case EAST: case WEST: return 0;
+            case NORTH: case NORTH_EAST: case NORTH_WEST: return 1;
+            case SOUTH: case SOUTH_EAST: case SOUTH_WEST: return -1;
             default: return 0;
         }
     }

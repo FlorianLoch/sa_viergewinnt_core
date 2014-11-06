@@ -29,11 +29,6 @@ public class Streak
     {
         return streak;
     }
-
-    public void setStreak(int streak)
-    {
-        this.streak = streak;
-    }
     
     public void countUp()
     {
