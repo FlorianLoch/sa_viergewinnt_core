@@ -6,7 +6,7 @@
 package de.dhbw.mbfl.jconnect4lib.board;
 
 /**
- *
+ * A streak is one counter witch counts the stones.
  * @author Maurice Busch <busch.maurice@gmx.net>
  */
 public class Streak
@@ -30,11 +30,18 @@ public class Streak
         return streak;
     }
     
+    /**
+     * counts up the Streak
+     */
     public void countUp()
     {
         this.streak++;
     }
     
+    /**
+     * tests if the counted streak ends the game.
+     * @return boolean
+     */
     public boolean isEnd()
     {
         return (this.streak >= this.endStreak);

@@ -1,15 +1,10 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package de.dhbw.mbfl.jconnect4lib.exceptions;
 
 import de.dhbw.mbfl.jconnect4lib.board.Position;
 
 /**
- *
- * @author florian
+ * This exception is thrown when there is already one stone on the Board.
+ * @author florian & Maurice Busch
  */
 public class PositionOccupiedException extends RuntimeException {
 

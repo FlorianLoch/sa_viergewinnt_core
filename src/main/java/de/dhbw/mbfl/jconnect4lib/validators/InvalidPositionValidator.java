@@ -15,6 +15,12 @@ public class InvalidPositionValidator implements Validator
 {
     public static final String MSG = "Fehlerhafte Position. Unter dem neuen Stein (%s) muss sich ein weiterer Stein befinden.";  
     
+    /**
+     * Tests if the Stone is on the right position.
+     * @param differences
+     * @param board
+     * @throws ValidationException 
+     */
     @Override
     public void validate(ArrayList<Difference> differences, Board board) throws ValidationException
     {

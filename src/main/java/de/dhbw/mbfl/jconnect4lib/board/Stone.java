@@ -1,7 +1,7 @@
 package de.dhbw.mbfl.jconnect4lib.board;
 
 /**
- *
+ * Ther are two posible Stones yellow and red.
  * @author Maurice Busch & Florian Loch
  */
 public enum Stone {
@@ -14,11 +14,19 @@ public enum Stone {
         this.sign = sign;
         this.desc = desc;
     }
-
+    
+    /**
+     * Returns the sign of the Stone Y for yellow and R for red.
+     * @return sign
+     */
     public char getSign() {
         return sign;
     }
     
+    /**
+     * Returns the discription of the stone.
+     * @return discription
+     */
     @Override
     public String toString() {
         return this.desc;

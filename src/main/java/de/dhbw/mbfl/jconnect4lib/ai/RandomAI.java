@@ -1,6 +1,5 @@
 package de.dhbw.mbfl.jconnect4lib.ai;
 
-import de.dhbw.mbfl.jconnect4lib.ai.AI;
 import de.dhbw.mbfl.jconnect4lib.board.Board;
 import de.dhbw.mbfl.jconnect4lib.board.Position;
 import de.dhbw.mbfl.jconnect4lib.board.Stone;
@@ -17,7 +16,6 @@ public class RandomAI implements AI
      * Calculates randomly a turn wich the computer do.
      *
      * @param board
-     *
      * @return position of the made turn.
      */
     @Override
@@ -35,7 +33,7 @@ public class RandomAI implements AI
                 col = -1;
             }
         }
-        
+
         return new Position(col, row);
     }
 
@@ -55,7 +53,6 @@ public class RandomAI implements AI
      *
      * @param col
      * @param board
-     *
      * @return row
      */
     private int calculateRow(int col, Board board)

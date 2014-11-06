@@ -29,23 +29,14 @@ public class Board {
         this.board = board;
         this.log = log;
     }
-
-    public Board clone() {
-        Stone[][] tmpBoard = new Stone[ROW_COUNT][COLUMN_COUNT];
-        for (int i = 0; i < ROW_COUNT; i++) {
-            for (int j = 0; j < COLUMN_COUNT; j++) {
-                tmpBoard[i][j] = this.board[i][j];
-            }
-        }
-        
-        ArrayList<Position> tmpLog = new ArrayList<>();
-        for (Position p : this.log) {
-            tmpLog.add(p.clone());
-        }
-
-        return new Board(tmpBoard, tmpLog);
-    }
-
+    
+    /**
+     * Adds a ston to the board.
+     * @param pos
+     * @param stone
+     * @throws PositionOccupiedException
+     * @throws OutOfBoardException 
+     */
     public void addStone(Position pos, Stone stone) throws PositionOccupiedException, OutOfBoardException {
         if (!this.isOnBoard(pos)) throw new OutOfBoardException(pos);
         if (this.getStone(pos) != null) throw new PositionOccupiedException(pos);
@@ -53,18 +44,27 @@ public class Board {
         this.log.add(pos);
         this.board[pos.getRow()][pos.getColumn()] = stone;
     }
-
+    
+    /**
+     * Returns the stone on the given positon, if ther is no stone null is returned.
+     * @param pos
+     * @return stone
+     */
     public Stone getStone(Position pos) {
         return this.board[pos.getRow()][pos.getColumn()];
     }
-
+    
+    /**
+     * Tests if the position is on the board.
+     * @param pos
+     * @return true if pos is on board and fals if not
+     */
     public boolean isOnBoard(Position pos) {
         return !(pos.getRow() < 0 || pos.getColumn() < 0 || pos.getRow() >= ROW_COUNT || pos.getColumn() >= COLUMN_COUNT);
     }
 
     /**
      * Determinate the differences between the new Board and the current one.
-     *
      * @param newBoard
      * @return differences
      */
@@ -88,7 +88,6 @@ public class Board {
      * Determines the state the game went into by applying the last turn.
      * Returns 0 in case the game can continue, 1 in case remi occured and 2 in
      * case a win/lose situation happened
-     *
      * @return state of the game after given turn (0, 1, 2)
      */
     public int turnEndedGame() {
@@ -128,10 +127,21 @@ public class Board {
 
         return STATE_NOTYETOVER;
     }
+    
+        
+    /**
+     * Counts the streak form a position.
+     * @param direction
+     * @param pos
+     * @param streak
+     * @return 
+     */
+    public Streak countStreak(Direction direction, Position pos, Streak streak) {
+        return this.countStreak(direction, pos, streak, this.getStone(pos));
+    }
 
     /**
      * Counts the streak from the position with a color.
-     *
      * @param direction
      * @param pos
      * @param streak
@@ -143,7 +153,7 @@ public class Board {
             return streak;
         }
 
-        Position nextPos = pos.getNewPosition(direction);
+        Position nextPos = pos.newPosition(direction);
 
         if (!this.isOnBoard(nextPos) || this.getStone(nextPos) != color) {
             return streak;
@@ -153,20 +163,47 @@ public class Board {
         return countStreak(direction, nextPos, streak, color);
     }
     
-    public Streak countStreak(Direction direction, Position pos, Streak streak) {
-        return this.countStreak(direction, pos, streak, this.getStone(pos));
-    }
-
+    /**
+     * Gives the last made turn.
+     * @return position
+     */
     public Position getLastTurn() {
         return this.log.get(this.log.size() - 1);
     }
 
+    /**
+     * Undos the last made turn.
+     */
     public void undoLastTurn() {
         Position pos = this.getLastTurn();
         this.log.remove(pos);
         this.board[pos.getRow()][pos.getColumn()] = null;
     }
+    
+    /**
+     * Colons the board.
+     * @return board
+     */
+    public Board clone() {
+        Stone[][] tmpBoard = new Stone[ROW_COUNT][COLUMN_COUNT];
+        for (int i = 0; i < ROW_COUNT; i++) {
+            for (int j = 0; j < COLUMN_COUNT; j++) {
+                tmpBoard[i][j] = this.board[i][j];
+            }
+        }
+        
+        ArrayList<Position> tmpLog = new ArrayList<>();
+        for (Position p : this.log) {
+            tmpLog.add(p.clone());
+        }
 
+        return new Board(tmpBoard, tmpLog);
+    }
+    
+    /**
+     * Pars the Board into a string.
+     * @return Board as string
+     */
     @Override
     public String toString() {
         String s = String.format("Board after %d moves.%n", this.log.size());

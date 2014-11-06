@@ -1,25 +1,37 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package de.dhbw.mbfl.jconnect4lib.utils;
 
 import java.util.ArrayList;
 
 /**
- *
- * @author florian
+ * Converts Lists and Arrays to String.
+ * @author florian & Maurice Busch
  */
-public class Utils {
-    public static String joinArrayList(ArrayList list, String delimiter) {
+public class Utils
+{
+    
+    /**
+     * adds the elements one after another with the delimiter
+     * @param list
+     * @param delimiter
+     * @return one string
+     */
+    public static String joinArrayList(ArrayList list, String delimiter)
+    {
         return joinArray(list.toArray(), delimiter);
     }
-    
-    public static String joinArray(Object[] array, String delimiter) {
+
+    /**
+     * adds the elements one after another with the delimiter
+     * @param array
+     * @param delimiter
+     * @return one string
+     */
+    public static String joinArray(Object[] array, String delimiter)
+    {
         StringBuilder s = new StringBuilder();
-        
-        for (Object item : array) {
+
+        for(Object item : array)
+        {
             s.append(item.toString());
             s.append(delimiter);
         }

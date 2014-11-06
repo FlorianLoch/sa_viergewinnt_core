@@ -22,6 +22,16 @@ public enum Direction
         this.direction = direction;
     }
     
+    /**
+     * Gives the horizontal Direction on the bord. Returns -1 for left collumn on the
+     * board, 1 for right column and 0 for the same collumn:
+     * 
+     * 3
+     * 2   -1  0  1
+     * 1
+     *   A  B  C  D  E
+     * @return direction horizontal
+     */
     public int horizontalDirection()
     {
         switch (this)
@@ -33,6 +43,19 @@ public enum Direction
         }
     }
     
+    /**
+     * Gives the vertical Direction on the board. Returns -1 for the row below, 1 for the
+     * row above and 0 for the same row:
+     * 
+     * 5
+     * 4     1
+     * 3     0
+     * 2    -1
+     * 1
+     *    A  B  C
+     * 
+     * @return vertical Direction
+     */
     public int verticalDirection()
     {
         switch (this)

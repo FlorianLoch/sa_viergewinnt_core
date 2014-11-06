@@ -15,7 +15,7 @@ import de.dhbw.mbfl.jconnect4lib.validators.Validator;
 import java.util.ArrayList;
 
 /**
- *
+ * The Game where you can play the Game.
  * @author Maurice Busch & Florian Loch
  */
 public class Game {
@@ -37,6 +37,10 @@ public class Game {
         this.stoneAI = (this.stonePlayer == Stone.RED) ? Stone.YELLOW : Stone.RED;
     }
     
+    /**
+     * Default initialisation of the Validators.
+     * @return 
+     */
     private static ArrayList<Validator> initValidatorList() {
         ArrayList<Validator> validators = new ArrayList<>();
         validators.add(new NoChangeValidator());
@@ -47,21 +51,11 @@ public class Game {
         return validators;
     }
     
-    public TurnSummary doPlayerTurn(Position pos) throws ValidationException {
-        Board newBoard = (Board) this.board.clone();
-        newBoard.addStone(pos, this.stonePlayer);
-        
-        return this.doPlayerTurn(newBoard);
-    }    
-    
-    public TurnSummary doPlayerTurn(Board board) throws ValidationException {
-        Position userTurn = handleUserTurn(board);
-        this.board.addStone(userTurn, stonePlayer);
-        
-        int state = this.board.turnEndedGame();
-        return new TurnSummary(userTurn, state == Board.STATE_WIN, state == Board.STATE_REMI);
-    }
-    
+    /**
+     * Make the ai move and returns a TrunSummary where you can find all furhter informations
+     * about the game.
+     * @return turnSummary
+     */
     public TurnSummary doAITurn() {
         Position aiTurn = this.ai.calculateTurn(this.board, this.stoneAI);
         this.board.addStone(aiTurn, this.stoneAI);
@@ -71,10 +65,44 @@ public class Game {
         return new TurnSummary(aiTurn, state == Board.STATE_WIN, state == Board.STATE_REMI);        
     }
     
-    public Position getLastTurn() {
-        return this.board.getLastTurn();
+    /**
+     * Make a player move with a position and returns a TurnSummary where you can find
+     * all further informations about the game. This method will throw a ValidationException
+     * if somthing is wrong with this position.
+     * @param pos
+     * @return turnSummary
+     * @throws ValidationException 
+     */
+    public TurnSummary doPlayerTurn(Position pos) throws ValidationException {
+        Board newBoard = (Board) this.board.clone();
+        newBoard.addStone(pos, this.stonePlayer);
+        
+        return this.doPlayerTurn(newBoard);
+    }    
+    
+    /**
+     * Make a player move with the complead board and returns a TurnSummary where you can find
+     * all further informations about the game. This method will throw a ValidationException
+     * if somthing is wrong with this position.
+     * @param board
+     * @return turnSummary
+     * @throws ValidationException 
+     */
+    public TurnSummary doPlayerTurn(Board board) throws ValidationException {
+        Position userTurn = handleUserTurn(board);
+        this.board.addStone(userTurn, stonePlayer);
+        
+        int state = this.board.turnEndedGame();
+        return new TurnSummary(userTurn, state == Board.STATE_WIN, state == Board.STATE_REMI);
     }
     
+    /**
+     * Validates the turn of the player if no error was found the position of the
+     * new stone will be returned.
+     * @param board
+     * @return position
+     * @throws ValidationException 
+     */
     private Position handleUserTurn(Board board) throws ValidationException {
         // TODO Run validators, if differnce list only contains one item (only if this is a valid difference) 
         // this is the lastTurn done which can be given to the AI
@@ -91,6 +119,18 @@ public class Game {
         return differences.get(0).getPosition();
     }
     
+    /**
+     * Returns the position of the last move.
+     * @return position
+     */
+    public Position getLastTurn() {
+        return this.board.getLastTurn();
+    }
+    
+    /**
+     * Gives the board as a string
+     * @return board as string
+     */
     public String getCurrentBoardAsString()
     {
         return this.board.toString();
