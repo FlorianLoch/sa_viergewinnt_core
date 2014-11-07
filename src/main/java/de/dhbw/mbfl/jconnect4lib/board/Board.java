@@ -21,7 +21,7 @@ public class Board {
 
     public Board()
     {
-        board = new Stone[Size.BOARD.column()][Size.BOARD.row()];
+        board = new Stone[Size.BOARD.row()][Size.BOARD.column()];
     }
 
     private Board(Stone[][] board, ArrayList<Position> log) {

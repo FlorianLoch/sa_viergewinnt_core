@@ -7,6 +7,7 @@ package de.dhbw.mbfl.jconnect4lib.ai;
 
 import de.dhbw.mbfl.jconnect4lib.board.Board;
 import de.dhbw.mbfl.jconnect4lib.board.Position;
+import de.dhbw.mbfl.jconnect4lib.board.Size;
 import de.dhbw.mbfl.jconnect4lib.board.Stone;
 import java.util.ArrayList;
 
@@ -83,7 +84,7 @@ public class EasyAI implements AI {
 
     private ArrayList<Position> getPosiblePositions(Board board) {
         ArrayList<Position> posiblePositions = new ArrayList();
-        for (int i = 0; i < Board.COUNT_COLUMN; i++) {
+        for (int i = 0; i < Size.BOARD.column(); i++) {
             int row = this.calculateRow(i, board);
             if (row >= 0) {
                 posiblePositions.add(new Position(i, row));
@@ -102,7 +103,7 @@ public class EasyAI implements AI {
      * @return row
      */
     private int calculateRow(int col, Board board) {
-        for (int i = 0; i < Board.COUNT_ROW; i++) {
+        for (int i = 0; i < Size.BOARD.row(); i++) {
             if (board.getStone(new Position(col, i)) == null) {
                 return i;
             }
@@ -179,7 +180,7 @@ public class EasyAI implements AI {
 
         if (board.isOnBoard(below) && board.getStone(below) == stoneAI) sameColorBelow = true;
         
-        if (Board.COUNT_ROW - pos.getRow() - 1 < 3 || (sameColorBelow && Board.COUNT_ROW - pos.getRow() - 1 < 2)) {
+        if (Size.BOARD.row() - pos.getRow() - 1 < 3 || (sameColorBelow && Size.BOARD.row() - pos.getRow() - 1 < 2)) {
             return POTENTIALLY_STUPID_MOVE;
         }
 
