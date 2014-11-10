@@ -7,9 +7,11 @@ import de.dhbw.mbfl.jconnect4lib.board.Position;
  * @author florian & Maurice Busch
  */
 public class OutOfBoardException extends RuntimeException {
-
+    
+    public static final String MSG = "The given position (##pos##) is outside of the boards bounds.";
+    
     public OutOfBoardException(Position pos) {
-        super("The given position (" + pos + ") is outside of the boards bounds.");
+        super(MSG.replace("##pos##", pos.toString()));
     }
     
 }

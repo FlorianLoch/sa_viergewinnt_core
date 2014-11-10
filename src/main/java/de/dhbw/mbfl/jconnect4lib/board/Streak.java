@@ -24,7 +24,11 @@ public class Streak
         this.streak = streak;
         this.endStreak = endStreak;
     }
-
+    
+    /**
+     * countet streak
+     * @return int streak
+     */
     public int getStreak()
     {
         return streak;

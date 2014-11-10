@@ -17,11 +17,12 @@ public class Board {
     private static final int STREAK_COUNT_END = 4;
 
     private Stone[][] board;
-    private ArrayList<Position> log = new ArrayList<>();
+    private ArrayList<Position> log;
 
     public Board()
     {
         board = new Stone[Size.BOARD.row()][Size.BOARD.column()];
+        log = new ArrayList<>();
     }
 
     private Board(Stone[][] board, ArrayList<Position> log) {
@@ -90,41 +91,36 @@ public class Board {
      * @return state of the game after given turn (0, 1, 2)
      */
     public int turnEndedGame() {
-        Position lastTurn = this.log.get(this.log.size() - 1);
-
-        Streak streakNorthSouth = new Streak(STREAK_COUNT_END, 1);
-        streakNorthSouth = countStreak(Direction.NORTH, lastTurn, streakNorthSouth);
-        streakNorthSouth = countStreak(Direction.SOUTH, lastTurn, streakNorthSouth);
-        if (streakNorthSouth.isEnd()) {
+        if (turnEndGame(Direction.NORTH, Direction.SOUTH).isEnd()) {
             return STATE_WIN;
         }
 
-        Streak streakEastWest = new Streak(STREAK_COUNT_END, 1);
-        streakEastWest = countStreak(Direction.EAST, lastTurn, streakEastWest);
-        streakEastWest = countStreak(Direction.WEST, lastTurn, streakEastWest);
-        if (streakEastWest.isEnd()) {
+        if (turnEndGame(Direction.EAST, Direction.WEST).isEnd()) {
             return STATE_WIN;
         }
 
-        Streak streakNortheastSouthwest = new Streak(STREAK_COUNT_END, 1);
-        streakNortheastSouthwest = countStreak(Direction.NORTH_EAST, lastTurn, streakNortheastSouthwest);
-        streakNortheastSouthwest = countStreak(Direction.SOUTH_WEST, lastTurn, streakNortheastSouthwest);
-        if (streakNortheastSouthwest.isEnd()) {
+        if (turnEndGame(Direction.NORTH_EAST, Direction.SOUTH_WEST).isEnd()) {
             return STATE_WIN;
         }
 
-        Streak streakSoutheastNorthwest = new Streak(STREAK_COUNT_END, 1);
-        streakSoutheastNorthwest = countStreak(Direction.SOUTH_EAST, lastTurn, streakSoutheastNorthwest);
-        streakSoutheastNorthwest = countStreak(Direction.NORTH_WEST, lastTurn, streakSoutheastNorthwest);
-        if (streakSoutheastNorthwest.isEnd()) {
+        if (turnEndGame(Direction.NORTH_WEST, Direction.SOUTH_EAST).isEnd()) {
             return STATE_WIN;
         }
 
-        if (this.log.size() == Size.BOARD.column() * Size.BOARD.row()) {
+        if (getTurnCount() == Size.BOARD.column() * Size.BOARD.row()) {
             return STATE_REMI;
         }
 
         return STATE_NOTYETOVER;
+    }
+    
+    public Streak turnEndGame(Direction directionOne, Direction directionTwo)
+    {
+        Position lastTurn = this.log.get(getTurnCount() - 1);
+        Streak streak = new Streak(STREAK_COUNT_END, 1);
+        streak = countStreak(directionOne, lastTurn, streak);
+        streak = countStreak(directionTwo, lastTurn, streak);
+        return streak;
     }
     
         
@@ -167,7 +163,33 @@ public class Board {
      * @return position
      */
     public Position getLastTurn() {
-        return this.log.get(this.log.size() - 1);
+        if(getTurnCount() <= 0)
+        {
+            return null;
+        }
+        return this.log.get(getTurnCount() - 1);
+    }
+    
+    /**
+     * Gives the count of done truns
+     * @return turns
+     */
+    public int getTurnCount()
+    {
+        return this.log.size();
+    }
+    
+    /**
+     * Gives the last added stone.
+     * @return stone
+     */
+    public Stone getLastStone() {
+        Position pos = getLastTurn();
+        if(pos == null)
+        {
+            return null;
+        }
+        return this.board[pos.getRow()][pos.getColumn()];
     }
 
     /**
@@ -175,8 +197,12 @@ public class Board {
      */
     public void undoLastTurn() {
         Position pos = this.getLastTurn();
-        this.log.remove(pos);
-        this.board[pos.getRow()][pos.getColumn()] = null;
+        
+        if(pos != null)
+        {    
+            this.log.remove(pos);
+            this.board[pos.getRow()][pos.getColumn()] = null;
+        }
     }
     
     /**
@@ -205,7 +231,7 @@ public class Board {
      */
     @Override
     public String toString() {
-        String s = String.format("Board after %d moves.%n", this.log.size());
+        String s = String.format("Board after %d moves.%n", getTurnCount());
 
         for (int i = Size.BOARD.row() - 1; i >= 0; i--) {
             s = s + (i + 1) + " | ";
