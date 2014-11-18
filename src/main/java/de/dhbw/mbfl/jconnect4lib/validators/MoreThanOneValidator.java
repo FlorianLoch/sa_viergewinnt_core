@@ -16,13 +16,12 @@ public class MoreThanOneValidator implements Validator {
 
     /**
      * Test if there is more the one change on the board.
-     * @param difference
+     * @param differences
      * @param board
      * @throws ValidationException 
      */
     @Override
-    public void validate(ArrayList<Difference> difference, Board board) throws ValidationException {
-        final ArrayList<Difference> differences = difference;
+    public void validate(final ArrayList<Difference> differences, Board board) throws ValidationException {
         if(differences.size() > 1)
         {
             throw new ValidationException(MSG, new Position(0) {
