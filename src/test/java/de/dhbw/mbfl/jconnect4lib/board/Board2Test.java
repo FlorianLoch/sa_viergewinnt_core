@@ -17,7 +17,7 @@ import static org.junit.Assert.*;
  *
  * @author florian
  */
-public class BoardTest {
+public class Board2Test {
     private Board b = new Board();
     
     private static final String GAMESITUATION_1 = "C1;D1$D2;A1$B1;A2$C2;A3$D3;A4";

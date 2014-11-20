@@ -13,6 +13,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 import static org.hamcrest.CoreMatchers.*;
 import static org.easymock.EasyMock.*;
+import org.junit.Before;
 
 /**
  *
@@ -20,6 +21,11 @@ import static org.easymock.EasyMock.*;
  */
 public class BoardTest extends EasyMockSupport
 {
+    
+    @Before
+    public void setCorrectBoardSize() {
+        Size.BOARD.unlog().changeSize(7, 6);
+    }
     
     /**
      * Tests if the method addStone throws an OutOfBoard exeption
@@ -573,7 +579,9 @@ public class BoardTest extends EasyMockSupport
     @Test
     public void testClone() {
         Board board = new Board();
+        System.out.println("Error");
         board.addStone(new Position(10), Stone.RED);
+        System.out.println("error");
         board.addStone(new Position(12), Stone.YELLOW);
         
         Board clone = board.clone();
