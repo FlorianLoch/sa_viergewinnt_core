@@ -2,6 +2,7 @@ package de.dhbw.mbfl.jconnect4lib.validators;
 
 import de.dhbw.mbfl.jconnect4lib.board.Board;
 import de.dhbw.mbfl.jconnect4lib.board.Difference;
+import de.dhbw.mbfl.jconnect4lib.board.Direction;
 import de.dhbw.mbfl.jconnect4lib.board.Position;
 import de.dhbw.mbfl.jconnect4lib.exceptions.ValidationException;
 import java.util.ArrayList;
@@ -27,7 +28,7 @@ public class InvalidPositionValidator implements Validator
         for (Difference difference : differences)
         {
             Position difPos = difference.getPosition();
-            if (difPos.getRow() >= 1 && board.getStone(new Position(difPos.getColumn(), difPos.getRow() - 1)) == null)
+            if (difPos.getRow() >= 1 && board.getStone(difPos.newPosition(Direction.SOUTH)) == null)
             {
                 throw new ValidationException(String.format(MSG, difPos), difPos);
             }
