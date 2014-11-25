@@ -5,7 +5,7 @@
  */
 package de.dhbw.mbfl.jconnect4lib.ai.alphaBeta;
 
-import de.dhbw.mbfl.jconnect4lib.board.Position;
+import de.dhbw.mbfl.jconnect4lib.board.Board;
 
 /**
  *
@@ -13,20 +13,20 @@ import de.dhbw.mbfl.jconnect4lib.board.Position;
  */
 public final class MaximizingNode extends AlphaBetaNode {
 
-    public MaximizingNode(Position position) {
-        super(position);
+    public MaximizingNode(int depthLevel, Board board) {
+        super(depthLevel, board);
     }
 
-    public MaximizingNode(Position position, int value) {
-        super(position, value);
+    public MaximizingNode(int depthLevel, Board board, int value) {
+        super(depthLevel, board, value);
     }    
     
     @Override
-    public int recursionStep(int level, int alpha, int beta) {
+    public int recursionStep(int alpha, int beta) {
         int max = alpha;
         
         for (AlphaBetaNode n : this) {
-            max = Math.max(max, n.computeValue(level, max, beta));
+            max = Math.max(max, n.computeValue(max, beta));
             if (max >= beta) break;
         }
         

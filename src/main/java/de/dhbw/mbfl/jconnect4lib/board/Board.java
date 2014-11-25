@@ -91,6 +91,8 @@ public class Board {
      * @return state of the game after given turn (0, 1, 2)
      */
     public int turnEndedGame() {
+        if (this.getTurnCount() == 0) return 0; //Otherwise this check will crash when it gets perfomed on a new board instance (because in turnEndGame() lastTurn can not be determined)
+        
         if (turnEndGame(Direction.NORTH, Direction.SOUTH).isEnd()) {
             return STATE_WIN;
         }
