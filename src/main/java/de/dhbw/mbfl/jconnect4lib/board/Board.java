@@ -36,13 +36,16 @@ public class Board {
      * @param stone
      * @throws PositionOccupiedException
      * @throws OutOfBoardException 
+     * @return Board for chaining
      */
-    public void addStone(Position pos, Stone stone) throws PositionOccupiedException, OutOfBoardException {
+    public Board addStone(Position pos, Stone stone) throws PositionOccupiedException, OutOfBoardException {
         if (!this.isOnBoard(pos)) throw new OutOfBoardException(pos);
         if (this.getStone(pos) != null) throw new PositionOccupiedException(pos);
         
         this.log.add(pos);
         this.board[pos.getRow()][pos.getColumn()] = stone;
+        
+        return this;
     }
     
     /**
@@ -91,7 +94,7 @@ public class Board {
      * @return state of the game after given turn (0, 1, 2)
      */
     public int turnEndedGame() {
-        if (this.getTurnCount() == 0) return 0; //Otherwise this check will crash when it gets perfomed on a new board instance (because in turnEndGame() lastTurn can not be determined)
+        if (getTurnCount() == 0) return 0; //Otherwise this check will crash when it gets perfomed on a new board instance (because in turnEndGame() lastTurn can not be determined)
         
         if (turnEndGame(Direction.NORTH, Direction.SOUTH).isEnd()) {
             return STATE_WIN;

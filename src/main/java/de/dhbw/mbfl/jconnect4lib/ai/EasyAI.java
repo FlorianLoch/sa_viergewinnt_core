@@ -5,6 +5,7 @@
  */
 package de.dhbw.mbfl.jconnect4lib.ai;
 
+import de.dhbw.mbfl.jconnect4lib.ai.common.AIUtils;
 import de.dhbw.mbfl.jconnect4lib.board.Board;
 import de.dhbw.mbfl.jconnect4lib.board.Position;
 import de.dhbw.mbfl.jconnect4lib.board.Size;
@@ -64,7 +65,7 @@ public class EasyAI implements AI {
         int bestTurn = -2;
         ArrayList<Position> bestTurns = new ArrayList();
 
-        for (Position pos : this.getPosiblePositions(board)) {
+        for (Position pos : AIUtils.determinePossiblePositions(board)) {
             int turn = this.rankTurn(board, pos, stoneAI);
             if (turn >= bestTurn) {
                 if (turn > bestTurn) {
@@ -80,36 +81,6 @@ public class EasyAI implements AI {
         if (!this.random) return bestTurns.get(0); //Allways retuns the first "best" turn found - this makes the algorithm deterministic, great for testing
         
         return bestTurns.get((int) (Math.random() * bestTurns.size())); //Select turn by random, great for a more thrilling game
-    }
-
-    private ArrayList<Position> getPosiblePositions(Board board) {
-        ArrayList<Position> posiblePositions = new ArrayList();
-        for (int i = 0; i < Size.BOARD.column(); i++) {
-            int row = this.calculateRow(i, board);
-            if (row >= 0) {
-                posiblePositions.add(new Position(i, row));
-            }
-        }
-        return posiblePositions;
-    }
-
-    /**
-     * Gives the Row where the Stone can be places. If the Column is full -1
-     * will be given.
-     *
-     * @param col
-     * @param board
-     *
-     * @return row
-     */
-    private int calculateRow(int col, Board board) {
-        for (int i = 0; i < Size.BOARD.row(); i++) {
-            if (board.getStone(new Position(col, i)) == null) {
-                return i;
-            }
-        }
-
-        return -1;
     }
 
     /**

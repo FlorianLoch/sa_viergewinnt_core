@@ -6,16 +6,14 @@
 package de.dhbw.mbfl.jconnect4lib.ai.alphaBeta;
 
 import de.dhbw.mbfl.jconnect4lib.board.Board;
+import java.util.LinkedList;
 
 /**
  *
  * @author florian
  */
-class DefaultAlphaBetaRater implements AlphaBetaRater {
-
-    @Override
-    public int rate(Board board) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+public interface NextTurnsComputer {
+    
+    public LinkedList<Board> computeNextTurns(Board currentBoard);
     
 }
