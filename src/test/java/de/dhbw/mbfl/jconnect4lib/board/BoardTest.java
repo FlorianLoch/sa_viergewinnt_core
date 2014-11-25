@@ -354,7 +354,8 @@ public class BoardTest extends EasyMockSupport
     {
         Streak streak = createStrictMock(Streak.class);
         expect(streak.isEnd()).andReturn(true);
-        Board board = createMockBuilder(Board.class).addMockedMethod("turnEndGame").createStrictMock();
+        Board board = createMockBuilder(Board.class).addMockedMethods("getTurnCount", "turnEndGame").createStrictMock();
+        expect(board.getTurnCount()).andReturn(1);
         expect(board.turnEndGame(Direction.NORTH, Direction.SOUTH)).andReturn(streak);
         replayAll();
         
@@ -373,7 +374,8 @@ public class BoardTest extends EasyMockSupport
         Streak streak = createStrictMock(Streak.class);
         expect(streak.isEnd()).andReturn(false);
         expect(streak.isEnd()).andReturn(true);
-        Board board = createMockBuilder(Board.class).addMockedMethod("turnEndGame").createStrictMock();
+        Board board = createMockBuilder(Board.class).addMockedMethods("getTurnCount", "turnEndGame").createStrictMock();
+        expect(board.getTurnCount()).andReturn(1);
         expect(board.turnEndGame(Direction.NORTH, Direction.SOUTH)).andReturn(streak);
         expect(board.turnEndGame(Direction.EAST, Direction.WEST)).andReturn(streak);
         replayAll();
@@ -393,7 +395,8 @@ public class BoardTest extends EasyMockSupport
         Streak streak = createStrictMock(Streak.class);
         expect(streak.isEnd()).andReturn(false).times(2);
         expect(streak.isEnd()).andReturn(true);
-        Board board = createMockBuilder(Board.class).addMockedMethod("turnEndGame").createStrictMock();
+        Board board = createMockBuilder(Board.class).addMockedMethods("getTurnCount", "turnEndGame").createStrictMock();
+        expect(board.getTurnCount()).andReturn(1);
         expect(board.turnEndGame(Direction.NORTH, Direction.SOUTH)).andReturn(streak);
         expect(board.turnEndGame(Direction.EAST, Direction.WEST)).andReturn(streak);
         expect(board.turnEndGame(Direction.NORTH_EAST, Direction.SOUTH_WEST)).andReturn(streak);
@@ -414,7 +417,8 @@ public class BoardTest extends EasyMockSupport
         Streak streak = createStrictMock(Streak.class);
         expect(streak.isEnd()).andReturn(false).times(3);
         expect(streak.isEnd()).andReturn(true);
-        Board board = createMockBuilder(Board.class).addMockedMethod("turnEndGame").createStrictMock();
+        Board board = createMockBuilder(Board.class).addMockedMethods("getTurnCount", "turnEndGame").createStrictMock();
+        expect(board.getTurnCount()).andReturn(1);
         expect(board.turnEndGame(Direction.NORTH, Direction.SOUTH)).andReturn(streak);
         expect(board.turnEndGame(Direction.EAST, Direction.WEST)).andReturn(streak);
         expect(board.turnEndGame(Direction.NORTH_EAST, Direction.SOUTH_WEST)).andReturn(streak);
@@ -437,6 +441,7 @@ public class BoardTest extends EasyMockSupport
         expect(streak.isEnd()).andReturn(false).times(4);
         Size.BOARD.unlog().changeSize(7, 6);
         Board board = createMockBuilder(Board.class).addMockedMethods("turnEndGame", "getTurnCount").createStrictMock();
+        expect(board.getTurnCount()).andReturn(42);
         expect(board.turnEndGame(Direction.NORTH, Direction.SOUTH)).andReturn(streak);
         expect(board.turnEndGame(Direction.EAST, Direction.WEST)).andReturn(streak);
         expect(board.turnEndGame(Direction.NORTH_EAST, Direction.SOUTH_WEST)).andReturn(streak);
@@ -460,6 +465,7 @@ public class BoardTest extends EasyMockSupport
         expect(streak.isEnd()).andReturn(false).times(4);
         Size.BOARD.unlog().changeSize(7, 6);
         Board board = createMockBuilder(Board.class).addMockedMethods("turnEndGame", "getTurnCount").createStrictMock();
+        expect(board.getTurnCount()).andReturn(15);
         expect(board.turnEndGame(Direction.NORTH, Direction.SOUTH)).andReturn(streak);
         expect(board.turnEndGame(Direction.EAST, Direction.WEST)).andReturn(streak);
         expect(board.turnEndGame(Direction.NORTH_EAST, Direction.SOUTH_WEST)).andReturn(streak);
