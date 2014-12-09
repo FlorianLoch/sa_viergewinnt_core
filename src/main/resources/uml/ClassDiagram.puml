@@ -1,0 +1,28 @@
+@startuml
+class Game
+class EasyAI
+class RandomAI
+class Board
+class Difference
+class Position
+class InvalidPositionValidator
+class MoreThanOneValidator
+class NoChangeValidator
+class StoneChangedValidator
+enum Stone
+interface AI
+interface Validator
+Game ..> Board
+Game ..> AI
+Game ..> Validator
+EasyAI --|> AI
+RandomAI --|> AI
+Board ..> Position
+Board ..> Stone
+Board ..> Difference
+Validator ..> Difference
+InvalidPositionValidator --|> Validator
+MoreThanOneValidator --|> Validator
+NoChangeValidator --|> Validator
+StoneChangedValidator --|> Validator
+@enduml
