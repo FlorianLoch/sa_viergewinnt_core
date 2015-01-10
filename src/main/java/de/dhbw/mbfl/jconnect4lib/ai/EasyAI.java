@@ -5,7 +5,6 @@
  */
 package de.dhbw.mbfl.jconnect4lib.ai;
 
-import de.dhbw.mbfl.jconnect4lib.ai.common.AIUtils;
 import de.dhbw.mbfl.jconnect4lib.board.Board;
 import de.dhbw.mbfl.jconnect4lib.board.Position;
 import de.dhbw.mbfl.jconnect4lib.board.Size;
@@ -65,7 +64,7 @@ public class EasyAI implements AI {
         int bestTurn = -2;
         ArrayList<Position> bestTurns = new ArrayList();
 
-        for (Position pos : AIUtils.determinePossiblePositions(board)) {
+        for (Position pos : board.determinePossiblePositions()) {
             int turn = this.rankTurn(board, pos, stoneAI);
             if (turn >= bestTurn) {
                 if (turn > bestTurn) {

@@ -31,7 +31,7 @@ public class Board {
     }
     
     /**
-     * Adds a ston to the board.
+     * Adds a stone to the board.
      * @param pos
      * @param stone
      * @throws PositionOccupiedException
@@ -252,5 +252,51 @@ public class Board {
         }
 
         return s; //To change body of generated methods, choose Tools | Templates.
+    }
+   
+    
+    public ArrayList<Position> determinePossiblePositions() {
+        ArrayList<Position> possiblePositions = new ArrayList();
+        for (int i = 0; i < Size.BOARD.column(); i++) {
+            Position lowestInColumn = this.determineLowestFreeFieldInColumn(i);
+            if (lowestInColumn != null) {
+                possiblePositions.add(lowestInColumn);
+            }
+        }
+        return possiblePositions;
+    }
+    
+    /**
+     * Returns the lowest possible position in a column. "Possible" means that the field is currently set to null, so not occupied yet.
+     * If there is no field left in this column null is returned.
+     * 
+     * @param col
+     *
+     * @return The lowest possible position
+     */
+    public Position determineLowestFreeFieldInColumn(int col) {
+        for (int i = 0; i < Size.BOARD.row(); i++) {
+            Position p = new Position(col, i);
+            if (this.getStone(p) == null) {
+                return p;
+            }
+        }
+
+        return null;
+    }    
+    
+    public ArrayList<Board> getDescendantBoards() {
+        ArrayList<Board> descendants = new ArrayList<>();
+        ArrayList<Position> possiblePositions = this.determinePossiblePositions();
+        
+        Stone nextPlayer = (this.getLastStone() == Stone.RED) ? Stone.YELLOW : Stone.RED;
+        
+        for (int i = 0; i < possiblePositions.size(); i++) {
+            Board clone = this.clone();
+            clone.addStone(possiblePositions.get(i), nextPlayer);
+            descendants.add(clone);
+        }
+        
+        return descendants;
     }
 }

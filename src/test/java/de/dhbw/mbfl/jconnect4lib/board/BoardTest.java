@@ -597,4 +597,37 @@ public class BoardTest extends EasyMockSupport
         assertEquals(clone.getStone(new Position(12)), Stone.YELLOW);     
         assertEquals(clone.getLastTurn(), new Position(12));
     }
+    
+    @Test
+    public void testDetermineLowestFreeFieldInColumn() {
+        Board board = new Board();
+        board.addStone(new Position(0, 0), Stone.RED);
+        board.addStone(new Position(0, 1), Stone.RED);
+        board.addStone(new Position(0, 2), Stone.RED);
+        
+        assertEquals(board.determineLowestFreeFieldInColumn(0).getRow(), 3);
+        assertEquals(board.determineLowestFreeFieldInColumn(5).getRow(), 0);
+    }
+    
+    @Test
+    public void testDeterminePossiblePositions() {
+        Board board = new Board();
+        board.addStone(new Position(0, 0), Stone.RED);
+        board.addStone(new Position(0, 1), Stone.RED);
+        board.addStone(new Position(0, 2), Stone.RED);
+        board.addStone(new Position(1, 0), Stone.RED);
+        board.addStone(new Position(2, 0), Stone.RED);
+        board.addStone(new Position(3, 0), Stone.RED);
+        
+        ArrayList<Position> possiblePositions = board.determinePossiblePositions();
+        
+        assertEquals(possiblePositions.size(), 7);
+        assertEquals(possiblePositions.get(0), new Position(0, 3));
+        assertEquals(possiblePositions.get(1), new Position(1, 1));
+        assertEquals(possiblePositions.get(2), new Position(2, 1));
+        assertEquals(possiblePositions.get(3), new Position(3, 1));
+        assertEquals(possiblePositions.get(4), new Position(4, 0));
+        assertEquals(possiblePositions.get(5), new Position(5, 0));
+        assertEquals(possiblePositions.get(6), new Position(6, 0));
+    }
 }

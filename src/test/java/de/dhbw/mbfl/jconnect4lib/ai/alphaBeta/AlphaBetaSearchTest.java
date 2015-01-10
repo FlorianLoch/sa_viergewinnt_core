@@ -17,39 +17,39 @@ import static org.junit.Assert.*;
  */
 public class AlphaBetaSearchTest {
 
-    @Test
-    public void testAlphaBetaSearch() {
-        //Construct tree according to this example: http://youtu.be/Ewh-rF7KSEg
-        AlphaBetaNode root = new MaximizingNode(null); //a
-        AlphaBetaNode b = new MinimizingNode(null);
-        AlphaBetaNode c = new MinimizingNode(null);
-        AlphaBetaNode d = new MinimizingNode(null);
-        AlphaBetaNode h = new MaximizingNode(null);
-        AlphaBetaNode j = new MaximizingNode(null);
-        
-        b.addChild(new MaximizingNode(null, 4));
-        b.addChild(new MaximizingNode(null, 5));
-        
-        h.addChild(new MinimizingNode(null, 3));
-        h.addChild(new MinimizingNode(null, 4));
-        
-        j.addChild(new MinimizingNode(null, 7));
-        j.addChild(new MinimizingNode(null, 9));        
-        
-        c.addChild(new MaximizingNode(null, 6));
-        c.addChild(h);
-        c.addChild(j);
-        
-        d.addChild(new MaximizingNode(null, 3));
-        d.addChild(new MaximizingNode(null, 8));
-        
-        root.addChild(b);
-        root.addChild(c);
-        root.addChild(d);
-        
-        int bestGuaranteedResult = root.computeBestTurnFromNode(3);
-        
-        assertTrue(bestGuaranteedResult == 4);
-    }
+//    @Test
+//    public void testAlphaBetaSearch() {
+//        //Construct tree according to this example: http://youtu.be/Ewh-rF7KSEg
+//        AlphaBetaNode root = new MaximizingNode(null); //a
+//        AlphaBetaNode b = new MinimizingNode(null);
+//        AlphaBetaNode c = new MinimizingNode(null);
+//        AlphaBetaNode d = new MinimizingNode(null);
+//        AlphaBetaNode h = new MaximizingNode(null);
+//        AlphaBetaNode j = new MaximizingNode(null);
+//        
+//        b.addChild(new MaximizingNode(null, 4));
+//        b.addChild(new MaximizingNode(null, 5));
+//        
+//        h.addChild(new MinimizingNode(null, 3));
+//        h.addChild(new MinimizingNode(null, 4));
+//        
+//        j.addChild(new MinimizingNode(null, 7));
+//        j.addChild(new MinimizingNode(null, 9));        
+//        
+//        c.addChild(new MaximizingNode(null, 6));
+//        c.addChild(h);
+//        c.addChild(j);
+//        
+//        d.addChild(new MaximizingNode(null, 3));
+//        d.addChild(new MaximizingNode(null, 8));
+//        
+//        root.addChild(b);
+//        root.addChild(c);
+//        root.addChild(d);
+//        
+//        int bestGuaranteedResult = root.computeBestTurnFromNode(3);
+//        
+//        assertTrue(bestGuaranteedResult == 4);
+//    }
     
 }

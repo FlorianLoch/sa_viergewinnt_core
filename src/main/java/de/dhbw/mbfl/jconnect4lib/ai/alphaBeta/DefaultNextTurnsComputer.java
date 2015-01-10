@@ -29,7 +29,7 @@ class DefaultNextTurnsComputer implements NextTurnsComputer {
         Stone who = (currentBoard.getTurnCount() % 2 == 0) ? Stone.YELLOW : Stone.RED;
         
         //Try to add a stone in each column
-        for (Position p : AIUtils.determinePossiblePositions(currentBoard)) {
+        for (Position p : currentBoard.determinePossiblePositions()) {
             possibleTurns.add(currentBoard.clone().addStone(p, who));
         }
         
