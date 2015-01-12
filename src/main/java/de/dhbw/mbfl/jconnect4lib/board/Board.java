@@ -284,19 +284,4 @@ public class Board {
 
         return null;
     }    
-    
-    public ArrayList<Board> getDescendantBoards() {
-        ArrayList<Board> descendants = new ArrayList<>();
-        ArrayList<Position> possiblePositions = this.determinePossiblePositions();
-        
-        Stone nextPlayer = (this.getLastStone() == Stone.RED) ? Stone.YELLOW : Stone.RED;
-        
-        for (int i = 0; i < possiblePositions.size(); i++) {
-            Board clone = this.clone();
-            clone.addStone(possiblePositions.get(i), nextPlayer);
-            descendants.add(clone);
-        }
-        
-        return descendants;
-    }
 }

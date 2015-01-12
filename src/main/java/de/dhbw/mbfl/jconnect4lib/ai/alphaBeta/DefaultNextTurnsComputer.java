@@ -5,7 +5,6 @@
  */
 package de.dhbw.mbfl.jconnect4lib.ai.alphaBeta;
 
-import de.dhbw.mbfl.jconnect4lib.ai.common.AIUtils;
 import de.dhbw.mbfl.jconnect4lib.board.Board;
 import de.dhbw.mbfl.jconnect4lib.board.Position;
 import de.dhbw.mbfl.jconnect4lib.board.Stone;
@@ -23,23 +22,25 @@ class DefaultNextTurnsComputer implements NextTurnsComputer {
         LinkedList<Board> possibleTurns = new LinkedList<>();
         LinkedList<Board> sortedPossibleTurns = new LinkedList<>();
         
-        if (currentBoard.turnEndedGame() != 0) return sortedPossibleTurns;
+        if (currentBoard.turnEndedGame() != Board.STATE_NOTYETOVER) return sortedPossibleTurns;
         
         //Who's turn is it?
-        Stone who = (currentBoard.getTurnCount() % 2 == 0) ? Stone.YELLOW : Stone.RED;
+        Stone who = (currentBoard.getLastStone() == Stone.RED) ? Stone.YELLOW : Stone.RED;
         
         //Try to add a stone in each column
         for (Position p : currentBoard.determinePossiblePositions()) {
-            possibleTurns.add(currentBoard.clone().addStone(p, who));
+            Board clonedBoard = currentBoard.clone();
+            clonedBoard.addStone(p, who);
+            possibleTurns.add(clonedBoard);
         }
         
         //"Presort" to enable higher "cutting" rate    
         for (Board b : possibleTurns) {
-            if (b.turnEndedGame() != 0) {
-                sortedPossibleTurns.offerFirst(b);
+            if (b.turnEndedGame() == Board.STATE_NOTYETOVER) {
+                sortedPossibleTurns.offerLast(b);
             }
             else {
-                sortedPossibleTurns.offerLast(b);
+                sortedPossibleTurns.offerFirst(b);
             }
         }
         
