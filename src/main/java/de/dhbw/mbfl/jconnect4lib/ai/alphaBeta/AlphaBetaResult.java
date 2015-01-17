@@ -14,10 +14,12 @@ import de.dhbw.mbfl.jconnect4lib.board.Position;
 public class AlphaBetaResult {
     private Position computedTurn;
     private int value;
+    private AlphaBetaResult subsequentTurn;
 
-    public AlphaBetaResult(Position computedTurn, int value) {
+    public AlphaBetaResult(Position computedTurn, int value, AlphaBetaResult subsequentTurn) {
         this.computedTurn = computedTurn;
         this.value = value;
+        this.subsequentTurn = subsequentTurn;
     }
     
     public Position getComputedTurn() {
@@ -26,5 +28,9 @@ public class AlphaBetaResult {
 
     public int getValue() {
         return this.value;
+    }
+    
+    public AlphaBetaResult getSubsequentTurn() {
+        return this.subsequentTurn;
     }
 }
