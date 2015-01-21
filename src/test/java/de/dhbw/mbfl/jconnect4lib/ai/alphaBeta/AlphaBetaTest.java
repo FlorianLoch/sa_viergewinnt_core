@@ -45,8 +45,8 @@ public class AlphaBetaTest {
     public void testFindBestTurn() {
         Board currentBoard = new Board();
         int maxAbsoluteDepth = 7;
-        AlphaBetaResult result = AlphaBeta.findBestTurn(currentBoard, maxAbsoluteDepth);
-        
-        assertEquals(Integer.MAX_VALUE - 1, result.getValue());
+        for (int i = 7; i < 13; i++) {
+            AlphaBeta.findBestTurn(currentBoard, i);
+        }
     }    
 }

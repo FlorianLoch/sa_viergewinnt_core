@@ -5,11 +5,8 @@
  */
 package de.dhbw.mbfl.jconnect4lib.ai.alphaBeta;
 
-import de.dhbw.mbfl.jconnect4lib.ai.AI;
 import de.dhbw.mbfl.jconnect4lib.board.Board;
-import de.dhbw.mbfl.jconnect4lib.board.Position;
 import de.dhbw.mbfl.jconnect4lib.board.Size;
-import de.dhbw.mbfl.jconnect4lib.board.Stone;
 import java.util.LinkedList;
 
 /**
@@ -20,6 +17,8 @@ public class AlphaBeta {
     private final AlphaBetaRater rater;
     private final NextTurnsComputer nextTurnsGenerator;
     private final int maxAbsoluteDepth;
+    private long ratedBoards;
+    private long cutOffs;
 
     private AlphaBeta(AlphaBetaRater rater, NextTurnsComputer nextTurnsComputer, int maxAbsoluteDepth) {
         if (rater == null) rater = new DefaultAlphaBetaRater();
@@ -29,8 +28,11 @@ public class AlphaBeta {
         this.nextTurnsGenerator = nextTurnsComputer;
         
         this.maxAbsoluteDepth = maxAbsoluteDepth;
+        
+        this.ratedBoards = 0;
+        this.cutOffs = 0;
     }
-    
+
     public static AlphaBetaResult findBestTurn(Board currentBoard, int maxAbsoluteDepth) {
         return findBestTurn(currentBoard, maxAbsoluteDepth, null, null);
     }
@@ -46,12 +48,17 @@ public class AlphaBeta {
         
         AlphaBetaResult result = alg.alphaBeta(currentBoard, currentDepth, Integer.MIN_VALUE, Integer.MAX_VALUE);
         
+        System.out.println("Depth: " + maxAbsoluteDepth);
+        System.out.println("Rated boards: " + alg.ratedBoards);
+        System.out.println("CutOffs: " + alg.cutOffs);
+        
         return result;
     } 
    
     private AlphaBetaResult alphaBeta(Board currentBoard, int currentDepth, int alpha, int beta) {
         if (currentDepth == this.maxAbsoluteDepth) {
             int value = this.rater.rate(currentBoard);
+            this.ratedBoards++;
             return new AlphaBetaResult(null, value, null);
         }
         
@@ -59,6 +66,7 @@ public class AlphaBeta {
         
         if (possibleNextBoards.isEmpty()) {
             int value = this.rater.rate(currentBoard);
+            this.ratedBoards++;
             return new AlphaBetaResult(null, value, null);
         }
         
@@ -78,6 +86,7 @@ public class AlphaBeta {
                 }
                 
                 if (max >= beta) {
+                    this.cutOffs++;
                     break;
                 }
             }
@@ -96,6 +105,7 @@ public class AlphaBeta {
             }
 
             if (min <= alpha) {
+                this.cutOffs++;
                 break;
             }
         }
