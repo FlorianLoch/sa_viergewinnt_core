@@ -20,6 +20,14 @@ public class AlphaBeta {
     private long ratedBoards;
     private long cutOffs;
 
+    public static void main(String[] args) {
+        Board currentBoard = new Board();
+        //int maxAbsoluteDepth = 7;
+        for (int i = 6; i < 30; i++) {
+            AlphaBeta.findBestTurn(currentBoard, i);
+        }
+    }
+    
     private AlphaBeta(AlphaBetaRater rater, NextTurnsComputer nextTurnsComputer, int maxAbsoluteDepth) {
         if (rater == null) rater = new DefaultAlphaBetaRater();
         this.rater = rater;
@@ -57,7 +65,7 @@ public class AlphaBeta {
    
     private AlphaBetaResult alphaBeta(Board currentBoard, int currentDepth, int alpha, int beta) {
         if (currentDepth == this.maxAbsoluteDepth) {
-            int value = this.rater.rate(currentBoard);
+            int value = 0;//this.rater.rate(currentBoard);
             this.ratedBoards++;
             return new AlphaBetaResult(null, value, null);
         }
@@ -65,7 +73,7 @@ public class AlphaBeta {
         LinkedList<Board> possibleNextBoards = this.nextTurnsGenerator.computeNextTurns(currentBoard);
         
         if (possibleNextBoards.isEmpty()) {
-            int value = this.rater.rate(currentBoard);
+            int value = 0;//this.rater.rate(currentBoard);
             this.ratedBoards++;
             return new AlphaBetaResult(null, value, null);
         }
@@ -87,7 +95,7 @@ public class AlphaBeta {
                 
                 if (max >= beta) {
                     this.cutOffs++;
-                    break;
+                    //break;
                 }
             }
             return new AlphaBetaResult((bestNextBoard == null) ? null : bestNextBoard.getLastTurn(), max, bestNextTurn);
@@ -106,7 +114,7 @@ public class AlphaBeta {
 
             if (min <= alpha) {
                 this.cutOffs++;
-                break;
+                //break;
             }
         }
         return new AlphaBetaResult((bestNextBoard == null) ? null : bestNextBoard.getLastTurn(), min, bestNextTurn);

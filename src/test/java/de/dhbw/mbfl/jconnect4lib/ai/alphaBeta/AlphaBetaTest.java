@@ -43,10 +43,10 @@ public class AlphaBetaTest {
      */
     @Test
     public void testFindBestTurn() {
-        Board currentBoard = new Board();
-        int maxAbsoluteDepth = 7;
-        for (int i = 7; i < 13; i++) {
-            AlphaBeta.findBestTurn(currentBoard, i);
-        }
+//        Board currentBoard = new Board();
+        //int maxAbsoluteDepth = 7;
+//        for (int i = 6; i < 30; i++) {
+//            AlphaBeta.findBestTurn(currentBoard, i);
+//        }
     }    
 }
