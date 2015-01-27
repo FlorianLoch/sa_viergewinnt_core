@@ -7,6 +7,10 @@ package de.dhbw.mbfl.jconnect4lib.ai.alphaBeta;
 
 import de.dhbw.mbfl.jconnect4lib.board.Board;
 import de.dhbw.mbfl.jconnect4lib.board.Size;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.LinkedList;
 
 /**
@@ -19,13 +23,18 @@ public class AlphaBeta {
     private final int maxAbsoluteDepth;
     private long ratedBoards;
     private long cutOffs;
+    
+    private static FileWriter logFile;
 
-    public static void main(String[] args) {
-        Board currentBoard = new Board();
-        //int maxAbsoluteDepth = 7;
+    public static void main(String[] args) throws IOException{
+        logFile = new FileWriter("alphaBeta.log");
+        
         for (int i = 6; i < 30; i++) {
+            Board currentBoard = new Board();
             AlphaBeta.findBestTurn(currentBoard, i);
         }
+        
+        logFile.close();
     }
     
     private AlphaBeta(AlphaBetaRater rater, NextTurnsComputer nextTurnsComputer, int maxAbsoluteDepth) {
@@ -56,12 +65,27 @@ public class AlphaBeta {
         
         AlphaBetaResult result = alg.alphaBeta(currentBoard, currentDepth, Integer.MIN_VALUE, Integer.MAX_VALUE);
         
-        System.out.println("Depth: " + maxAbsoluteDepth);
-        System.out.println("Rated boards: " + alg.ratedBoards);
-        System.out.println("CutOffs: " + alg.cutOffs);
+        log("Depth: " + maxAbsoluteDepth);
+        log("Rated boards: " + alg.ratedBoards);
+        log("CutOffs: " + alg.cutOffs);
         
         return result;
     } 
+    
+    private static void log(String msg) {
+        SimpleDateFormat dateFormatter = new SimpleDateFormat( "yyyy-MM-dd HH:mm:ss.S" );
+        String date = dateFormatter.format(new Date());
+        
+        msg = date + ": " + msg;
+        
+        System.out.println(msg);
+        try {
+            logFile.append(msg + "\n");
+            logFile.flush();
+        } catch (Exception e) {
+            System.out.println("Could not write to log file: " + e);
+        }
+    }
    
     private AlphaBetaResult alphaBeta(Board currentBoard, int currentDepth, int alpha, int beta) {
         if (currentDepth == this.maxAbsoluteDepth) {
