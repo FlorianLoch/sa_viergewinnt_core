@@ -22,3 +22,5 @@ manifest.mf
 .idea
 JConnect4Lib.iml
 /target/
+
+alphaBeta.log
