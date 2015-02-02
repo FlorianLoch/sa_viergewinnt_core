@@ -33,5 +33,5 @@ cd sa_viergewinnt_core
 mvn compile
 
 echo "==> Run"
-echo "cd target/classes"
-echo "java de.dhbw.mbfl.jconnect4lib.ai.alphaBeta.AlphaBeta"
+cd target/classes
+java de.dhbw.mbfl.jconnect4lib.ai.alphaBeta.AlphaBeta
