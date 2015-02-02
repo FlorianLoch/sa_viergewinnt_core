@@ -29,9 +29,12 @@ public class AlphaBeta {
     public static void main(String[] args) throws IOException{
         logFile = new FileWriter("alphaBeta.log");
         
-        for (int i = 6; i < 8; i++) {
+        int[] levelsToCheck;
+        levelsToCheck = new int[]{7, 8, 9, 30, 42, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20};
+        
+        for (int levelToCheck : levelsToCheck) {
             Board currentBoard = new Board();
-            AlphaBeta.findBestTurn(currentBoard, i);
+            AlphaBeta.findBestTurn(currentBoard, levelToCheck);
         }
         
         logFile.close();
