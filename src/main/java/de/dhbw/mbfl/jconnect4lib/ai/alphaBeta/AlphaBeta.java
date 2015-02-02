@@ -29,7 +29,7 @@ public class AlphaBeta {
     public static void main(String[] args) throws IOException{
         logFile = new FileWriter("alphaBeta.log");
         
-        for (int i = 6; i < 30; i++) {
+        for (int i = 6; i < 8; i++) {
             Board currentBoard = new Board();
             AlphaBeta.findBestTurn(currentBoard, i);
         }
@@ -69,6 +69,9 @@ public class AlphaBeta {
         log("Rated boards: " + alg.ratedBoards);
         log("CutOffs: " + alg.cutOffs);
         
+        log("Proposed turn:");
+        log(result.toString());
+        
         return result;
     } 
     
@@ -89,7 +92,7 @@ public class AlphaBeta {
    
     private AlphaBetaResult alphaBeta(Board currentBoard, int currentDepth, int alpha, int beta) {
         if (currentDepth == this.maxAbsoluteDepth) {
-            int value = 0;//this.rater.rate(currentBoard);
+            int value = this.rater.rate(currentBoard);
             this.ratedBoards++;
             return new AlphaBetaResult(null, value, null);
         }
@@ -97,7 +100,7 @@ public class AlphaBeta {
         LinkedList<Board> possibleNextBoards = this.nextTurnsGenerator.computeNextTurns(currentBoard);
         
         if (possibleNextBoards.isEmpty()) {
-            int value = 0;//this.rater.rate(currentBoard);
+            int value = this.rater.rate(currentBoard);
             this.ratedBoards++;
             return new AlphaBetaResult(null, value, null);
         }
@@ -119,7 +122,7 @@ public class AlphaBeta {
                 
                 if (max >= beta) {
                     this.cutOffs++;
-                    //break;
+                    break;
                 }
             }
             return new AlphaBetaResult((bestNextBoard == null) ? null : bestNextBoard.getLastTurn(), max, bestNextTurn);
@@ -138,7 +141,7 @@ public class AlphaBeta {
 
             if (min <= alpha) {
                 this.cutOffs++;
-                //break;
+                break;
             }
         }
         return new AlphaBetaResult((bestNextBoard == null) ? null : bestNextBoard.getLastTurn(), min, bestNextTurn);

@@ -33,4 +33,20 @@ public class AlphaBetaResult {
     public AlphaBetaResult getSubsequentTurn() {
         return this.subsequentTurn;
     }
+    
+    @Override
+    public String toString() {
+        return this.toString(1);
+    }
+    
+    public String toString(int step) {
+        String s = step + ": Value: " + this.value + " | Turn: " + this.computedTurn;
+        s += "\n";
+        
+        if (this.subsequentTurn == null) return s + "End.";
+        
+        s += this.subsequentTurn.toString(step + 1);
+        
+        return s;
+    }
 }
