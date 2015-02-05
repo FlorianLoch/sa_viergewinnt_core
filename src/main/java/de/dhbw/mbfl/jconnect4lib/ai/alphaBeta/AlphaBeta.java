@@ -18,7 +18,7 @@ import java.util.LinkedList;
  * @author florian
  */
 public class AlphaBeta {
-    private final AlphaBetaRater rater;
+    private final BoardRater rater;
     private final NextTurnsComputer nextTurnsGenerator;
     private final int maxAbsoluteDepth;
     private long ratedBoards;
@@ -37,7 +37,7 @@ public class AlphaBeta {
         logFile.close();
     }
     
-    private AlphaBeta(AlphaBetaRater rater, NextTurnsComputer nextTurnsComputer, int maxAbsoluteDepth) {
+    private AlphaBeta(BoardRater rater, NextTurnsComputer nextTurnsComputer, int maxAbsoluteDepth) {
         if (rater == null) rater = new DefaultAlphaBetaRater();
         this.rater = rater;
         
@@ -54,7 +54,7 @@ public class AlphaBeta {
         return findBestTurn(currentBoard, maxAbsoluteDepth, null, null);
     }
     
-    public static AlphaBetaResult findBestTurn(Board currentBoard, int maxAbsoluteDepth, AlphaBetaRater rater, NextTurnsComputer nextTurnsComputer) {        
+    public static AlphaBetaResult findBestTurn(Board currentBoard, int maxAbsoluteDepth, BoardRater rater, NextTurnsComputer nextTurnsComputer) {        
         int currentDepth = currentBoard.getTurnCount();
         
         if (currentDepth > maxAbsoluteDepth) throw new IllegalArgumentException("The game's depth is already higher than the maxAbsoluteDepth.");

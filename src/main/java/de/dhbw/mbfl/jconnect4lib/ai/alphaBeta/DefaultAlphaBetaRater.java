@@ -12,7 +12,7 @@ import de.dhbw.mbfl.jconnect4lib.board.Stone;
  *
  * @author florian
  */
-class DefaultAlphaBetaRater implements AlphaBetaRater {
+class DefaultAlphaBetaRater implements BoardRater {
 
     @Override
     public int rate(Board board) {

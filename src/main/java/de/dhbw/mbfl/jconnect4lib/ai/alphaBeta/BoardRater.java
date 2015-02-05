@@ -11,7 +11,7 @@ import de.dhbw.mbfl.jconnect4lib.board.Board;
  *
  * @author florian
  */
-public interface AlphaBetaRater {
+public interface BoardRater {
     
     public int rate(Board board);
     
