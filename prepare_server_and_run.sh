@@ -4,6 +4,9 @@ sudo apt-get -y install git
 echo "==> SCREEN"
 sudo apt-get -y install screen
 
+echo "==> XCLIP"
+sudo apt-get -y install xclip
+
 echo "==> VIM"
 sudo apt-get -y install vim
 
@@ -34,4 +37,4 @@ mvn compile
 
 echo "==> Run"
 cd target/classes
-java de.dhbw.mbfl.jconnect4lib.ai.alphaBeta.AlphaBeta
+java de.dhbw.mbfl.jconnect4lib.ai.alphaBeta.AlphaBeta num_level
