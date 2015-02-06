@@ -27,6 +27,33 @@ public class BoardTest extends EasyMockSupport
         Size.BOARD.unlog().changeSize(7, 6);
     }
     
+    @Test
+    public void testArrayAccess() {
+        int[][] a = new int[4][4];
+        
+        assertTrue(a[0].length == 4);
+    }
+    
+    @Test
+    public void testPositionIterator() {
+        int counter = 0;
+        int boardSize = Size.BOARD.column() * Size.BOARD.row();
+        Stone[] positions = new Stone[boardSize];
+        
+        Board instance = new Board();
+        instance.addStone(new Position(1, 2), Stone.RED);
+        instance.addStone(new Position(0), Stone.YELLOW);
+       
+        for (Stone stone : instance) {
+            positions[counter] = stone;
+            counter++;
+        }
+        
+        assertTrue(counter == boardSize);
+        assertTrue(positions[1 + 2 * Size.BOARD.column()] == Stone.RED);
+        assertTrue(positions[0] == Stone.YELLOW);
+    }
+    
     /**
      * Tests if the method addStone throws an OutOfBoard exeption
      */

@@ -3,13 +3,13 @@ package de.dhbw.mbfl.jconnect4lib.board;
 import de.dhbw.mbfl.jconnect4lib.exceptions.OutOfBoardException;
 import de.dhbw.mbfl.jconnect4lib.exceptions.PositionOccupiedException;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  *
  * @author Maurice Busch & Florian Loch
  */
-public class Board {
-
+public class Board implements Iterable<Stone> {
     public static final int STATE_WIN = 2;
     public static final int STATE_REMI = 1;
     public static final int STATE_NOTYETOVER = 0;
@@ -29,7 +29,7 @@ public class Board {
         this.board = board;
         this.log = log;
     }
-    
+
     /**
      * Adds a stone to the board.
      * @param pos
@@ -284,4 +284,22 @@ public class Board {
 
         return null;
     }    
+
+    @Override
+    public Iterator<Stone> iterator() {
+        return new Iterator<Stone>() {
+            private int index = 0;
+            private int size = board.length * board[0].length;
+            
+            @Override
+            public boolean hasNext() {
+                return index < size;
+            }
+
+            @Override
+            public Stone next() {
+                return getStone(new Position(index++));
+            }
+        };
+    }
 }
