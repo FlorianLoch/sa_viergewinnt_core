@@ -30,6 +30,30 @@ public class Board implements Iterable<Stone> {
         this.log = log;
     }
 
+    public BoardIdentity computeBoardIdentity() {
+        return new BoardIdentity(this);
+    }
+    
+    public boolean areBoardOccupationsEqual(Object o) {
+        if (!(o instanceof Board)) return false;
+            
+        Board b = (Board) o;
+        
+        if (this.size() != b.size()) return false;
+        
+        Iterator<Stone> iter = b.iterator();
+        
+        for (Stone s : this) {
+            if (iter.next() != s) return false;
+        }
+        
+        return true;
+    }
+    
+    public int size() {
+        return board.length * board[0].length;
+    }
+    
     /**
      * Adds a stone to the board.
      * @param pos
@@ -39,6 +63,8 @@ public class Board implements Iterable<Stone> {
      * @return Board for chaining
      */
     public Board addStone(Position pos, Stone stone) throws PositionOccupiedException, OutOfBoardException {
+ 
+        
         if (!this.isOnBoard(pos)) throw new OutOfBoardException(pos);
         if (this.getStone(pos) != null) throw new PositionOccupiedException(pos);
         

@@ -43,6 +43,7 @@ public class BoardTest extends EasyMockSupport
         Board instance = new Board();
         instance.addStone(new Position(1, 2), Stone.RED);
         instance.addStone(new Position(0), Stone.YELLOW);
+        instance.addStone(new Position(41), Stone.RED);
        
         for (Stone stone : instance) {
             positions[counter] = stone;
@@ -52,6 +53,7 @@ public class BoardTest extends EasyMockSupport
         assertTrue(counter == boardSize);
         assertTrue(positions[1 + 2 * Size.BOARD.column()] == Stone.RED);
         assertTrue(positions[0] == Stone.YELLOW);
+        assertEquals(positions[41], Stone.RED);
     }
     
     /**
@@ -656,5 +658,22 @@ public class BoardTest extends EasyMockSupport
         assertEquals(possiblePositions.get(4), new Position(4, 0));
         assertEquals(possiblePositions.get(5), new Position(5, 0));
         assertEquals(possiblePositions.get(6), new Position(6, 0));
+    }
+    
+    @Test
+    public void testAreBoardOccupationsEqual() {
+        Board board = new Board();
+        board.addStone(new Position(0, 0), Stone.RED);
+        board.addStone(new Position(41), Stone.YELLOW);
+        
+        Board board2 = new Board();
+        board2.addStone(new Position(0, 0), Stone.RED);
+        board2.addStone(new Position(41), Stone.YELLOW);   
+        
+        assertTrue(board.areBoardOccupationsEqual(board2));
+        
+        board2.addStone(new Position(20), Stone.RED);
+        
+        assertFalse(board.areBoardOccupationsEqual(board2));
     }
 }

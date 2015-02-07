@@ -37,7 +37,7 @@ public class Board2Test {
         
         Board clone = b.clone();
        
-        assertNotEquals(b, clone);
+        assertNotSame(b, clone);
         assertEquals(clone.getStone(new Position(10)), Stone.RED);
         assertEquals(clone.getStone(new Position(12)), Stone.YELLOW);     
         assertEquals(clone.getLastTurn(), new Position(12));
