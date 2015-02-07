@@ -19,8 +19,8 @@ class DefaultNextTurnsComputer implements NextTurnsComputer {
 
     @Override
     public LinkedList<Board> computeNextTurns(Board currentBoard) {
-        LinkedList<Board> possibleTurns = new LinkedList<>();
-        LinkedList<Board> sortedPossibleTurns = new LinkedList<>();
+        LinkedList<Board> possibleTurns = new LinkedList<Board>();
+        LinkedList<Board> sortedPossibleTurns = new LinkedList<Board>();
         
         if (currentBoard.turnEndedGame() != Board.STATE_NOTYETOVER) return sortedPossibleTurns;
         

@@ -16,7 +16,7 @@ import java.util.ArrayList;
  */
 public class PatternRater implements BoardRater {
 
-    final private ArrayList<PatternDetector> detectors = new ArrayList<>();
+    final private ArrayList<PatternDetector> detectors = new ArrayList<PatternDetector>();
 
     public PatternRater() {
         

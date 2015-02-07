@@ -42,7 +42,7 @@ public class Game {
      * @return 
      */
     private static ArrayList<Validator> initValidatorList() {
-        ArrayList<Validator> validators = new ArrayList<>();
+        ArrayList<Validator> validators = new ArrayList<Validator>();
         validators.add(new NoChangeValidator());
         validators.add(new InvalidPositionValidator());
         validators.add(new MoreThanOneValidator());

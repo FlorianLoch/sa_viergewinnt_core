@@ -16,7 +16,7 @@ public class Node<T> implements Iterable<T> {
     private ArrayList<T> children;
 
     public Node() {
-        this.children = new ArrayList<>();
+        this.children = new ArrayList<T>();
     }
     
     public void addChild(T n) {

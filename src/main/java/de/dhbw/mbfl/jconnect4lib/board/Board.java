@@ -3,6 +3,7 @@ package de.dhbw.mbfl.jconnect4lib.board;
 import de.dhbw.mbfl.jconnect4lib.exceptions.OutOfBoardException;
 import de.dhbw.mbfl.jconnect4lib.exceptions.PositionOccupiedException;
 import java.util.ArrayList;
+import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 
 /**
@@ -22,7 +23,7 @@ public class Board implements Iterable<Stone> {
     public Board()
     {
         board = new Stone[Size.BOARD.row()][Size.BOARD.column()];
-        log = new ArrayList<>();
+        log = new ArrayList<Position>();
     }
 
     private Board(Stone[][] board, ArrayList<Position> log) {
@@ -98,7 +99,7 @@ public class Board implements Iterable<Stone> {
      * @return differences
      */
     public ArrayList<Difference> determineDifferences(Board newBoard) {
-        ArrayList<Difference> dif = new ArrayList<>();
+        ArrayList<Difference> dif = new ArrayList<Difference>();
 
         for (int i = 0; i < Size.BOARD.column() * Size.BOARD.row(); i++) {
             Position pos = new Position(i);
@@ -248,7 +249,7 @@ public class Board implements Iterable<Stone> {
             }
         }
         
-        ArrayList<Position> tmpLog = new ArrayList<>();
+        ArrayList<Position> tmpLog = new ArrayList<Position>();
         for (Position p : this.log) {
             tmpLog.add(p.clone());
         }
@@ -325,6 +326,11 @@ public class Board implements Iterable<Stone> {
             @Override
             public Stone next() {
                 return getStone(new Position(index++));
+            }
+
+            @Override
+            public void remove() {
+                throw new ConcurrentModificationException("Stone cannot be removed from Board. This shall not be possible.");
             }
         };
     }

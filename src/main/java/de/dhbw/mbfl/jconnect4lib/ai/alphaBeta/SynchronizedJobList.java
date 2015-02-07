@@ -15,7 +15,7 @@ public class SynchronizedJobList {
     private ArrayList<AlphaBetaNode> list;
 
     public SynchronizedJobList() {
-        this.list = new ArrayList<>();
+        this.list = new ArrayList<AlphaBetaNode>();
     }
     
     public synchronized void addJob(AlphaBetaNode job) {
