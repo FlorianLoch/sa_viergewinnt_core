@@ -4,4 +4,4 @@ jdk:
   - oraclejdk7
   - openjdk6
 after_success:
-  - mvn clean test jacoco:report coveralls:report -DrepoToken=$COVERALLS_ID
+  - mvn clean test jacoco:report coveralls:report
