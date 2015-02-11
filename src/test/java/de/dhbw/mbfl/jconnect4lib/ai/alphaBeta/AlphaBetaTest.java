@@ -5,13 +5,11 @@
  */
 package de.dhbw.mbfl.jconnect4lib.ai.alphaBeta;
 
-import de.dhbw.mbfl.jconnect4lib.board.Board;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 /**
  *
