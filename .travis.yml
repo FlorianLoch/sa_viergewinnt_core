@@ -1,7 +1,18 @@
 language: java
+
 jdk:
-  - oraclejdk8
-  - oraclejdk7
-  - openjdk6
+   - openjdk7
+   - oraclejdk7
+   - openjdk6
+   - oraclejdk8
+
 after_success:
-  - mvn clean test jacoco:report #coveralls:report -DrepoToken=$COVERALLS_ID
+   - mvn clean cobertura:cobertura
+   - mvn test
+
+#jdk:
+#  - oraclejdk8
+#  - oraclejdk7
+#  - openjdk6
+#after_success:
+#  - mvn clean test jacoco:report #coveralls:report -DrepoToken=$COVERALLS_ID
