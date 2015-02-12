@@ -22,15 +22,14 @@ public class Board implements Iterable<Stone> {
 
     public Board()
     {
-        board = new Stone[Size.BOARD.row()][Size.BOARD.column()];
-        log = new ArrayList<Position>();
+        this(new Stone[Size.BOARD.row()][Size.BOARD.column()], new ArrayList<Position>());
     }
 
     private Board(Stone[][] board, ArrayList<Position> log) {
         this.board = board;
         this.log = log;
     }
-
+    
     public BoardIdentity computeBoardIdentity() {
         return new BoardIdentity(this);
     }
@@ -200,6 +199,25 @@ public class Board implements Iterable<Stone> {
             return null;
         }
         return this.log.get(getTurnCount() - 1);
+    }
+    
+    /**
+     * Returns true if there are no more posible turns and false if there are more.
+     * @return 
+     */
+    public boolean isBoardFull()
+    {
+        return (getTurnCount() == Size.BOARD.column() * Size.BOARD.row());
+    }
+    
+    /**
+     * Returns true if the game can be contiuned. If the Method returns false someone has wone
+     * the game or the board is full
+     * @return 
+     */
+    public boolean isGameRunning()
+    {
+        return (! this.isBoardFull() && this.turnEndedGame() == 0);
     }
     
     /**

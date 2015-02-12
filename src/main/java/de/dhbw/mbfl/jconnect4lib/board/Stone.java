@@ -24,6 +24,20 @@ public enum Stone {
     }
     
     /**
+     * Returns the other Stone.
+     * @return Stone
+     */
+    public Stone getOtherStone()
+    {
+        if(this == YELLOW)
+        {
+            return RED;
+        }
+        
+        return YELLOW;
+    }
+    
+    /**
      * Returns the discription of the stone.
      * @return discription
      */
