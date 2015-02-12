@@ -92,7 +92,7 @@
                     <message>Creating artifact for ${project.artifactId} ${project.version}</message>  <!-- git commit message -->
                     <noJekyll>true</noJekyll>                                  <!-- disable webpage processing -->
                     <outputDirectory>${project.build.directory}/mvn-repo</outputDirectory> <!-- matches distribution management repository url above -->
-                      <!-- remote branch name -->
+                    <!--<branch>refs/heads/mvn-repo</branch>     -->                  <!-- remote branch name -->
                     <includes>
                         <include>**/*</include>
                     </includes>
