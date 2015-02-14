@@ -1,3 +1,5 @@
+.idea/
+
 *.ds_store
 
 nbproject/private/
