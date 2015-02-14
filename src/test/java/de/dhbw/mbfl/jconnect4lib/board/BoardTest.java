@@ -45,8 +45,8 @@ public class BoardTest extends EasyMockSupport
         instance.addStone(new Position(0), Stone.YELLOW);
         instance.addStone(new Position(41), Stone.RED);
        
-        for (Stone stone : instance) {
-            positions[counter] = stone;
+        for (Position p : instance) {
+            positions[counter] = instance.getStone(p);
             counter++;
         }
         

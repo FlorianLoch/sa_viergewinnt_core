@@ -47,6 +47,10 @@ public enum Size
         return this.column;
     }
     
+    public int size() {
+        return this.column * this.row;
+    }
+    
     public int row()
     {
         return this.row;

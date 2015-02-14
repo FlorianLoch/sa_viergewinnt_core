@@ -7,6 +7,7 @@ package de.dhbw.mbfl.jconnect4lib;
 
 import de.dhbw.mbfl.jconnect4lib.ai.EasyAI;
 import de.dhbw.mbfl.jconnect4lib.ai.RandomAI;
+import de.dhbw.mbfl.jconnect4lib.ai.alphaBeta.AlphaBetaAI;
 import de.dhbw.mbfl.jconnect4lib.board.Board;
 import de.dhbw.mbfl.jconnect4lib.board.Position;
 import de.dhbw.mbfl.jconnect4lib.board.Stone;
@@ -26,7 +27,9 @@ public class Game4Commandline
      */
     public static void main(String[] args)
     {
-        Game game = new Game(new EasyAI(), Stone.YELLOW);
+        AlphaBetaAI ai = new AlphaBetaAI();
+        Game game = new Game(ai, Stone.YELLOW);
+        
         Scanner input = new Scanner(System.in);        
         int col = 0;
         int row = 0;

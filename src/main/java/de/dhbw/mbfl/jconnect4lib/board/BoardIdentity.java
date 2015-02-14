@@ -27,7 +27,9 @@ public class BoardIdentity {
     
     private void convertBoardToBitSet(Board board) {
         int i = 0;
-        for (Stone s : board) {
+        for (Position p : board) {
+            Stone s = board.getStone(p);
+            
             if (s == Stone.YELLOW) bits.set(i + 1);
             if (s == Stone.RED) bits.set(i);
             i += 2;

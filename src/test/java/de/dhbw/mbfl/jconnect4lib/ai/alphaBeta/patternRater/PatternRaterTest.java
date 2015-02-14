@@ -5,6 +5,7 @@
  */
 package de.dhbw.mbfl.jconnect4lib.ai.alphaBeta.patternRater;
 
+import de.dhbw.mbfl.jconnect4lib.ai.alphaBeta.RatingResult;
 import de.dhbw.mbfl.jconnect4lib.board.Board;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -19,15 +20,18 @@ public class PatternRaterTest {
      */
     @Test
     public void testRateWithDefaultWeighting() {
+        final Board b = new Board();
+
         PatternRater instance = new PatternRater();
         instance.addPatternDetector(new PatternDetector() {
             @Override
-            public int searchPattern(Board board) {
-                assertTrue(board == null);
-                return 42;
+            protected RatingResult searchPatternImpl(Board board) {
+                assertTrue(board == b);
+                return new RatingResult(84, 42);
             }
         });
-        int rating = instance.rate(null);
+
+        int rating = instance.rate(b);
         assertTrue(rating == 42);
     }
 
@@ -36,12 +40,14 @@ public class PatternRaterTest {
         PatternRater instance = new PatternRater();
         instance.addPatternDetector(new PatternDetector() {
             @Override
-            public int searchPattern(Board board) {
-                assertTrue(board == null);
-                return 42;
+            protected RatingResult searchPatternImpl(Board board) {
+                assertTrue(board != null);
+                return new RatingResult(84, 42);
             }
         }, 3);
-        int rating = instance.rate(null);
-        assertTrue(rating == 126);
+
+        Board b = new Board();
+        int rating = instance.rate(b);
+        assertEquals("Rating should be 3 * 42", rating, 126);
     }    
 }

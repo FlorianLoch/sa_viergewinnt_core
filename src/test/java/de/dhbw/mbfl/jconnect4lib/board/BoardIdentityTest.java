@@ -43,7 +43,8 @@ public class BoardIdentityTest {
         Board reconstructedBoard = instance.reconstructBoard();
         
         int i = 0;
-        for (Stone s : reconstructedBoard) {
+        for (Position p : reconstructedBoard) {
+            Stone s = reconstructedBoard.getStone(p);
             if (i == 0 || i == 20) assertEquals(s, Stone.RED);
             else if (i == 41) assertEquals(s, Stone.YELLOW);
             else assertEquals(s, null);

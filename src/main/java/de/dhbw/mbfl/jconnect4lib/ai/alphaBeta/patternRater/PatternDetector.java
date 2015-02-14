@@ -6,7 +6,9 @@
 
 package de.dhbw.mbfl.jconnect4lib.ai.alphaBeta.patternRater;
 
+import de.dhbw.mbfl.jconnect4lib.ai.alphaBeta.RatingResult;
 import de.dhbw.mbfl.jconnect4lib.board.Board;
+import de.dhbw.mbfl.jconnect4lib.board.Stone;
 
 /**
  *
@@ -15,12 +17,22 @@ import de.dhbw.mbfl.jconnect4lib.board.Board;
 public abstract class PatternDetector {
     // The default weighting for any pattern is initially 1
     private int weighting = 1;
+    protected Board board;
     
     /**
      * @param board The board on which the pattern shall be searched
      * @return How often the pattern has been found
     */
-    public abstract int searchPattern(Board board);
+    public RatingResult searchPattern(Board board) {
+        this.board = board;
+        return this.searchPatternImpl(this.board);
+    }
+    
+    protected abstract RatingResult searchPatternImpl(Board board);
+    
+    protected Stone getPlayerToRateFor() {
+        return this.board.getLastStone();
+    }
     
     public int getWeighting() {
         return this.weighting;

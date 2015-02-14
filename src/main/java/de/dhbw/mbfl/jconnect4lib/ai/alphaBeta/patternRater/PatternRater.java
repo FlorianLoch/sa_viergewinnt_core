@@ -7,6 +7,8 @@
 package de.dhbw.mbfl.jconnect4lib.ai.alphaBeta.patternRater;
 
 import de.dhbw.mbfl.jconnect4lib.ai.alphaBeta.BoardRater;
+import de.dhbw.mbfl.jconnect4lib.ai.alphaBeta.RatingResult;
+
 import de.dhbw.mbfl.jconnect4lib.board.Board;
 import java.util.ArrayList;
 
@@ -14,12 +16,12 @@ import java.util.ArrayList;
  *
  * @author Florian Loch (florian dot loch at gmail dot com)
  */
-public class PatternRater implements BoardRater {
+public class PatternRater extends BoardRater {
 
-    final private ArrayList<PatternDetector> detectors = new ArrayList<PatternDetector>();
+    final private ArrayList<PatternDetector> detectors;
 
     public PatternRater() {
-        
+        this.detectors = new ArrayList<PatternDetector>();
     }
     
     public void addPatternDetector(PatternDetector detector) {
@@ -36,13 +38,14 @@ public class PatternRater implements BoardRater {
     }
 
     @Override
-    public int rate(Board board) {
-        int rating = 0;
-        
+    protected RatingResult rateImpl(Board board) {
+        RatingResult rating = new RatingResult(0, 0);
+
         for (PatternDetector d : this.detectors) {
-            rating += d.getWeighting() * d.searchPattern(board);
+            RatingResult r = d.searchPattern(board);
+            rating.addRating(r, d.getWeighting());
         }
         
         return rating;
-    }    
+    }
 }

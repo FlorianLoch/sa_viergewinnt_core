@@ -10,7 +10,7 @@ import java.util.Iterator;
  *
  * @author Maurice Busch & Florian Loch
  */
-public class Board implements Iterable<Stone> {
+public class Board implements Iterable<Position> {
     public static final int STATE_WIN = 2;
     public static final int STATE_REMI = 1;
     public static final int STATE_NOTYETOVER = 0;
@@ -41,10 +41,10 @@ public class Board implements Iterable<Stone> {
         
         if (this.size() != b.size()) return false;
         
-        Iterator<Stone> iter = b.iterator();
+        Iterator<Position> iter = b.iterator();
         
-        for (Stone s : this) {
-            if (iter.next() != s) return false;
+        for (Position p : this) {
+            if (b.getStone(iter.next()) != getStone(p)) return false;
         }
         
         return true;
@@ -331,8 +331,8 @@ public class Board implements Iterable<Stone> {
     }    
 
     @Override
-    public Iterator<Stone> iterator() {
-        return new Iterator<Stone>() {
+    public Iterator<Position> iterator() {
+        return new Iterator<Position>() {
             private int index = 0;
             private int size = board.length * board[0].length;
             
@@ -342,8 +342,8 @@ public class Board implements Iterable<Stone> {
             }
 
             @Override
-            public Stone next() {
-                return getStone(new Position(index++));
+            public Position next() {
+                return new Position(index++);
             }
 
             @Override
