@@ -18,15 +18,20 @@ import de.dhbw.mbfl.jconnect4lib.board.Stone;
  * @author Florian Loch (florian dot loch at gmail dot com)
  */
 public class AlphaBetaAI implements AI {
-    public static final int MAX_DEPTH = 8;
-    
-    @Override
-    public Position calculateTurn(Board board, Stone stoneAI) {
+    public static final int MAX_DEPTH = 9; //This causes the AI to make an odd number of foresight steps. This leads to better results than using an even amount of steps
+
+    public Position calculateTurn(Board board, Stone stoneAI, int maxDepth) {
         PatternRater patternRater = new PatternRater();
         patternRater.addPatternDetector(new MiddleColumns());
         
-        AlphaBetaResult res = AlphaBeta.findBestTurn(board, MAX_DEPTH, patternRater, null);
+        AlphaBetaResult res = AlphaBeta.findBestTurn(board, maxDepth, patternRater, null);
         
         return res.getComputedTurn();
+    }
+
+
+    @Override
+    public Position calculateTurn(Board board, Stone stoneAI) {
+        return this.calculateTurn(board, stoneAI, MAX_DEPTH);
     }
 }

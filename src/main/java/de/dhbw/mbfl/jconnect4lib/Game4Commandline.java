@@ -29,7 +29,7 @@ public class Game4Commandline
     {
         AlphaBetaAI ai = new AlphaBetaAI();
         Game game = new Game(ai, Stone.YELLOW);
-        
+
         Scanner input = new Scanner(System.in);        
         int col = 0;
         int row = 0;
