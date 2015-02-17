@@ -60,8 +60,7 @@ public class AlphaBeta {
         if (maxDepth > Size.BOARD.size()) maxDepth = 42; //Actually Size.Board.size()-1 is the last playable level, but Size.Board.size() is needed for evaluating that turn
         
         if (currentBoard.turnEndedGame() != Board.STATE_NOTYETOVER) throw new IllegalArgumentException("The game associated with the given board is already over.");
-        if (maxDepth > Size.BOARD.column() * Size.BOARD.row()) throw new IllegalArgumentException("MaxAbosluteDepth can not be greater than the maximal possible turn count.");
-        
+
         AlphaBeta alg = new AlphaBeta(rater, nextTurnsComputer, maxDepth);        
         
         AlphaBetaResult result = alg.alphaBeta(currentBoard, currentDepth, Integer.MIN_VALUE, Integer.MAX_VALUE);
@@ -120,7 +119,7 @@ public class AlphaBeta {
             int max = alpha;
             for (Board b : possibleNextBoards) {
                 AlphaBetaResult result = alphaBeta(b, currentDepth + 1, max, beta);
-                
+
                 if (result.getValue() > max) {
                     max = result.getValue();
                     bestNextTurn = result; 
