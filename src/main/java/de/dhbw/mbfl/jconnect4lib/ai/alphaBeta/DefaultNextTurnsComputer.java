@@ -8,7 +8,6 @@ package de.dhbw.mbfl.jconnect4lib.ai.alphaBeta;
 import de.dhbw.mbfl.jconnect4lib.board.Board;
 import de.dhbw.mbfl.jconnect4lib.board.Position;
 import de.dhbw.mbfl.jconnect4lib.board.Stone;
-import java.util.ArrayList;
 import java.util.LinkedList;
 
 /**
@@ -25,7 +24,7 @@ class DefaultNextTurnsComputer implements NextTurnsComputer {
         if (currentBoard.turnEndedGame() != Board.STATE_NOTYETOVER) return sortedPossibleTurns;
         
         //Who's turn is it?
-        Stone who = (currentBoard.getLastStone() == Stone.RED) ? Stone.YELLOW : Stone.RED;
+        Stone who = (currentBoard.getLastStone() == Stone.YELLOW) ? Stone.RED : Stone.YELLOW;
         
         //Try to add a stone in each column
         for (Position p : currentBoard.determinePossiblePositions()) {
