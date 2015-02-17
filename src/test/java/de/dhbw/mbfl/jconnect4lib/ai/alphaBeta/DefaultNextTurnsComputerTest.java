@@ -22,10 +22,10 @@ public class DefaultNextTurnsComputerTest {
     }
 
     /**
-     * Test of computeNextTurns method, of class DefaultNextTurnsComputer.
+     * Test of computeNextTurns method of class DefaultNextTurnsComputer.
      */
     @Test
-    public void testComputeNextTurns() {;
+    public void testComputeNextTurnsWinSituation() {
         DefaultNextTurnsComputer instance = new DefaultNextTurnsComputer();
     
         Board currentBoard = new Board();
@@ -41,5 +41,32 @@ public class DefaultNextTurnsComputerTest {
 
         assertTrue("No more turns get computed for this board", instance.computeNextTurns(currentBoard).isEmpty());
     }
-    
+
+    @Test
+    public void testComputeNextTurnsStartSituation() {
+        DefaultNextTurnsComputer instance = new DefaultNextTurnsComputer();
+
+        LinkedList<Board> expected = new LinkedList<Board>();
+        for (int i = 0; i < 7; i++) {
+            Board b = new Board();
+            b.addStone(new Position(i, 0), Stone.YELLOW);
+            expected.add(b);
+        }
+        int expectedBoardsCount = expected.size();
+
+        Board board = new Board();
+        LinkedList<Board> list = instance.computeNextTurns(board);
+
+        for (Board b : list) {
+            for (Board b2 : expected) {
+                if (b.areBoardOccupationsEqual(b2)) {
+                    expected.remove(b2);
+                    break;
+                }
+            }
+        }
+
+        assertEquals("All expected board should have been computed", expected.size(), 0);
+        assertEquals("Not more then the expected boards should have been computed", expectedBoardsCount, list.size());
+    }
 }

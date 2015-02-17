@@ -8,7 +8,7 @@ import static org.junit.Assert.*;
 
 public class AlphaBetaAITest {
     @Test
-    public void testRatingIsIdempotent() {
+    public void testTurnGenerationIsIdempotent() {
         AlphaBetaAI instance = new AlphaBetaAI();
         Board board = new Board();
         Board clone;
@@ -18,14 +18,14 @@ public class AlphaBetaAITest {
         clone = board.clone();
 
         Position p = instance.calculateTurn(board, Stone.RED);
-        assertEquals(new Position("F1"), p);
+        assertEquals(new Position("D1"), p);
 
-        assertEquals(clone, board);
+        assertTrue(board.areBoardOccupationsEqual(clone));
     }
 
 
     @Test
-    public void testCalculateOddTurn() {
+    public void testCalculateEvenTurn() {
         AlphaBetaAI instance = new AlphaBetaAI();
         Board board = new Board();
 
@@ -73,18 +73,24 @@ public class AlphaBetaAITest {
     }
 
     @Test
-    public void testCalculateEvenTurn() {
+    public void testCalculateOddTurn() {
         AlphaBetaAI instance = new AlphaBetaAI();
         Board board = new Board();
 
-        Position p = instance.calculateTurn(board, Stone.YELLOW, 1);
+        Position p2 = instance.calculateTurn(board, Stone.YELLOW, 1);
+
+        assertEquals(new Position("D1"), p2);
+
+        board.addStone(new Position("B1"), Stone.YELLOW);
+
+        Position p = instance.calculateTurn(board, Stone.RED, 2);
         assertEquals(new Position("D1"), p);
 
         board.addStone(p, Stone.YELLOW);
         board.addStone(new Position("D2"), Stone.RED);
 
         p = instance.calculateTurn(board, Stone.YELLOW);
-        assertEquals(new Position("D3"), p);
+        assertEquals(new Position("C1"), p);
     }
 
     @Test
