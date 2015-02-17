@@ -111,7 +111,7 @@ public class AlphaBeta {
         
         AlphaBetaResult bestNextTurn = null;
         Board bestNextBoard = null;
-        
+
         //if maximize
         //This also means, that (we expect that human player always starts right now) values of the AI 
         //are better the lower the number is and vice versa for the human player
