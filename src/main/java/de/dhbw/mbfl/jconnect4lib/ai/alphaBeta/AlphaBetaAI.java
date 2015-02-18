@@ -19,15 +19,22 @@ import de.dhbw.mbfl.jconnect4lib.board.Position;
 public class AlphaBetaAI implements AI {
     public static final int MAX_DEPTH = 6; //This causes the AI to make an odd number of foresight steps. This leads to better results than using an even amount of steps
 
-    public Position calculateTurn(Board board, int maxDepth) {
+    public Position calculateTurn(Board board, int depth) {
         PatternRater patternRater = new PatternRater();
         patternRater.addPatternDetector(new MiddleColumns());
-        
-        AlphaBetaResult res = AlphaBeta.findBestTurn(board, maxDepth, patternRater, null);
+
+        int adaptiveDepth = computeAdaptiveSearchDepth(board, depth);
+
+        AlphaBetaResult res = AlphaBeta.findBestTurn(board, adaptiveDepth, patternRater, null);
         
         return res.getComputedTurn();
     }
 
+    private static int computeAdaptiveSearchDepth(Board board, int startDepth) {
+        int turnsPlayed = board.getTurnCount();
+
+        return startDepth + (turnsPlayed / 4);
+    }
 
     @Override
     public Position calculateTurn(Board board) {

@@ -80,7 +80,7 @@ public class Game4Commandline
         do {
             System.out.println("Please enter a valid field: ");
             posStr = input.nextLine().toUpperCase();
-        } while ((pos = Position.parsePosition(posStr)) == null);
+        } while ((pos = new Position(posStr)) == null);
         
         return pos;
     }

@@ -111,7 +111,7 @@ public class Position {
      * @param posStr
      * @return position
      */
-    public static Position parsePosition(String posStr) {
+    private static Position parsePosition(String posStr) {
         posStr = posStr.toUpperCase();
         
         if (posStr.length() != 2) return null;

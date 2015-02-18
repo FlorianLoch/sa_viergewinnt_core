@@ -64,6 +64,21 @@ public class Board implements Iterable<Position> {
     public Board addStone(Position pos) throws PositionOccupiedException, OutOfBoardException {      
         return this.addStone(pos, this.nextStone());
     }
+
+    /**
+     * Adds a stone to the board.
+     * @param posStr
+     * @throws PositionOccupiedException
+     * @throws OutOfBoardException
+     * @return Board for chaining
+     */
+    public Board addStone(String posStr) throws PositionOccupiedException, OutOfBoardException {
+        Position pos = new Position(posStr);
+
+        if (pos == null) throw new IllegalArgumentException("Given position string cannot be parsed!");
+
+        return this.addStone(pos, this.nextStone());
+    }
     
     /**
      * Adds a stone to the board.

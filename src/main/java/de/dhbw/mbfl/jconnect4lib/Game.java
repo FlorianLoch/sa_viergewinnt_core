@@ -101,8 +101,6 @@ public class Game {
      * @throws ValidationException 
      */
     private Position handleUserTurn(Board board) throws ValidationException {
-        // TODO Run validators, if differnce list only contains one item (only if this is a valid difference) 
-        // this is the lastTurn done which can be given to the AI
         ArrayList<Difference> differences = this.board.determineDifferences(board);
         
         try {
@@ -115,7 +113,7 @@ public class Game {
         
         return differences.get(0).getPosition();
     }
-    
+
     /**
      * Returns the position of the last move.
      * @return position
@@ -123,7 +121,7 @@ public class Game {
     public Position getLastTurn() {
         return this.board.getLastTurn();
     }
-    
+
     /**
      * Gives the board as a string
      * @return board as string

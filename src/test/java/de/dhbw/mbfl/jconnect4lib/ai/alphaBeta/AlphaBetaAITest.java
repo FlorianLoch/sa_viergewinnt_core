@@ -1,6 +1,7 @@
 package de.dhbw.mbfl.jconnect4lib.ai.alphaBeta;
 
 import de.dhbw.mbfl.jconnect4lib.board.Board;
+import de.dhbw.mbfl.jconnect4lib.board.BoardUtils;
 import de.dhbw.mbfl.jconnect4lib.board.Position;
 import de.dhbw.mbfl.jconnect4lib.board.Stone;
 import org.junit.Test;
@@ -95,53 +96,18 @@ public class AlphaBetaAITest {
 
     @Test
     public void testCalculateTurnEndSituation() {
-//        AlphaBetaAI instance = new AlphaBetaAI();
-//        Board board = new Board();
-//
-//        board.addStone(new Position("B1"), Stone.YELLOW);
-//        board.addStone(new Position("D1"), Stone.YELLOW);
-//        board.addStone(new Position("E1"), Stone.YELLOW);
-//        board.addStone(new Position("F1"), Stone.YELLOW);
-//        board.addStone(new Position("DT2"), Stone.YELLOW);
-//        board.addStone(new Position("E2"), Stone.YELLOW);
-//        board.addStone(new Position("G2"), Stone.YELLOW);
-//        board.addStone(new Position("A3"), Stone.YELLOW);
-//        board.addStone(new Position("E3"), Stone.YELLOW);
-//        board.addStone(new Position("F3"), Stone.YELLOW);
-//        board.addStone(new Position("C4"), Stone.YELLOW);
-//        board.addStone(new Position("D4"), Stone.YELLOW);
-//        board.addStone(new Position("G4"), Stone.YELLOW);
-//        board.addStone(new Position("A5"), Stone.YELLOW);
-//        board.addStone(new Position("B5"), Stone.YELLOW);
-//        board.addStone(new Position("D5"), Stone.YELLOW);
-//        board.addStone(new Position("E5"), Stone.YELLOW);
-//        board.addStone(new Position("F5"), Stone.YELLOW);
-//        board.addStone(new Position("G5"), Stone.YELLOW);
-//        board.addStone(new Position("A6"), Stone.YELLOW);
-//
-//
-//        board.addStone(new Position("A1"), Stone.RED);
-//        board.addStone(new Position("A2"), Stone.RED);
-//        board.addStone(new Position("C1"), Stone.RED);
-//        board.addStone(new Position("C2"), Stone.RED);
-//        board.addStone(new Position("C3"), Stone.RED);
-//        board.addStone(new Position("A4"), Stone.RED);
-//        board.addStone(new Position("B2"), Stone.RED);
-//        board.addStone(new Position("B3"), Stone.RED);
-//        board.addStone(new Position("B4"), Stone.RED);
-//        board.addStone(new Position("B6"), Stone.RED);
-//        board.addStone(new Position("C5"), Stone.RED);
-//        board.addStone(new Position("C6"), Stone.RED);
-//        board.addStone(new Position("D3"), Stone.RED);
-//        board.addStone(new Position("D6"), Stone.RED);
-//        board.addStone(new Position("E4"), Stone.RED);
-//        board.addStone(new Position("F2"), Stone.RED);
-//        board.addStone(new Position("F4"), Stone.RED);
-//        board.addStone(new Position("F6"), Stone.RED);
-//        board.addStone(new Position("G1"), Stone.RED);
-//        board.addStone(new Position("G3"), Stone.RED);
-//
-//        Position p = instance.calculateTurn(board, Stone.RED);
-//        assertEquals(p, new Position("G6"));
+        final String BOARD_ALLOCATION = "E1;D1$C1;D2$D3;D4$E2;D5$F1;D6$C2;B1$C3;C4$E3;E4$E5;C5$C6;E6$G1;A1$G2;A2$G3;G4$A3;A4$A5;A6$G5;G6";
+        AlphaBetaAI instance = new AlphaBetaAI();
+        Board board = new Board();
+
+        BoardUtils.addStonesToBoard(board, BOARD_ALLOCATION);
+
+        System.out.println(board);
+
+        Position proposal = instance.calculateTurn(board, 9);
+
+        System.out.println("Vorschlag " + proposal);
+
+
     }
 }
