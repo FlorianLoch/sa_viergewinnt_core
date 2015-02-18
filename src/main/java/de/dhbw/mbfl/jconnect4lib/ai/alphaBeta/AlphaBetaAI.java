@@ -11,7 +11,6 @@ import de.dhbw.mbfl.jconnect4lib.ai.alphaBeta.patternRater.PatternRater;
 import de.dhbw.mbfl.jconnect4lib.ai.alphaBeta.patternRater.patterns.MiddleColumns;
 import de.dhbw.mbfl.jconnect4lib.board.Board;
 import de.dhbw.mbfl.jconnect4lib.board.Position;
-import de.dhbw.mbfl.jconnect4lib.board.Stone;
 
 /**
  *
@@ -20,7 +19,7 @@ import de.dhbw.mbfl.jconnect4lib.board.Stone;
 public class AlphaBetaAI implements AI {
     public static final int MAX_DEPTH = 6; //This causes the AI to make an odd number of foresight steps. This leads to better results than using an even amount of steps
 
-    public Position calculateTurn(Board board, Stone stoneAI, int maxDepth) {
+    public Position calculateTurn(Board board, int maxDepth) {
         PatternRater patternRater = new PatternRater();
         patternRater.addPatternDetector(new MiddleColumns());
         
@@ -31,7 +30,7 @@ public class AlphaBetaAI implements AI {
 
 
     @Override
-    public Position calculateTurn(Board board, Stone stoneAI) {
-        return this.calculateTurn(board, stoneAI, MAX_DEPTH);
+    public Position calculateTurn(Board board) {
+        return this.calculateTurn(board, MAX_DEPTH);
     }
 }

@@ -6,6 +6,7 @@
 package de.dhbw.mbfl.jconnect4lib.ai;
 
 import de.dhbw.mbfl.jconnect4lib.board.Board;
+import de.dhbw.mbfl.jconnect4lib.board.Direction;
 import de.dhbw.mbfl.jconnect4lib.board.Position;
 import de.dhbw.mbfl.jconnect4lib.board.Size;
 import de.dhbw.mbfl.jconnect4lib.board.Stone;
@@ -42,7 +43,7 @@ public class EasyAI implements AI {
     }
 
     @Override
-    public Position calculateTurn(Board board, Stone stoneAI) {
+    public Position calculateTurn(Board board) {
         //Prevent "Oma"-Trick by setting to C or D at the first turn
         if (turnCounter == 0) {
             turnCounter = 1;
@@ -65,7 +66,7 @@ public class EasyAI implements AI {
         ArrayList<Position> bestTurns = new ArrayList();
 
         for (Position pos : board.determinePossiblePositions()) {
-            int turn = this.rankTurn(board, pos, stoneAI);
+            int turn = this.rankTurn(board, pos);
             if (turn >= bestTurn) {
                 if (turn > bestTurn) {
                     bestTurn = turn;
@@ -90,11 +91,11 @@ public class EasyAI implements AI {
      * @param pos
      * @return
      */
-    private int rankTurn(Board board, Position pos, Stone stoneAI) {
-        Stone stonePlayer = (stoneAI == Stone.RED) ? Stone.YELLOW : Stone.RED;
-
+    private int rankTurn(Board board, Position pos) {
+        Stone stoneAI = board.nextStone();
+        
         // AI WINS
-        board.addStone(pos, stoneAI);
+        board.addStone(pos);
         if (board.turnEndedGame() == Board.STATE_WIN) {
             board.undoLastTurn();
             return AI_WIN;
@@ -102,7 +103,7 @@ public class EasyAI implements AI {
         board.undoLastTurn();
 
         // PLAYER WINS
-        board.addStone(pos, stonePlayer);
+        board.addStone(pos);
         if (board.turnEndedGame() == Board.STATE_WIN) {
             board.undoLastTurn();
             return PLAYER_WIN;
@@ -112,15 +113,15 @@ public class EasyAI implements AI {
         // AI MIGHT WIN NEXT TURN (OR AI MIGHT HELP PLAYER)
         Position above = new Position(pos.getColumn(), pos.getRow() + 1);
         if (board.isOnBoard(above)) {
-            board.addStone(pos, stoneAI);
-            board.addStone(above, stonePlayer);
+            board.addStone(pos);
+            board.addStone(above);
             if (board.turnEndedGame() == Board.STATE_WIN) {
                 board.undoLastTurn();
                 board.undoLastTurn();
                 return WOULD_HELP_PLAYER;
             }
             board.undoLastTurn();
-            board.addStone(above, stoneAI);
+            board.addStone(above);
             if (board.turnEndedGame() == Board.STATE_WIN) {
                 board.undoLastTurn();
                 board.undoLastTurn();
@@ -132,8 +133,8 @@ public class EasyAI implements AI {
 
         // PLAYER MIGHT WIN NEXT TURN
         if (board.isOnBoard(above)) {
-            board.addStone(pos, stonePlayer);
-            board.addStone(above, stonePlayer);
+            board.addStone(pos);
+            board.addStone(above);
             if (board.turnEndedGame() == Board.STATE_WIN) {
                 board.undoLastTurn();
                 board.undoLastTurn();
@@ -145,7 +146,7 @@ public class EasyAI implements AI {
 
         // Try to avoid a move when above the current field less then two (if there is an ai stone below) or three (if there is no ai stone beow) 
         // rows are available - because when this position in code is reached, at least two more stones above are needed two win (because of early returns used above).
-        Position below = new Position(pos.getColumn(), pos.getRow() - 1);
+        Position below = pos.newPosition(Direction.SOUTH);
         boolean sameColorBelow = false;
 
         if (board.isOnBoard(below) && board.getStone(below) == stoneAI) sameColorBelow = true;

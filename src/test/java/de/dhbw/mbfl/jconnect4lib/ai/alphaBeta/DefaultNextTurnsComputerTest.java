@@ -29,13 +29,13 @@ public class DefaultNextTurnsComputerTest {
         DefaultNextTurnsComputer instance = new DefaultNextTurnsComputer();
     
         Board currentBoard = new Board();
-        currentBoard.addStone(new Position(0, 0), Stone.YELLOW);
-        currentBoard.addStone(new Position(1, 0), Stone.RED);
-        currentBoard.addStone(new Position(0, 1), Stone.YELLOW);
-        currentBoard.addStone(new Position(1, 1), Stone.RED);
-        currentBoard.addStone(new Position(0, 2), Stone.YELLOW);
-        currentBoard.addStone(new Position(1, 2), Stone.RED);
-        currentBoard.addStone(new Position(0, 3), Stone.YELLOW);
+        currentBoard.addStone(new Position(0, 0));
+        currentBoard.addStone(new Position(1, 0));
+        currentBoard.addStone(new Position(0, 1));
+        currentBoard.addStone(new Position(1, 1));
+        currentBoard.addStone(new Position(0, 2));
+        currentBoard.addStone(new Position(1, 2));
+        currentBoard.addStone(new Position(0, 3));
         
         assertTrue("The game is over", currentBoard.turnEndedGame() == Board.STATE_WIN);
 

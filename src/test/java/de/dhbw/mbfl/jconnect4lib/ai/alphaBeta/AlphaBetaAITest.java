@@ -14,10 +14,10 @@ public class AlphaBetaAITest {
         Board clone;
 
 
-        board.addStone(new Position("F1"), Stone.YELLOW);
+        board.addStone(new Position("F1"));
         clone = board.clone();
 
-        Position p = instance.calculateTurn(board, Stone.RED);
+        Position p = instance.calculateTurn(board);
         assertEquals(new Position("D1"), p);
 
         assertTrue(board.areBoardOccupationsEqual(clone));
@@ -31,44 +31,44 @@ public class AlphaBetaAITest {
 
         board.addStone(new Position("D1"), Stone.YELLOW);
 
-        Position p1 = instance.calculateTurn(board, Stone.RED, 1);
+        Position p1 = instance.calculateTurn(board, 1);
         assertEquals(new Position("D2"), p1);
 
-        Position p2 = instance.calculateTurn(board, Stone.RED, 2);
+        Position p2 = instance.calculateTurn(board, 2);
         assertEquals(new Position("D2"), p2);
 
-        Position p3 = instance.calculateTurn(board, Stone.RED, 3);
+        Position p3 = instance.calculateTurn(board, 3);
         assertEquals(new Position("D2"), p3);
 
-        Position p4 = instance.calculateTurn(board, Stone.RED, 4);
+        Position p4 = instance.calculateTurn(board, 4);
         assertEquals(new Position("D2"), p4);
 
-        Position p5 = instance.calculateTurn(board, Stone.RED, 5);
+        Position p5 = instance.calculateTurn(board, 5);
         assertEquals(new Position("D2"), p5);
 
-        Position p6 = instance.calculateTurn(board, Stone.RED, 6);
+        Position p6 = instance.calculateTurn(board, 6);
         assertEquals(new Position("C1"), p6);
 
-        Position p7 = instance.calculateTurn(board, Stone.RED, 7);
+        Position p7 = instance.calculateTurn(board, 7);
         assertEquals(new Position("D2"), p7);   //Because there is an odd number of fields taken into account in column c and d,
                                                 //so the player will not get the same amount of tokens played as the other - therefore he will not get as much
                                                 //stones into d as Yellow
 
-        Position p8 = instance.calculateTurn(board, Stone.RED, 8);
+        Position p8 = instance.calculateTurn(board, 8);
         assertEquals(new Position("C1"), p8);
 
-        Position p9 = instance.calculateTurn(board, Stone.RED, 9);
+        Position p9 = instance.calculateTurn(board, 9);
         assertEquals(new Position("D2"), p9);
 
         board.addStone(p8, Stone.RED);
 
-        Position p10 = instance.calculateTurn(board, Stone.YELLOW, 1);
+        Position p10 = instance.calculateTurn(board, 1);
         assertEquals(new Position("D2"), p9);
 
         board.addStone(p10, Stone.YELLOW);
         board.addStone(new Position("D3"), Stone.RED);
 
-        Position p11 = instance.calculateTurn(board, Stone.YELLOW, 1);
+        Position p11 = instance.calculateTurn(board, 1);
         assertEquals(new Position("D4"), p11);
     }
 
@@ -77,19 +77,19 @@ public class AlphaBetaAITest {
         AlphaBetaAI instance = new AlphaBetaAI();
         Board board = new Board();
 
-        Position p2 = instance.calculateTurn(board, Stone.YELLOW, 1);
+        Position p2 = instance.calculateTurn(board, 1);
 
         assertEquals(new Position("D1"), p2);
 
         board.addStone(new Position("B1"), Stone.YELLOW);
 
-        Position p = instance.calculateTurn(board, Stone.RED, 2);
+        Position p = instance.calculateTurn(board, 2);
         assertEquals(new Position("D1"), p);
 
         board.addStone(p, Stone.YELLOW);
         board.addStone(new Position("D2"), Stone.RED);
 
-        p = instance.calculateTurn(board, Stone.YELLOW);
+        p = instance.calculateTurn(board);
         assertEquals(new Position("C1"), p);
     }
 

@@ -2,7 +2,6 @@ package de.dhbw.mbfl.jconnect4lib.ai;
 
 import de.dhbw.mbfl.jconnect4lib.board.Board;
 import de.dhbw.mbfl.jconnect4lib.board.Position;
-import de.dhbw.mbfl.jconnect4lib.board.Stone;
 
 /**
  * The Interface for all AIs.
@@ -13,9 +12,8 @@ public interface AI {
     /**
      * The AI will get the actual Board. With this board the AI soud calculate one move.
      * @param board
-     * @param stoneAI
      * @return position of the calculated stone
      */
-    public Position calculateTurn(Board board, Stone stoneAI);
+    public Position calculateTurn(Board board);
     
 }

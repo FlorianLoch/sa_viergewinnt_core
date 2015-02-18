@@ -23,13 +23,10 @@ class DefaultNextTurnsComputer implements NextTurnsComputer {
         
         if (currentBoard.turnEndedGame() != Board.STATE_NOTYETOVER) return sortedPossibleTurns;
         
-        //Who's turn is it?
-        Stone who = (currentBoard.getLastStone() == Stone.YELLOW) ? Stone.RED : Stone.YELLOW;
-        
         //Try to add a stone in each column
         for (Position p : currentBoard.determinePossiblePositions()) {
             Board clonedBoard = currentBoard.clone();
-            clonedBoard.addStone(p, who);
+            clonedBoard.addStone(p);
             possibleTurns.add(clonedBoard);
         }
         

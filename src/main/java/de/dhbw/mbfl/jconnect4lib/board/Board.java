@@ -57,13 +57,23 @@ public class Board implements Iterable<Position> {
     /**
      * Adds a stone to the board.
      * @param pos
+     * @throws PositionOccupiedException
+     * @throws OutOfBoardException 
+     * @return Board for chaining
+     */
+    public Board addStone(Position pos) throws PositionOccupiedException, OutOfBoardException {      
+        return this.addStone(pos, this.nextStone());
+    }
+    
+    /**
+     * Adds a stone to the board.
+     * @param pos
      * @param stone
      * @throws PositionOccupiedException
      * @throws OutOfBoardException 
      * @return Board for chaining
      */
     public Board addStone(Position pos, Stone stone) throws PositionOccupiedException, OutOfBoardException {
- 
         
         if (!this.isOnBoard(pos)) throw new OutOfBoardException(pos);
         if (this.getStone(pos) != null) throw new PositionOccupiedException(pos);
@@ -227,6 +237,20 @@ public class Board implements Iterable<Position> {
     public int getTurnCount()
     {
         return this.log.size();
+    }
+    
+    /**
+     * Gives back the next stone
+     * @return 
+     */
+    public Stone nextStone()
+    {
+        if(this.getTurnCount() % 2 == 0)
+        {
+            return Stone.YELLOW;
+        }
+        
+        return Stone.RED;
     }
     
     /**

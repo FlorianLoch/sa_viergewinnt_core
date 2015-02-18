@@ -41,9 +41,9 @@ public class BoardTest extends EasyMockSupport
         Stone[] positions = new Stone[boardSize];
         
         Board instance = new Board();
-        instance.addStone(new Position(1, 2), Stone.RED);
-        instance.addStone(new Position(0), Stone.YELLOW);
-        instance.addStone(new Position(41), Stone.RED);
+        instance.addStone(new Position(1, 2));
+        instance.addStone(new Position(0));
+        instance.addStone(new Position(41));
        
         for (Position p : instance) {
             positions[counter] = instance.getStone(p);
@@ -63,13 +63,14 @@ public class BoardTest extends EasyMockSupport
     public void testAddStoneOutOfBoard()
     {
         Position pos = createStrictMock(Position.class);
-        Board board = createMockBuilder(Board.class).addMockedMethod("isOnBoard").createStrictMock();
+        Board board = createMockBuilder(Board.class).addMockedMethods("isOnBoard", "nextStone").createStrictMock();
         
+        expect(board.nextStone()).andReturn(Stone.YELLOW);
         expect(board.isOnBoard(pos)).andReturn(false);
         replayAll();
         
         try {
-            board.addStone(pos, Stone.RED);
+            board.addStone(pos);
             fail("Expected an OutOfBoardException to be thrown");
         } catch (OutOfBoardException ex) {
             
@@ -85,23 +86,25 @@ public class BoardTest extends EasyMockSupport
     public void testAddStonePositionOccupied()
     {
         Position pos = createStrictMock(Position.class);
-        Board board = createMockBuilder(Board.class).addMockedMethods("isOnBoard", "getStone").createStrictMock();
+        Board board = createMockBuilder(Board.class).addMockedMethods("isOnBoard", "getStone", "nextStone").createStrictMock();
         
+        expect(board.nextStone()).andReturn(Stone.RED);
         expect(board.isOnBoard(pos)).andReturn(true);
         expect(board.getStone(pos)).andReturn(Stone.RED);
+        expect(board.nextStone()).andReturn(Stone.YELLOW);
         expect(board.isOnBoard(pos)).andReturn(true);
         expect(board.getStone(pos)).andReturn(Stone.YELLOW);
         replayAll();
         
         try {
-            board.addStone(pos, Stone.RED);
+            board.addStone(pos);
             fail("Expected an PositionOccupiedException to be thrown (red)");
         } catch (PositionOccupiedException ex) {
             assertThat(ex.getMessage(), containsString(PositionOccupiedException.MSG.replace("##pos##", "EasyMock for class de.dhbw.mbfl.jconnect4lib.board.Position")));
         }
         
         try {
-            board.addStone(pos, Stone.YELLOW);
+            board.addStone(pos);
             fail("Expected an PositionOccupiedException to be thrown (yellow)");
         } catch (PositionOccupiedException ex) {
             assertThat(ex.getMessage(), containsString(PositionOccupiedException.MSG.replace("##pos##", "EasyMock for class de.dhbw.mbfl.jconnect4lib.board.Position")));
@@ -128,13 +131,13 @@ public class BoardTest extends EasyMockSupport
         expect(board.isOnBoard(pos)).andReturn(true);
         replayAll();
         
-        board.addStone(pos, Stone.RED);
+        board.addStone(pos);
         Position posLog = board.getLastTurn();
         Stone stoneAdded = board.getStone(pos);
         Stone nullStone = board.getStone(posNull);
         
         assertEquals("The position in the log must be equas to the addes pos.", pos, posLog);
-        assertEquals("The Stone on the board must have the same color as the added one.", Stone.RED, stoneAdded);
+        assertEquals("The Stone on the board must have the same color as the added one.", Stone.YELLOW, stoneAdded);
         assertNull("Only one Stone added the otherone must be null.", nullStone);
         
         verifyAll();
@@ -166,13 +169,13 @@ public class BoardTest extends EasyMockSupport
         replayAll();
         
         //add 4 stones and writh log down
-        board.addStone(first, Stone.YELLOW);
+        board.addStone(first);
         Position logFirst = board.getLastTurn();
-        board.addStone(second, Stone.RED);
+        board.addStone(second);
         Position logSecond = board.getLastTurn();
-        board.addStone(thierd, Stone.YELLOW);
+        board.addStone(thierd);
         Position logThierd = board.getLastTurn();
-        board.addStone(forth, Stone.RED);
+        board.addStone(forth);
         Position logForth = board.getLastTurn();
         
         //assert the logged positions
@@ -245,15 +248,15 @@ public class BoardTest extends EasyMockSupport
         Position thierd = new Position(1, 1);
         Position forth = new Position(0, 0);
         
-        board.addStone(first, Stone.YELLOW);
-        board.addStone(second, Stone.RED);
-        board.addStone(thierd, Stone.YELLOW);
-        board.addStone(forth, Stone.RED);
+        board.addStone(first);
+        board.addStone(second);
+        board.addStone(thierd);
+        board.addStone(forth);
         
-        boardDif.addStone(first, Stone.YELLOW);
-        boardDif.addStone(second, Stone.RED);
-        boardDif.addStone(thierd, Stone.YELLOW);
-        boardDif.addStone(forth, Stone.RED);
+        boardDif.addStone(first);
+        boardDif.addStone(second);
+        boardDif.addStone(thierd);
+        boardDif.addStone(forth);
         
         ArrayList<Difference> difs = board.determineDifferences(boardDif);
         
@@ -279,16 +282,16 @@ public class BoardTest extends EasyMockSupport
         Position forth = new Position(0, 0);
         Position fivth = new Position(2, 1);
         
-        board.addStone(first, Stone.YELLOW);
-        board.addStone(second, Stone.RED);
-        board.addStone(thierd, Stone.YELLOW);
-        board.addStone(forth, Stone.RED);
+        board.addStone(first);
+        board.addStone(second);
+        board.addStone(thierd);
+        board.addStone(forth);
         
-        boardDif.addStone(first, Stone.YELLOW);
-        boardDif.addStone(second, Stone.RED);
-        boardDif.addStone(thierd, Stone.YELLOW);
-        boardDif.addStone(forth, Stone.RED);
-        boardDif.addStone(fivth, Stone.YELLOW);
+        boardDif.addStone(first);
+        boardDif.addStone(second);
+        boardDif.addStone(thierd);
+        boardDif.addStone(forth);
+        boardDif.addStone(fivth);
         
         ArrayList<Difference> difs = board.determineDifferences(boardDif);
         
@@ -317,10 +320,10 @@ public class BoardTest extends EasyMockSupport
         Position thierd = new Position(1, 1);
         Position forth = new Position(0, 0);
         
-        board.addStone(first, Stone.YELLOW);
-        board.addStone(second, Stone.RED);
-        board.addStone(thierd, Stone.YELLOW);
-        board.addStone(forth, Stone.RED);
+        board.addStone(first);
+        board.addStone(second);
+        board.addStone(thierd);
+        board.addStone(forth);
         
         boardDif.addStone(first, Stone.YELLOW);
         boardDif.addStone(second, Stone.YELLOW);
@@ -354,8 +357,8 @@ public class BoardTest extends EasyMockSupport
         Position thierd = new Position(1, 1);
         Position forth = new Position(0, 0);
         
-        board.addStone(first, Stone.YELLOW);
-        board.addStone(second, Stone.RED);
+        board.addStone(first);
+        board.addStone(second);
         
         boardDif.addStone(first, Stone.YELLOW);
         boardDif.addStone(second, Stone.RED);
@@ -574,7 +577,7 @@ public class BoardTest extends EasyMockSupport
         Board board = new Board();
         Position first = new Position(0, 3);
         
-        board.addStone(first, Stone.RED);
+        board.addStone(first);
         board.undoLastTurn();
         
         Position pos = board.getLastTurn();
@@ -598,9 +601,9 @@ public class BoardTest extends EasyMockSupport
         Position second = new Position(0, 2);
         Position thierd = new Position(0, 1);
         
-        board.addStone(first, Stone.YELLOW);
-        board.addStone(second, Stone.RED);
-        board.addStone(thierd, Stone.YELLOW);
+        board.addStone(first);
+        board.addStone(second);
+        board.addStone(thierd);
         board.undoLastTurn();
         
         assertEquals("Position must be second position", second, board.getLastTurn());
@@ -615,15 +618,15 @@ public class BoardTest extends EasyMockSupport
     public void testClone() {
         Board board = new Board();
         System.out.println("Error");
-        board.addStone(new Position(10), Stone.RED);
+        board.addStone(new Position(10));
         System.out.println("error");
-        board.addStone(new Position(12), Stone.YELLOW);
+        board.addStone(new Position(12));
         
         Board clone = board.clone();
        
         assertNotEquals(board, clone);
-        assertEquals(clone.getStone(new Position(10)), Stone.RED);
-        assertEquals(clone.getStone(new Position(12)), Stone.YELLOW);     
+        assertEquals(clone.getStone(new Position(10)), Stone.YELLOW);
+        assertEquals(clone.getStone(new Position(12)), Stone.RED);     
         assertEquals(clone.getLastTurn(), new Position(12));
     }
     
@@ -663,16 +666,16 @@ public class BoardTest extends EasyMockSupport
     @Test
     public void testAreBoardOccupationsEqual() {
         Board board = new Board();
-        board.addStone(new Position(0, 0), Stone.RED);
-        board.addStone(new Position(41), Stone.YELLOW);
+        board.addStone(new Position(0, 0));
+        board.addStone(new Position(41));
         
         Board board2 = new Board();
-        board2.addStone(new Position(0, 0), Stone.RED);
-        board2.addStone(new Position(41), Stone.YELLOW);   
+        board2.addStone(new Position(0, 0));
+        board2.addStone(new Position(41));   
         
         assertTrue(board.areBoardOccupationsEqual(board2));
         
-        board2.addStone(new Position(20), Stone.RED);
+        board2.addStone(new Position(20));
         
         assertFalse(board.areBoardOccupationsEqual(board2));
     }

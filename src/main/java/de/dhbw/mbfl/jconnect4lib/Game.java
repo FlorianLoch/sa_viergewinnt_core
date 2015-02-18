@@ -22,19 +22,16 @@ public class Game {
     private Board board;
     private ArrayList<Validator> validators;
     private AI ai;
-    private Stone stonePlayer;
-    private Stone stoneAI;
+    private boolean playerStarts;
     
-    public Game(AI ai, Stone stonePlayer) {   
-        this(new Board(), initValidatorList(), ai, stonePlayer);
+    public Game(AI ai) {   
+        this(new Board(), initValidatorList(), ai);
     }
 
-    public Game(Board board, ArrayList<Validator> validators, AI ai, Stone stonePlayer) {
+    public Game(Board board, ArrayList<Validator> validators, AI ai) {
         this.board = board;
         this.validators = validators;
         this.ai = ai;
-        this.stonePlayer = stonePlayer;
-        this.stoneAI = (this.stonePlayer == Stone.RED) ? Stone.YELLOW : Stone.RED;
     }
     
     /**
@@ -57,8 +54,8 @@ public class Game {
      * @return turnSummary
      */
     public TurnSummary doAITurn() {
-        Position aiTurn = this.ai.calculateTurn(this.board, this.stoneAI);
-        this.board.addStone(aiTurn, this.stoneAI);
+        Position aiTurn = this.ai.calculateTurn(this.board);
+        this.board.addStone(aiTurn);
         
         int state = this.board.turnEndedGame();
         
@@ -75,7 +72,7 @@ public class Game {
      */
     public TurnSummary doPlayerTurn(Position pos) throws ValidationException {
         Board newBoard = (Board) this.board.clone();
-        newBoard.addStone(pos, this.stonePlayer);
+        newBoard.addStone(pos);
         
         return this.doPlayerTurn(newBoard);
     }    
@@ -90,7 +87,7 @@ public class Game {
      */
     public TurnSummary doPlayerTurn(Board board) throws ValidationException {
         Position userTurn = handleUserTurn(board);
-        this.board.addStone(userTurn, stonePlayer);
+        this.board.addStone(userTurn);
         
         int state = this.board.turnEndedGame();
         return new TurnSummary(userTurn, state == Board.STATE_WIN, state == Board.STATE_REMI);
