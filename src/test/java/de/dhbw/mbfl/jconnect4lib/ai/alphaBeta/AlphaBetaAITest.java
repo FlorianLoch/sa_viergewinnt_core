@@ -29,7 +29,7 @@ public class AlphaBetaAITest {
         AlphaBetaAI instance = new AlphaBetaAI();
         Board board = new Board();
 
-        board.addStone(new Position("D1"), Stone.YELLOW);
+        board.addStone(new Position("D1"));
 
         Position p1 = instance.calculateTurn(board, 1);
         assertEquals(new Position("D2"), p1);
@@ -60,13 +60,13 @@ public class AlphaBetaAITest {
         Position p9 = instance.calculateTurn(board, 9);
         assertEquals(new Position("D2"), p9);
 
-        board.addStone(p8, Stone.RED);
+        board.addStone(p8);
 
         Position p10 = instance.calculateTurn(board, 1);
         assertEquals(new Position("D2"), p9);
 
-        board.addStone(p10, Stone.YELLOW);
-        board.addStone(new Position("D3"), Stone.RED);
+        board.addStone(p10);
+        board.addStone(new Position("D3"));
 
         Position p11 = instance.calculateTurn(board, 1);
         assertEquals(new Position("D4"), p11);
@@ -81,16 +81,16 @@ public class AlphaBetaAITest {
 
         assertEquals(new Position("D1"), p2);
 
-        board.addStone(new Position("B1"), Stone.YELLOW);
+        board.addStone(new Position("B1"));
 
         Position p = instance.calculateTurn(board, 2);
         assertEquals(new Position("D1"), p);
 
-        board.addStone(p, Stone.YELLOW);
-        board.addStone(new Position("D2"), Stone.RED);
+        board.addStone(p);
+        board.addStone(new Position("D2"));
 
-        p = instance.calculateTurn(board);
-        assertEquals(new Position("C1"), p);
+        p = instance.calculateTurn(board, 4);
+        assertEquals(new Position("D3"), p);
     }
 
     @Test

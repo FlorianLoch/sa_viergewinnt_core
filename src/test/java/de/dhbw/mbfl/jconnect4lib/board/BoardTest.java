@@ -51,9 +51,9 @@ public class BoardTest extends EasyMockSupport
         }
         
         assertTrue(counter == boardSize);
-        assertTrue(positions[1 + 2 * Size.BOARD.column()] == Stone.RED);
-        assertTrue(positions[0] == Stone.YELLOW);
-        assertEquals(positions[41], Stone.RED);
+        assertEquals(positions[1 + 2 * Size.BOARD.column()], Stone.YELLOW);
+        assertEquals(positions[0], Stone.RED);
+        assertEquals(positions[41], Stone.YELLOW);
     }
     
     /**

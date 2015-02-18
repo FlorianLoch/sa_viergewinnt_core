@@ -49,7 +49,7 @@ public class DefaultNextTurnsComputerTest {
         LinkedList<Board> expected = new LinkedList<Board>();
         for (int i = 0; i < 7; i++) {
             Board b = new Board();
-            b.addStone(new Position(i, 0), Stone.YELLOW);
+            b.addStone(new Position(i, 0));
             expected.add(b);
         }
         int expectedBoardsCount = expected.size();

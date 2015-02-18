@@ -48,7 +48,7 @@ public class BoardIdentity {
             if (!a && b) stoneToAdd = Stone.YELLOW;
             if (a && !b) stoneToAdd = Stone.RED;
             
-            board.addStone(new Position(i / 2));
+            board.addStone(new Position(i / 2), stoneToAdd);
         }
         
         return board;

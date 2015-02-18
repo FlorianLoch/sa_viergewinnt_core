@@ -73,6 +73,7 @@ public class Board implements Iterable<Position> {
      * @throws OutOfBoardException 
      * @return Board for chaining
      */
+    @Deprecated
     public Board addStone(Position pos, Stone stone) throws PositionOccupiedException, OutOfBoardException {
         
         if (!this.isOnBoard(pos)) throw new OutOfBoardException(pos);
@@ -245,8 +246,7 @@ public class Board implements Iterable<Position> {
      */
     public Stone nextStone()
     {
-        if(this.getTurnCount() % 2 == 0)
-        {
+        if(this.getTurnCount() % 2 == 0) {
             return Stone.YELLOW;
         }
         

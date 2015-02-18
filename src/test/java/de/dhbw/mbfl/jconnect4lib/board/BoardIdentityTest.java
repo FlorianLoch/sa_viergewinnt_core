@@ -76,9 +76,9 @@ public class BoardIdentityTest {
     @Test
     public void testConstructorAndReconstruction() {
         Board board = new Board();
-        board.addStone(new Position(0, 0), Stone.RED);
-        board.addStone(new Position(20), Stone.RED);
-        board.addStone(new Position(41), Stone.YELLOW);
+        board.addStone(new Position(0, 0));
+        board.addStone(new Position(20));
+        board.addStone(new Position(41));
         
         BoardIdentity instance = new BoardIdentity(board);
         
