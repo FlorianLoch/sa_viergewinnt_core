@@ -104,7 +104,7 @@ public class AlphaBetaAITest {
 
         System.out.println(board);
 
-        Position proposal = instance.calculateTurn(board, 9);
+        Position proposal = instance.calculateTurn(board);
 
         System.out.println("Vorschlag " + proposal);
 

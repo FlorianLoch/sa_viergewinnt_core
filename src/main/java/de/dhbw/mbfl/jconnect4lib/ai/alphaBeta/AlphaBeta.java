@@ -76,18 +76,18 @@ public class AlphaBeta {
     } 
     
     private static void log(String msg) {
-        SimpleDateFormat dateFormatter = new SimpleDateFormat( "yyyy-MM-dd HH:mm:ss.S" );
-        String date = dateFormatter.format(new Date());
-        
-        msg = date + ": " + msg;
-        
-        System.out.println(msg);
-        try {
-            logFile.append(msg + "\n");
-            logFile.flush();
-        } catch (Exception e) {
-            System.out.println("Could not write to log file: " + e);
-        }
+//        SimpleDateFormat dateFormatter = new SimpleDateFormat( "yyyy-MM-dd HH:mm:ss.S" );
+//        String date = dateFormatter.format(new Date());
+//
+//        msg = date + ": " + msg;
+//
+//        System.out.println(msg);
+//        try {
+//            logFile.append(msg + "\n");
+//            logFile.flush();
+//        } catch (Exception e) {
+//            System.out.println("Could not write to log file: " + e);
+//        }
     }
    
     private AlphaBetaResult alphaBeta(Board currentBoard, int currentDepth, int alpha, int beta) {
