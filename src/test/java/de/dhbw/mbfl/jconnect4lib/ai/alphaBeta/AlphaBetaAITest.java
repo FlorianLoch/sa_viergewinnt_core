@@ -106,8 +106,20 @@ public class AlphaBetaAITest {
 
         Position proposal = instance.calculateTurn(board);
 
-        System.out.println("Vorschlag " + proposal);
+        assertEquals(new Position("F2"), proposal);
+    }
 
+    // Situation is as described here: https://github.com/FlorianLoch/sa_viergewinnt_server/issues/3
+    @Test
+    public void testCriticalSituation() {
+        final String BOARD_ALLOCATION = "D1;C1$D2;C2$D3;D4$C3;D5$E1;D6$F1";
+        AlphaBetaAI instance = new AlphaBetaAI();
+        Board board = new Board();
 
+        BoardUtils.addStonesToBoard(board, BOARD_ALLOCATION);
+
+        Position proposal = instance.calculateTurn(board, 8);
+
+        assertEquals(new Position("A1"), proposal); //Because the algorithm detects, that he will loose whatever he does
     }
 }

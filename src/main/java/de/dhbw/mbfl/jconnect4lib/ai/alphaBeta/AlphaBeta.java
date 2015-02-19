@@ -75,30 +75,15 @@ public class AlphaBeta {
         return result;
     } 
     
-    private static void log(String msg) {
-//        SimpleDateFormat dateFormatter = new SimpleDateFormat( "yyyy-MM-dd HH:mm:ss.S" );
-//        String date = dateFormatter.format(new Date());
-//
-//        msg = date + ": " + msg;
-//
-//        System.out.println(msg);
-//        try {
-//            logFile.append(msg + "\n");
-//            logFile.flush();
-//        } catch (Exception e) {
-//            System.out.println("Could not write to log file: " + e);
-//        }
-    }
-   
     private AlphaBetaResult alphaBeta(Board currentBoard, int currentDepth, int alpha, int beta) {
         if (currentDepth == this.maxAbsoluteDepth) {
             int value = this.rater.rate(currentBoard);
             this.ratedBoards++;
             return new AlphaBetaResult(null, value, null);
         }
-        
+
         LinkedList<Board> possibleNextBoards = this.nextTurnsGenerator.computeNextTurns(currentBoard);
-        
+
         if (possibleNextBoards.isEmpty()) {
             //This is only called if currentDepth is below this.maxAbsoluteDepth
             //So the only reason left why there are no next boards is that the game is over after this turn (because the BoardGenerator returns an empty list if game is over)
@@ -108,41 +93,45 @@ public class AlphaBeta {
             this.ratedBoards++;
             return new AlphaBetaResult(null, value, null);
         }
-        
-        AlphaBetaResult bestNextTurn = null;
-        Board bestNextBoard = null;
+
+        Board bestNextBoard = possibleNextBoards.getFirst();
 
         //if maximize
-        //This also means, that (we expect that human player always starts right now) values of the AI 
+        //This also means, that (we expect that human player always starts right now) values of the AI
         //are better the lower the number is and vice versa for the human player
         if ((currentDepth % 2) == 0) {
             int max = alpha;
+            AlphaBetaResult bestNextTurn = new AlphaBetaResult(null, max, null);
             for (Board b : possibleNextBoards) {
                 AlphaBetaResult result = alphaBeta(b, currentDepth + 1, max, beta);
 
                 if (result.getValue() > max) {
                     max = result.getValue();
-                    bestNextTurn = result; 
+                    bestNextTurn = result;
                     bestNextBoard = b;
                 }
-                
-                if (max >= beta) {
+
+                if (max >= beta) {  //In case this turn achieves a higher score than the best
+                                                                //value found by the minimizer node above all further, possible Board
+                                                                //derivations will be skipped because the minimizer will the game never reach this situation.
+                                                                //This also includes win situations!
                     this.cutOffs++;
                     break;
                 }
             }
             return new AlphaBetaResult((bestNextBoard == null) ? null : bestNextBoard.getLastTurn(), max, bestNextTurn);
         }
-        
+
         //if !maximize
         int min = beta;
+        AlphaBetaResult bestNextTurn = new AlphaBetaResult(null, min, null);
         for (Board b : possibleNextBoards) {
             AlphaBetaResult result = alphaBeta(b, currentDepth + 1, alpha, min);
 
             if (result.getValue() < min) {
                 min = result.getValue();
                 bestNextTurn = result;
-                bestNextBoard = b; 
+                bestNextBoard = b;
             }
 
             if (min <= alpha) {
@@ -151,5 +140,20 @@ public class AlphaBeta {
             }
         }
         return new AlphaBetaResult((bestNextBoard == null) ? null : bestNextBoard.getLastTurn(), min, bestNextTurn);
+    }
+
+    private static void log(String msg) {
+        SimpleDateFormat dateFormatter = new SimpleDateFormat( "yyyy-MM-dd HH:mm:ss.S" );
+        String date = dateFormatter.format(new Date());
+
+        msg = date + ": " + msg;
+
+        System.out.println("-> " + msg);
+//        try {
+//            logFile.append(msg + "\n");
+//            logFile.flush();
+//        } catch (Exception e) {
+//            System.out.println("Could not write to log file: " + e);
+//        }
     }
 }
