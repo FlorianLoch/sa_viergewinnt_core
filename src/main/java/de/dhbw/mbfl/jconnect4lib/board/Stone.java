@@ -1,16 +1,22 @@
 package de.dhbw.mbfl.jconnect4lib.board;
 
+
 /**
  * Ther are two posible Stones yellow and red.
  * @author Maurice Busch & Florian Loch
  */
 public enum Stone {
-    YELLOW('Y', "YELLOW stone"), RED('R', "RED stone");
+    YELLOW("\u001B[33m\u25cfA1\u001B[0m", "YELLOW stone"), RED("\u001B[31m\u25cf\u001B[0m", "RED stone");
+
+
+    public static final String ANSI_RESET = "\u001B[0m";
+    public static final String ANSI_RED = "\u001B[31m";
+    public static final String ANSI_YELLOW = "\u001B[33m";
 
     private String desc = "";
-    private char sign = ' ';
+    private String sign = "";
     
-    private Stone(char sign, String desc) {
+    private Stone(String sign, String desc) {
         this.sign = sign;
         this.desc = desc;
     }
@@ -19,7 +25,7 @@ public enum Stone {
      * Returns the sign of the Stone Y for yellow and R for red.
      * @return sign
      */
-    public char getSign() {
+    public String getSign() {
         return sign;
     }
     
