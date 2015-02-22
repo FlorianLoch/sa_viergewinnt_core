@@ -5,6 +5,11 @@ import de.dhbw.mbfl.jconnect4lib.board.BoardUtils;
 import de.dhbw.mbfl.jconnect4lib.board.Position;
 import de.dhbw.mbfl.jconnect4lib.board.Stone;
 import org.junit.Test;
+
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintWriter;
+
 import static org.junit.Assert.*;
 
 public class AlphaBetaAITest {
@@ -94,6 +99,14 @@ public class AlphaBetaAITest {
         assertEquals(new Position("D3"), p);
     }
 
+    private OutputStream s = new OutputStream() {
+
+        @Override
+        public void write(int i) throws IOException {
+
+        }
+    };
+
     @Test
     public void testCalculateTurnEndSituation() {
         final String BOARD_ALLOCATION = "E1;D1$C1;D2$D3;D4$E2;D5$F1;D6$C2;B1$C3;C4$E3;E4$E5;C5$C6;E6$G1;A1$G2;A2$G3;G4$A3;A4$A5;A6$G5;G6";
@@ -120,6 +133,6 @@ public class AlphaBetaAITest {
 
         Position proposal = instance.calculateTurn(board, 8);
 
-        assertEquals(new Position("A1"), proposal); //Because the algorithm detects, that he will loose whatever he does
+        assertEquals(new Position("G1"), proposal); //Because the algorithm detects, that he will loose whatever he does
     }
 }

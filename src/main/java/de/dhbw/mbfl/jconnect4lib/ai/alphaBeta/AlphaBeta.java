@@ -64,11 +64,20 @@ public class AlphaBeta {
         AlphaBeta alg = new AlphaBeta(rater, nextTurnsComputer, maxDepth);        
         
         AlphaBetaResult result = alg.alphaBeta(currentBoard, currentDepth, Integer.MIN_VALUE, Integer.MAX_VALUE);
-        
+
+        if (result.getComputedTurn() == null) {
+            //No turn has been found, instead of taken some (bad) turn try again with lower foresight
+            //With this the algorithm is making a bet on mistakes to be done by the opponent
+            //This will go down to foresight = 1, then the algorithm won't even detect direct win situations of the opponent anymore,
+            //so he will finally suggest a next turn - because he knows, he will loose whatever turn he decides to do (because foresight = 2 found no turn this means,
+            //that every turn of the ai will be followed by a leading-to-win turn of the opponent (On the supposition that the opponent will notice he can win with his next turn))
+            result = findBestTurn(currentBoard, foresight - 1, rater, nextTurnsComputer);
+        }
+
         log("Depth: " + maxDepth);
         log("Rated boards: " + alg.ratedBoards);
         log("CutOffs: " + alg.cutOffs);
-        
+        log("Foresight: " + foresight);
         log("Proposed turn:");
         log(result.toString());
         
@@ -94,14 +103,15 @@ public class AlphaBeta {
             return new AlphaBetaResult(null, value, null);
         }
 
-        Board bestNextBoard = possibleNextBoards.getFirst();
+        //Suggest the first item in the list of possible next boards in case no turn is found (i. e. all found turns are equal to the initial value of max)
+        Board bestNextBoard = null;//possibleNextBoards.getFirst();
+        AlphaBetaResult bestNextTurn = null;
 
         //if maximize
         //This also means, that (we expect that human player always starts right now) values of the AI
         //are better the lower the number is and vice versa for the human player
         if ((currentDepth % 2) == 0) {
             int max = alpha;
-            AlphaBetaResult bestNextTurn = new AlphaBetaResult(null, max, null);
             for (Board b : possibleNextBoards) {
                 AlphaBetaResult result = alphaBeta(b, currentDepth + 1, max, beta);
 
@@ -124,7 +134,6 @@ public class AlphaBeta {
 
         //if !maximize
         int min = beta;
-        AlphaBetaResult bestNextTurn = new AlphaBetaResult(null, min, null);
         for (Board b : possibleNextBoards) {
             AlphaBetaResult result = alphaBeta(b, currentDepth + 1, alpha, min);
 
