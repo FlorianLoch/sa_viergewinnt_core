@@ -42,11 +42,7 @@ public enum Stone {
         
         return YELLOW;
     }
-    
-    /**
-     * Returns the discription of the stone.
-     * @return discription
-     */
+
     @Override
     public String toString() {
         return this.desc;
