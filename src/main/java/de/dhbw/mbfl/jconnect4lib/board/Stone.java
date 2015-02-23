@@ -6,7 +6,7 @@ package de.dhbw.mbfl.jconnect4lib.board;
  * @author Maurice Busch & Florian Loch
  */
 public enum Stone {
-    YELLOW("\u001B[33m\u25cfA1\u001B[0m", "YELLOW stone"), RED("\u001B[31m\u25cf\u001B[0m", "RED stone");
+    YELLOW("\u001B[33m\u25cf\u001B[0m", "YELLOW stone"), RED("\u001B[31m\u25cf\u001B[0m", "RED stone");
 
 
     public static final String ANSI_RESET = "\u001B[0m";
