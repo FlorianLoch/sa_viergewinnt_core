@@ -13,6 +13,9 @@ import java.io.PrintWriter;
 import static org.junit.Assert.*;
 
 public class AlphaBetaAITest {
+
+    //THIS ARE (MORE OR LESS) REGRESSION TESTS
+
     @Test
     public void testTurnGenerationIsIdempotent() {
         AlphaBetaAI instance = new AlphaBetaAI();
@@ -41,41 +44,41 @@ public class AlphaBetaAITest {
         assertEquals(new Position("D2"), p1);
 
         Position p2 = instance.calculateTurn(board, 2);
-        assertEquals(new Position("D2"), p2);
+        assertEquals(new Position("C1"), p2);
 
         Position p3 = instance.calculateTurn(board, 3);
-        assertEquals(new Position("D2"), p3);
+        assertEquals(new Position("C1"), p3);
 
         Position p4 = instance.calculateTurn(board, 4);
-        assertEquals(new Position("D2"), p4);
+        assertEquals(new Position("B1"), p4);
 
         Position p5 = instance.calculateTurn(board, 5);
-        assertEquals(new Position("D2"), p5);
+        assertEquals(new Position("B1"), p5);
 
         Position p6 = instance.calculateTurn(board, 6);
         assertEquals(new Position("C1"), p6);
 
         Position p7 = instance.calculateTurn(board, 7);
-        assertEquals(new Position("D2"), p7);   //Because there is an odd number of fields taken into account in column c and d,
+        assertEquals(new Position("B1"), p7);   //Because there is an odd number of fields taken into account in column c and d,
                                                 //so the player will not get the same amount of tokens played as the other - therefore he will not get as much
                                                 //stones into d as Yellow
 
         Position p8 = instance.calculateTurn(board, 8);
-        assertEquals(new Position("C1"), p8);
+        assertEquals(new Position("B1"), p8);
 
         Position p9 = instance.calculateTurn(board, 9);
-        assertEquals(new Position("D2"), p9);
+        assertEquals(new Position("B1"), p9);
 
         board.addStone(p8);
 
         Position p10 = instance.calculateTurn(board, 1);
-        assertEquals(new Position("D2"), p9);
+        assertEquals(new Position("B1"), p9);
 
         board.addStone(p10);
         board.addStone(new Position("D3"));
 
         Position p11 = instance.calculateTurn(board, 1);
-        assertEquals(new Position("D4"), p11);
+        assertEquals(new Position("C1"), p11);
     }
 
     @Test

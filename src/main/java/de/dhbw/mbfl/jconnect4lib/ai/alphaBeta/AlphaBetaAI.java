@@ -9,6 +9,7 @@ package de.dhbw.mbfl.jconnect4lib.ai.alphaBeta;
 import de.dhbw.mbfl.jconnect4lib.ai.AI;
 import de.dhbw.mbfl.jconnect4lib.ai.alphaBeta.patternRater.PatternRater;
 import de.dhbw.mbfl.jconnect4lib.ai.alphaBeta.patternRater.patterns.MiddleColumns;
+import de.dhbw.mbfl.jconnect4lib.ai.alphaBeta.patternRater.patterns.MiddleRows;
 import de.dhbw.mbfl.jconnect4lib.board.Board;
 import de.dhbw.mbfl.jconnect4lib.board.Position;
 
@@ -22,6 +23,7 @@ public class AlphaBetaAI implements AI {
     public Position calculateTurn(Board board, int depth) {
         PatternRater patternRater = new PatternRater();
         patternRater.addPatternDetector(new MiddleColumns());
+        patternRater.addPatternDetector(new MiddleRows());
 
         int adaptiveDepth = computeAdaptiveSearchDepth(board, depth);
 

@@ -7,23 +7,23 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-public class MiddleColumnsTest {
+public class MiddleRowsTest {
 
     @Test
-    public void testMiddleColumnsRater() {
-        PatternDetector instance = new MiddleColumns();
+    public void testMiddleRowRater() {
+        PatternDetector instance = new MiddleRows();
         Board board = new Board();
-        board.addStone("B1");
-        board.addStone("C1");
-        board.addStone("C2");
         board.addStone("D1");
         board.addStone("D2");
-        board.addStone("G1");
+        board.addStone("D3");
+        board.addStone("D4");
+        board.addStone("C1");
+        board.addStone("D5");
 
         RatingResult r = instance.searchPattern(board);
 
-        assertEquals(6, r.getRatingPlayerOne());
-        assertEquals(5, r.getRatingPlayerTwo());
+        assertEquals(8, r.getRatingPlayerOne());
+        assertEquals(3, r.getRatingPlayerTwo());
     }
 
 }

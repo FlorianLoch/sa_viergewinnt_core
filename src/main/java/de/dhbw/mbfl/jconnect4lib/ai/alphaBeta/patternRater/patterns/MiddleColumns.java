@@ -27,7 +27,7 @@ public class MiddleColumns extends PatternDetector {
         for (Position p : board) {
             int distanceToCenter = p.getColumn() - center;
             if (p.getColumn() < center) {
-                distanceToCenter = center - p.getColumn();
+                distanceToCenter *= -1;
             }
 
             if (board.getStone(p) == Stone.YELLOW) ratingPlayerOne += center - distanceToCenter;
