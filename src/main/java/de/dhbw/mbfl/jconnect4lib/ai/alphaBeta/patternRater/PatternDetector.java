@@ -17,6 +17,7 @@ import de.dhbw.mbfl.jconnect4lib.board.Stone;
 public abstract class PatternDetector {
     // The default weighting for any pattern is initially 1
     private int weighting = 1;
+    private boolean multiplier = false;
     protected Board board;
     
     /**
@@ -40,5 +41,13 @@ public abstract class PatternDetector {
     
     public void setWeighting(int weighting) {
         this.weighting = weighting;
-    }   
+    }
+
+    public boolean isMultiplier() {
+        return multiplier;
+    }
+
+    public void setMultiplier(boolean multiplier) {
+        this.multiplier = multiplier;
+    }
 }

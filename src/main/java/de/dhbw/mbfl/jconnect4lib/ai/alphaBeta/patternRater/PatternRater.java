@@ -25,14 +25,16 @@ public class PatternRater extends BoardRater {
     }
     
     public void addPatternDetector(PatternDetector detector) {
-        this.addPatternDetector(detector, 0);
+        this.addPatternDetector(detector, 0, false);
     }
     
-    public void addPatternDetector(PatternDetector detector, int weighting) {
+    public void addPatternDetector(PatternDetector detector, int weighting, boolean multiplier) {
         //If weighting is 0 (zero), the default value provided by the detector is used
         if (weighting != 0) {
             detector.setWeighting(weighting);
         }
+
+        detector.setMultiplier(multiplier);
         
         this.detectors.add(detector);
     }
@@ -43,7 +45,7 @@ public class PatternRater extends BoardRater {
 
         for (PatternDetector d : this.detectors) {
             RatingResult r = d.searchPattern(board);
-            rating.addRating(r, d.getWeighting());
+            rating.addRating(r, d.getWeighting(), d.isMultiplier());
         }
         
         return rating;

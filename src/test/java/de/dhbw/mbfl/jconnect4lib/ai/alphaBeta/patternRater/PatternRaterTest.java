@@ -44,10 +44,51 @@ public class PatternRaterTest {
                 assertTrue(board != null);
                 return new RatingResult(84, 42);
             }
-        }, 3);
+        }, 3, false);
 
         Board b = new Board();
         int rating = instance.rate(b);
-        assertEquals("Rating should be 3 * 42", rating, 126);
-    }    
+        assertEquals("Rating should be 3 * 84 - 3 * 42", rating, 126);
+    }
+
+    @Test
+    public void testRateWithCustomWeightingAndMultiplierSingleRater() {
+        PatternRater instance = new PatternRater();
+        instance.addPatternDetector(new PatternDetector() {
+            @Override
+            protected RatingResult searchPatternImpl(Board board) {
+                assertTrue(board != null);
+                return new RatingResult(84, 42);
+            }
+        }, 4, true);
+
+
+        Board b = new Board();
+        int rating = instance.rate(b);
+        //Rating is initially 0, so multiplying doesn't change anything
+        assertEquals("Rating should be 0 * 84 - 0 * 42", 0, rating);
+    }
+
+    @Test
+    public void testRateWithCustomWeightingAndMultiplierZero() {
+        PatternRater instance = new PatternRater();
+        instance.addPatternDetector(new PatternDetector() {
+            @Override
+            protected RatingResult searchPatternImpl(Board board) {
+                assertTrue(board != null);
+                return new RatingResult(84, 42);
+            }
+        }, 4, false);
+        instance.addPatternDetector(new PatternDetector() {
+            @Override
+            protected RatingResult searchPatternImpl(Board board) {
+                assertTrue(board != null);
+                return new RatingResult(4, 2);
+            }
+        }, 2, true);
+
+        Board b = new Board();
+        int rating = instance.rate(b);
+        assertEquals("Rating should be 4 * 84 * 4 * 2 - 4 * 42 * 2 * 2", 2016, rating);
+    }
 }

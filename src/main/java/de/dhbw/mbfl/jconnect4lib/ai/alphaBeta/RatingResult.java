@@ -31,7 +31,13 @@ public class RatingResult {
         return this.playerTwo;
     }
     
-    public void addRating(RatingResult rating, int weighting) {        
+    public void addRating(RatingResult rating, int weighting, boolean multiplier) {
+        if (multiplier) {
+            this.playerOne *= rating.getRatingPlayerOne() * weighting;
+            this.playerTwo *= rating.getRatingPlayerTwo() * weighting;
+            return;
+        }
+
         this.playerOne += rating.getRatingPlayerOne() * weighting;
         this.playerTwo += rating.getRatingPlayerTwo() * weighting;
     }
