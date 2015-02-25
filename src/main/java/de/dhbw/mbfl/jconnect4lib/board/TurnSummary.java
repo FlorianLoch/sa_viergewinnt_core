@@ -12,12 +12,13 @@ package de.dhbw.mbfl.jconnect4lib.board;
 public class TurnSummary {
     private Position turn;
     private boolean won;
-    private boolean remi;
+    private boolean remis;
+    private Streak winningStreak;
 
-    public TurnSummary(Position turn, boolean won, boolean remi) {
+    public TurnSummary(Position turn, boolean won, boolean remis) {
         this.turn = turn;
         this.won = won;
-        this.remi = remi;
+        this.remis = remis;
     }
 
     /**
@@ -35,10 +36,10 @@ public class TurnSummary {
     }
 
     /**
-     * @return the remi
+     * @return the remis
      */
-    public boolean isRemi() {
-        return remi;
+    public boolean isRemis() {
+        return remis;
     }
 
     

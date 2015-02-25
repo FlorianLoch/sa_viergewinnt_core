@@ -5,23 +5,21 @@
  */
 package de.dhbw.mbfl.jconnect4lib.board;
 
+import java.util.ArrayList;
+
 /**
  * A streak is one counter witch counts the stones.
  * @author Maurice Busch <busch.maurice@gmx.net>
  */
 public class Streak
 {
-    private int streak;
     private int endStreak;
+    private ArrayList<Position> streak;
     
-    public Streak(int endStreak)
+    public Streak(int endStreak, Position position)
     {
-        this(endStreak, 0);
-    }
-    
-    public Streak(int endStreak, int streak)
-    {
-        this.streak = streak;
+        this.streak = new ArrayList<Position>();
+        this.streak.add(position);
         this.endStreak = endStreak;
     }
     
@@ -29,25 +27,29 @@ public class Streak
      * countet streak
      * @return int streak
      */
-    public int getStreak()
+    public int getStreakLength()
     {
-        return streak;
+        return streak.size();
     }
-    
+
     /**
      * counts up the Streak
      */
-    public void countUp()
+    public void countUp(Position position)
     {
-        this.streak++;
+        this.streak.add(position);
     }
     
     /**
      * tests if the counted streak ends the game.
      * @return boolean
      */
-    public boolean isEnd()
+    public boolean isGameWon()
     {
-        return (this.streak >= this.endStreak);
+        return (this.streak.size() >= this.endStreak);
+    }
+
+    public ArrayList<Position> getStreakItems() {
+        return this.streak;
     }
 }

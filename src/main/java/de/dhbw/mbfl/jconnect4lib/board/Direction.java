@@ -66,7 +66,23 @@ public enum Direction
             default: return 0;
         }
     }
-    
+
+
+
+    public Direction getOpposite() {
+        if (this == NORTH) return SOUTH;
+        if (this == NORTH_EAST) return SOUTH_WEST;
+        if (this == EAST) return WEST;
+        if (this == SOUTH_EAST) return NORTH_WEST;
+
+        if (this == SOUTH) return NORTH;
+        if (this == SOUTH_WEST) return NORTH_EAST;
+        if (this == WEST) return EAST;
+        if (this == NORTH_WEST) return SOUTH_EAST;
+
+        return null;
+    }
+
     @Override
     public String toString()
     {

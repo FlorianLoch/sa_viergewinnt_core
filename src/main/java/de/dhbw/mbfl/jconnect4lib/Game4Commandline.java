@@ -7,7 +7,6 @@ package de.dhbw.mbfl.jconnect4lib;
 
 import de.dhbw.mbfl.jconnect4lib.ai.alphaBeta.AlphaBetaAI;
 import de.dhbw.mbfl.jconnect4lib.board.Position;
-import de.dhbw.mbfl.jconnect4lib.board.Stone;
 import de.dhbw.mbfl.jconnect4lib.board.TurnSummary;
 import de.dhbw.mbfl.jconnect4lib.exceptions.ValidationException;
 import java.util.Scanner;
@@ -39,7 +38,7 @@ public class Game4Commandline
 
             try {
                 TurnSummary playerSummary = game.doPlayerTurn(pos);
-                if(playerSummary.isRemi())
+                if(playerSummary.isRemis())
                 {
                     System.out.println("Remi");
                     break;
@@ -52,7 +51,7 @@ public class Game4Commandline
                 }
 
                 TurnSummary aiSummary = game.doAITurn();
-                if(aiSummary.isRemi())
+                if(aiSummary.isRemis())
                 {
                     System.out.println("Drawn");
                     break;

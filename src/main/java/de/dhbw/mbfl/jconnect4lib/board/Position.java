@@ -120,8 +120,8 @@ public class Position {
         int digitSecondChar = Integer.parseInt(posStr.substring(1));
         
         // TODO make this check more generic or remove the check here and let it be handled by isOnBoard()
-        if (asciiFirstChar > 64 && asciiFirstChar < 72 && digitSecondChar > 0 && digitSecondChar < 7) {
-            return new Position((Integer.parseInt(posStr.substring(1)) - 1) * 7 + (posStr.codePointAt(0) - 65));
+        if (asciiFirstChar > 64 && asciiFirstChar < 72 && digitSecondChar > 0 && digitSecondChar <= Size.BOARD.row()) {
+            return new Position((Integer.parseInt(posStr.substring(1)) - 1) * Size.BOARD.column() + (posStr.codePointAt(0) - 65));
         }   
         
         return null;

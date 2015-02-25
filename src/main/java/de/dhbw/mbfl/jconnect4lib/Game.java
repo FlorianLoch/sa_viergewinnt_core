@@ -130,4 +130,8 @@ public class Game {
     {
         return this.board.toString();
     }
+
+    public Board getBoard() {
+        return this.board; //TODO this is againt the law of Demeter
+    }
 }
