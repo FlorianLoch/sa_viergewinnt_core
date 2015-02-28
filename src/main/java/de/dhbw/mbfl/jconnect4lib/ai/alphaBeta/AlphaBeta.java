@@ -6,6 +6,9 @@
 package de.dhbw.mbfl.jconnect4lib.ai.alphaBeta;
 
 import de.dhbw.mbfl.jconnect4lib.ai.BoardRater;
+import de.dhbw.mbfl.jconnect4lib.ai.alphaBeta.patternRater.PatternRater;
+import de.dhbw.mbfl.jconnect4lib.ai.alphaBeta.patternRater.patterns.MiddleColumns;
+import de.dhbw.mbfl.jconnect4lib.ai.alphaBeta.patternRater.patterns.MiddleRows;
 import de.dhbw.mbfl.jconnect4lib.board.Board;
 import de.dhbw.mbfl.jconnect4lib.board.Size;
 import java.io.FileWriter;
@@ -29,17 +32,19 @@ public class AlphaBeta {
 
     public static void main(String[] args) throws IOException{
         logFile = new FileWriter("alphaBeta.log");
-        
+        PatternRater patternRater = new PatternRater();
+        patternRater.addPatternDetector(new MiddleColumns());
+        patternRater.addPatternDetector(new MiddleRows());
+
         for (String levelToCheck : args) {
             Board currentBoard = new Board();
-            AlphaBeta.findBestTurn(currentBoard, Integer.parseInt(levelToCheck));
+            AlphaBeta.findBestTurn(currentBoard, Integer.parseInt(levelToCheck), patternRater);
         }
         
         logFile.close();
     }
     
     private AlphaBeta(BoardRater rater, NextTurnsComputer nextTurnsComputer, int maxAbsoluteDepth) {
-        if (rater == null) throw new IllegalArgumentException("AlphaBeta needs a BoardRater-implementation!");
         this.rater = rater;
 
         if (nextTurnsComputer == null) nextTurnsComputer = new DefaultNextTurnsComputer();
@@ -51,8 +56,8 @@ public class AlphaBeta {
         this.cutOffs = 0;
     }
 
-    public static AlphaBetaResult findBestTurn(Board currentBoard, int maxAbsoluteDepth) {
-        return findBestTurn(currentBoard, maxAbsoluteDepth, null, null);
+    public static AlphaBetaResult findBestTurn(Board currentBoard, int foresight, BoardRater rater) {
+        return findBestTurn(currentBoard, foresight, rater, null);
     }
     
     public static AlphaBetaResult findBestTurn(Board currentBoard, int foresight, BoardRater rater, NextTurnsComputer nextTurnsComputer) {
@@ -63,7 +68,9 @@ public class AlphaBeta {
         if (currentBoard.turnEndedGame() != Board.STATE_NOTYETOVER) throw new IllegalArgumentException("The game associated with the given board is already over.");
 
         AlphaBeta alg = new AlphaBeta(rater, nextTurnsComputer, maxDepth);
-        
+
+        long startTime = System.currentTimeMillis();
+
         AlphaBetaResult result = alg.alphaBeta(currentBoard, currentDepth, Integer.MIN_VALUE, Integer.MAX_VALUE);
 
         if (result.getComputedTurn() == null) {
@@ -75,7 +82,10 @@ public class AlphaBeta {
             result = findBestTurn(currentBoard, foresight - 1, rater, nextTurnsComputer);
         }
 
+        long duration = System.currentTimeMillis() - startTime;
+
         log("Depth: " + maxDepth);
+        log("Duration: " + duration + "ms");
         log("Rated boards: " + alg.ratedBoards);
         log("CutOffs: " + alg.cutOffs);
         log("Foresight: " + foresight);

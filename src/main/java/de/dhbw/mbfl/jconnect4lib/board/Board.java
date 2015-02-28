@@ -3,6 +3,7 @@ package de.dhbw.mbfl.jconnect4lib.board;
 import de.dhbw.mbfl.jconnect4lib.exceptions.OutOfBoardException;
 import de.dhbw.mbfl.jconnect4lib.exceptions.PositionOccupiedException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 
@@ -395,7 +396,7 @@ public class Board implements Iterable<Position> {
 
     @Override
     public int hashCode() {
-        return 0;
+        return Arrays.hashCode(this.board);
     }
 
     @Override

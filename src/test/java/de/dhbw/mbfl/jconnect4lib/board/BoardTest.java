@@ -578,7 +578,7 @@ public class BoardTest extends EasyMockSupport
         
         Board clone = board.clone();
        
-        assertNotEquals(board, clone);
+        assertFalse(board == clone);
         assertEquals(clone.getStone(new Position(10)), Stone.YELLOW);
         assertEquals(clone.getStone(new Position(12)), Stone.RED);     
         assertEquals(clone.getLastTurn(), new Position(12));
