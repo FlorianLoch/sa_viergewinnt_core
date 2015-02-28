@@ -381,7 +381,22 @@ public class Board implements Iterable<Position> {
         }
 
         return null;
-    }    
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Board board = (Board) o;
+
+        return this.areBoardOccupationsEqual(board);
+    }
+
+    @Override
+    public int hashCode() {
+        return 0;
+    }
 
     @Override
     public Iterator<Position> iterator() {

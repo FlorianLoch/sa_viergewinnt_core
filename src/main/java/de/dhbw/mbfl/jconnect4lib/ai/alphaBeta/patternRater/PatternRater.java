@@ -6,7 +6,7 @@
 
 package de.dhbw.mbfl.jconnect4lib.ai.alphaBeta.patternRater;
 
-import de.dhbw.mbfl.jconnect4lib.ai.alphaBeta.BoardRater;
+import de.dhbw.mbfl.jconnect4lib.ai.BoardRater;
 import de.dhbw.mbfl.jconnect4lib.ai.alphaBeta.RatingResult;
 
 import de.dhbw.mbfl.jconnect4lib.board.Board;

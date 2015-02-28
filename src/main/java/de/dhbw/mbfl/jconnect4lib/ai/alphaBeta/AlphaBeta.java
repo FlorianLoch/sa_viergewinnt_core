@@ -5,6 +5,7 @@
  */
 package de.dhbw.mbfl.jconnect4lib.ai.alphaBeta;
 
+import de.dhbw.mbfl.jconnect4lib.ai.BoardRater;
 import de.dhbw.mbfl.jconnect4lib.board.Board;
 import de.dhbw.mbfl.jconnect4lib.board.Size;
 import java.io.FileWriter;
@@ -40,7 +41,7 @@ public class AlphaBeta {
     private AlphaBeta(BoardRater rater, NextTurnsComputer nextTurnsComputer, int maxAbsoluteDepth) {
         if (rater == null) throw new IllegalArgumentException("AlphaBeta needs a BoardRater-implementation!");
         this.rater = rater;
-        
+
         if (nextTurnsComputer == null) nextTurnsComputer = new DefaultNextTurnsComputer();
         this.nextTurnsGenerator = nextTurnsComputer;
         
@@ -54,14 +55,14 @@ public class AlphaBeta {
         return findBestTurn(currentBoard, maxAbsoluteDepth, null, null);
     }
     
-    public static AlphaBetaResult findBestTurn(Board currentBoard, int foresight, BoardRater rater, NextTurnsComputer nextTurnsComputer) {        
+    public static AlphaBetaResult findBestTurn(Board currentBoard, int foresight, BoardRater rater, NextTurnsComputer nextTurnsComputer) {
         int currentDepth = currentBoard.getTurnCount();
         int maxDepth = currentDepth + foresight;
         if (maxDepth > Size.BOARD.size()) maxDepth = 42; //Actually Size.Board.size()-1 is the last playable level, but Size.Board.size() is needed for evaluating that turn
         
         if (currentBoard.turnEndedGame() != Board.STATE_NOTYETOVER) throw new IllegalArgumentException("The game associated with the given board is already over.");
 
-        AlphaBeta alg = new AlphaBeta(rater, nextTurnsComputer, maxDepth);        
+        AlphaBeta alg = new AlphaBeta(rater, nextTurnsComputer, maxDepth);
         
         AlphaBetaResult result = alg.alphaBeta(currentBoard, currentDepth, Integer.MIN_VALUE, Integer.MAX_VALUE);
 
