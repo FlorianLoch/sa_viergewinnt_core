@@ -149,7 +149,7 @@ public class Board implements Iterable<Position> {
     public int turnEndedGame() {
         if (getTurnCount() == 0) return STATE_NOTYETOVER; //Otherwise this check will crash when it gets perfomed on a new board instance (because in startCountingStreak() lastTurn can not be determined)
         
-        if (this.searchLongestStreak().isGameWon()) return STATE_WIN;
+        if (this.searchLongestStreak().isStreakEndingGame()) return STATE_WIN;
 
         if (getTurnCount() == Size.BOARD.column() * Size.BOARD.row()) {
             return STATE_REMI;
@@ -161,7 +161,7 @@ public class Board implements Iterable<Position> {
     public Streak searchLongestStreak() {
         ArrayList<Streak> streaks = this.searchStreaks();
 
-        Streak longestStreak = new Streak(STREAK_COUNT_END, null);
+        Streak longestStreak = new Streak(STREAK_COUNT_END, this.getLastTurn(), Direction.NORTH);
         for (Streak s : streaks) {
             if (s.getStreakLength() > longestStreak.getStreakLength()) {
                 longestStreak = s;
@@ -189,12 +189,11 @@ public class Board implements Iterable<Position> {
 
     public Streak startCountingStreak(Direction directionOne, Direction directionTwo) {
         Position lastTurn = this.log.get(getTurnCount() - 1);
-        Streak streak = new Streak(STREAK_COUNT_END, lastTurn);
+        Streak streak = new Streak(STREAK_COUNT_END, lastTurn, directionOne);
         streak = countStreak(directionOne, lastTurn, streak);
         streak = countStreak(directionTwo, lastTurn, streak);
         return streak;
     }
-    
         
     /**
      * Counts the streak form a position.
@@ -216,7 +215,7 @@ public class Board implements Iterable<Position> {
      * @return the streak
      */
     private Streak countStreak(Direction direction, Position pos, Streak streak, Stone color) {
-        if (streak.isGameWon()) {
+        if (streak.isStreakEndingGame()) {
             return streak;
         }
 

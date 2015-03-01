@@ -15,41 +15,40 @@ public class Streak
 {
     private int endStreak;
     private ArrayList<Position> streak;
+    private Direction firstDirection;
     
-    public Streak(int endStreak, Position position)
+    public Streak(int endStreak, Position position, Direction direction)
     {
         this.streak = new ArrayList<Position>();
         this.streak.add(position);
         this.endStreak = endStreak;
+        this.firstDirection = direction;
     }
-    
-    /**
-     * countet streak
-     * @return int streak
-     */
+
     public int getStreakLength()
     {
         return streak.size();
     }
 
-    /**
-     * counts up the Streak
-     */
     public void countUp(Position position)
     {
         this.streak.add(position);
     }
-    
-    /**
-     * tests if the counted streak ends the game.
-     * @return boolean
-     */
-    public boolean isGameWon()
+
+    public boolean isStreakEndingGame()
     {
         return (this.streak.size() >= this.endStreak);
     }
 
     public ArrayList<Position> getStreakItems() {
         return this.streak;
+    }
+
+    public Direction getFirstDirection() {
+        return this.firstDirection;
+    }
+
+    public Direction getSecondDirection() {
+        return this.firstDirection.getOpposite();
     }
 }

@@ -21,7 +21,7 @@ public class StreakTest
     @Test
     public void testCountUpFromZero()
     {
-        Streak streak = new Streak(4, null);
+        Streak streak = new Streak(4, null, null);
 
         int countUpOne = streak.getStreakLength();
         streak.countUp(null);
@@ -36,24 +36,24 @@ public class StreakTest
         assertEquals("Must be three after three count", 3, countUpThree);
         assertEquals("Must be fore after fore count", 4, countUpFour);
     }
-    
+
     /**
      * Creates a streak with end on 4. Counts form 0 to 5 and looks if end is fals on 0,1,2,3 and true on 4 and 5.
      */
     @Test
     public void testIsEndFormZero()
     {
-        Streak streak = new Streak(4, null);
+        Streak streak = new Streak(4, null, null);
 
-        boolean countUpOne = streak.isGameWon();
+        boolean countUpOne = streak.isStreakEndingGame();
         streak.countUp(null);
-        boolean countUpTwo = streak.isGameWon();
+        boolean countUpTwo = streak.isStreakEndingGame();
         streak.countUp(null);
-        boolean countUpThree = streak.isGameWon();
+        boolean countUpThree = streak.isStreakEndingGame();
         streak.countUp(null);
-        boolean countUpFour = streak.isGameWon();
+        boolean countUpFour = streak.isStreakEndingGame();
         streak.countUp(null);
-        boolean countUpFive = streak.isGameWon();
+        boolean countUpFive = streak.isStreakEndingGame();
 
         assertFalse("Must be false after one counts", countUpOne);
         assertFalse("Must be false after two counts", countUpTwo);

@@ -18,8 +18,7 @@ public enum RatingCache {
     }
 
     public Integer lookupBoard(Board board) {
-        return null;
-        //return this.cache.get(board);
+        return this.cache.get(board);
     }
 
     public void putBoard(Board board, Integer rating) {

@@ -385,7 +385,7 @@ public class BoardTest extends EasyMockSupport
     public void testTurnEndedGameWin()
     {
         Streak streak = createStrictMock(Streak.class);
-        expect(streak.isGameWon()).andReturn(true);
+        expect(streak.isStreakEndingGame()).andReturn(true);
         Board board = createMockBuilder(Board.class).addMockedMethods("getTurnCount", "searchLongestStreak").createStrictMock();
         expect(board.getTurnCount()).andReturn(1);
         expect(board.searchLongestStreak()).andReturn(streak);
@@ -410,6 +410,8 @@ public class BoardTest extends EasyMockSupport
         Streak s = b.searchLongestStreak();
 
         assertEquals(3, s.getStreakLength());
+        assertEquals(Direction.NORTH, s.getFirstDirection());
+        assertEquals(Direction.SOUTH, s.getSecondDirection());
 
         b.addStone("A4");
         s = b.searchLongestStreak();
@@ -425,7 +427,7 @@ public class BoardTest extends EasyMockSupport
     public void testTurnEndedGameRemis()
     {
         Streak streak = createStrictMock(Streak.class);
-        expect(streak.isGameWon()).andReturn(false);
+        expect(streak.isStreakEndingGame()).andReturn(false);
         Size.BOARD.unlog().changeSize(7, 6);
         Board board = createMockBuilder(Board.class).addMockedMethods("searchLongestStreak", "getTurnCount").createStrictMock();
         expect(board.getTurnCount()).andReturn(42);
@@ -448,7 +450,7 @@ public class BoardTest extends EasyMockSupport
 //    public void testTurnEndedGameNotOver()
 //    {
 //        Streak streak = createStrictMock(Streak.class);
-//        expect(streak.isGameWon()).andReturn(false).times(4);
+//        expect(streak.isStreakEndingGame()).andReturn(false).times(4);
 //        Size.BOARD.unlog().changeSize(7, 6);
 //        Board board = createMockBuilder(Board.class).addMockedMethods("startCountingStreak", "getTurnCount").createStrictMock();
 //        expect(board.getTurnCount()).andReturn(15);
@@ -484,8 +486,8 @@ public class BoardTest extends EasyMockSupport
         board.addStone(third, Stone.RED);
         board.addStone(forth, Stone.RED);
         
-        Streak north = board.countStreak(Direction.NORTH, first, new Streak(4, first));
-        Streak south = board.countStreak(Direction.SOUTH, forth, new Streak(4, forth));
+        Streak north = board.countStreak(Direction.NORTH, first, new Streak(4, first, Direction.NORTH));
+        Streak south = board.countStreak(Direction.SOUTH, forth, new Streak(4, forth, Direction.SOUTH));
         
         assertEquals(4, north.getStreakLength());
         assertEquals(4, south.getStreakLength());
@@ -508,13 +510,13 @@ public class BoardTest extends EasyMockSupport
         board.addStone(first, Stone.RED);
         board.addStone(second, Stone.RED);
         
-        Streak northHalf = board.countStreak(Direction.NORTH, first, new Streak(4, first));
+        Streak northHalf = board.countStreak(Direction.NORTH, first, new Streak(4, first, Direction.NORTH));
         
         board.addStone(thierd, Stone.YELLOW);
         board.addStone(forth, Stone.RED);
         
-        Streak north = board.countStreak(Direction.NORTH, first, new Streak(4, first));
-        Streak south = board.countStreak(Direction.SOUTH, forth, new Streak(4, forth));
+        Streak north = board.countStreak(Direction.NORTH, first, new Streak(4, first, Direction.NORTH));
+        Streak south = board.countStreak(Direction.SOUTH, forth, new Streak(4, forth, Direction.SOUTH));
         
         assertEquals(2, northHalf.getStreakLength());
         assertEquals(2, north.getStreakLength());
