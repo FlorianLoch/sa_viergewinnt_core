@@ -16,9 +16,11 @@ public class Streak
     private int endStreak;
     private ArrayList<Position> streak;
     private Direction firstDirection;
+    private int couldBeExtendedBy;
     
     public Streak(int endStreak, Position position, Direction direction)
     {
+        this.couldBeExtendedBy = 0;
         this.streak = new ArrayList<Position>();
         this.streak.add(position);
         this.endStreak = endStreak;
@@ -32,6 +34,18 @@ public class Streak
 
     public void countUp(Position position) {
         this.streak.add(position);
+    }
+
+    public void increaseMaxiumumPossibleLength() {
+        this.couldBeExtendedBy++;
+    }
+
+    public int getCouldBeExtendedBy() {
+        return this.couldBeExtendedBy;
+    }
+
+    public boolean couldBeExtended() {
+        return (this.streak.size() + couldBeExtendedBy >= this.endStreak);
     }
 
     public boolean isStreakEndingGame()

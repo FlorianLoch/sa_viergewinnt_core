@@ -210,7 +210,7 @@ public class Board implements Iterable<Position> {
      * @return
      */
     private Streak countStreak(Direction direction, Position pos, Streak streak) {
-        return this.countStreak(direction, pos, streak, this.getStone(pos));
+        return this.countStreak(direction, pos, streak, this.getStone(pos), false);
     }
 
     /**
@@ -221,19 +221,36 @@ public class Board implements Iterable<Position> {
      * @param color
      * @return the streak
      */
-    private Streak countStreak(Direction direction, Position pos, Streak streak, Stone color) {
+    private Streak countStreak(Direction direction, Position pos, Streak streak, Stone color, boolean countingMaxPossibleLength) {
         if (streak.isStreakEndingGame()) {
             return streak;
         }
 
         Position nextPos = pos.newPosition(direction);
 
-        if (!this.isOnBoard(nextPos) || this.getStone(nextPos) != color) {
+        if (!this.isOnBoard(nextPos)) {
             return streak;
         }
 
-        streak.countUp(nextPos);
-        return countStreak(direction, nextPos, streak, color);
+        if (this.getStone(nextPos) == color) {
+            if (!countingMaxPossibleLength) {
+                streak.countUp(nextPos);
+            }
+        }
+        else if (this.getStone(nextPos) == null) {
+            countingMaxPossibleLength = true;
+            streak.increaseMaxiumumPossibleLength();
+
+            if (streak.couldBeExtended()) {
+                return streak;
+            }
+         }
+        else {
+            //getStone(NextPos) == <COLOR OF OPPONENT>
+            return streak;
+        }
+
+        return countStreak(direction, nextPos, streak, color, countingMaxPossibleLength);
     }
 
     /**

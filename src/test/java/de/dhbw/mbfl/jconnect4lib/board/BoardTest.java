@@ -422,6 +422,76 @@ public class BoardTest extends EasyMockSupport
     }
 
     @Test
+    public void testStreakCouldBeMaximizedHorizontally() {
+        Board b = new Board();
+        b.addStone("A1");
+        b.addStone("G1");
+
+        b.addStone("B1");
+        b.addStone("F1");
+
+        b.addStone("C1");
+
+        Streak s = b.searchLongestStreak(b.getLastTurn()); //b.getLastTurn() == new Position("C1")
+        assertTrue(s.couldBeExtended());
+
+        b.addStone("D1");
+
+        s = b.searchLongestStreak(new Position("C1"));
+        assertFalse(s.couldBeExtended());
+
+        b.undoLastTurn();
+
+        b.addStone("F2");
+        b.addStone("E1");
+
+        s = b.searchLongestStreak(new Position("C1"));
+        assertTrue(s.couldBeExtended());
+        assertEquals(Board.STATE_NOTYETOVER, b.turnEndedGame()); //Make sure that the gap between C1 and E1 is taken into account
+    }
+
+    @Test
+    public void testStreakCouldBeMaximizedVertically() {
+        Board b = new Board();
+        b.addStone("B1");
+        b.addStone("A1");
+
+        b.addStone("B2");
+        b.addStone("A2");
+
+        Streak s = b.searchLongestStreak(b.getLastTurn()); //b.getLastTurn() == new Position("A2")
+        assertTrue(s.couldBeExtended());
+
+        b.addStone("A3");
+
+        s = b.searchLongestStreak(new Position("A2"));
+        assertFalse(s.couldBeExtended());
+    }
+
+    @Test
+    public void testStreakCouldBeMaximizedDiagonally() {
+        Board b = new Board();
+        b.addStone("C1");
+        b.addStone("D1");
+
+        b.addStone("D2");
+        b.addStone("C2");
+
+        Streak s = b.searchLongestStreak(b.getLastTurn()); //b.getLastTurn() == new Position("C2")
+        assertTrue(s.couldBeExtended());
+
+        b.addStone("B1");
+        b.addStone("B2");
+        b.addStone("B3");
+
+        s = b.searchLongestStreak(new Position("C2"));
+        assertFalse(s.couldBeExtended());
+
+        s = b.searchLongestStreak(new Position("D2"));
+        assertTrue(s.couldBeExtended());
+    }
+
+    @Test
     public void testSearchStreakButNoStreakFound() {
         Board b = new Board();
         b.addStone("A1");
