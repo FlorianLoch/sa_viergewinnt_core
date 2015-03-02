@@ -30,39 +30,39 @@ public class Board implements Iterable<Position> {
         this.board = board;
         this.log = log;
     }
-    
+
     public BoardIdentity computeBoardIdentity() {
         return new BoardIdentity(this);
     }
-    
+
     public boolean areBoardOccupationsEqual(Object o) {
         if (!(o instanceof Board)) return false;
-            
+
         Board b = (Board) o;
-        
+
         if (this.size() != b.size()) return false;
-        
+
         Iterator<Position> iter = b.iterator();
-        
+
         for (Position p : this) {
             if (b.getStone(iter.next()) != getStone(p)) return false;
         }
-        
+
         return true;
     }
-    
+
     public int size() {
         return board.length * board[0].length;
     }
-    
+
     /**
      * Adds a stone to the board.
      * @param pos
      * @throws PositionOccupiedException
-     * @throws OutOfBoardException 
+     * @throws OutOfBoardException
      * @return Board for chaining
      */
-    public Board addStone(Position pos) throws PositionOccupiedException, OutOfBoardException {      
+    public Board addStone(Position pos) throws PositionOccupiedException, OutOfBoardException {
         return this.addStone(pos, this.nextStone());
     }
 
@@ -80,27 +80,27 @@ public class Board implements Iterable<Position> {
 
         return this.addStone(pos, this.nextStone());
     }
-    
+
     /**
      * Adds a stone to the board.
      * @param pos
      * @param stone
      * @throws PositionOccupiedException
-     * @throws OutOfBoardException 
+     * @throws OutOfBoardException
      * @return Board for chaining
      */
     @Deprecated
     public Board addStone(Position pos, Stone stone) throws PositionOccupiedException, OutOfBoardException {
-        
+
         if (!this.isOnBoard(pos)) throw new OutOfBoardException(pos);
         if (this.getStone(pos) != null) throw new PositionOccupiedException(pos);
-        
+
         this.log.add(pos);
         this.board[pos.getRow()][pos.getColumn()] = stone;
-        
+
         return this;
     }
-    
+
     /**
      * Returns the stone on the given positon, if ther is no stone null is returned.
      * @param pos
@@ -109,7 +109,7 @@ public class Board implements Iterable<Position> {
     public Stone getStone(Position pos) {
         return this.board[pos.getRow()][pos.getColumn()];
     }
-    
+
     /**
      * Tests if the position is on the board.
      * @param pos
@@ -147,9 +147,10 @@ public class Board implements Iterable<Position> {
      * @return state of the game after given turn (0, 1, 2)
      */
     public int turnEndedGame() {
-        if (getTurnCount() == 0) return STATE_NOTYETOVER; //Otherwise this check will crash when it gets perfomed on a new board instance (because in startCountingStreak() lastTurn can not be determined)
-        
-        if (this.searchLongestStreak().isStreakEndingGame()) return STATE_WIN;
+        if (getTurnCount() == 0) return STATE_NOTYETOVER; //Otherwise this check will crash when it gets performed on a new board instance (because in startCountingStreak() lastTurn can not be determined)
+
+        Streak longestStreak = this.searchLongestStreak(this.getLastTurn());
+        if (longestStreak != null && longestStreak.isStreakEndingGame()) return STATE_WIN;
 
         if (getTurnCount() == Size.BOARD.column() * Size.BOARD.row()) {
             return STATE_REMI;
@@ -158,12 +159,13 @@ public class Board implements Iterable<Position> {
         return STATE_NOTYETOVER;
     }
 
-    public Streak searchLongestStreak() {
-        ArrayList<Streak> streaks = this.searchStreaks();
+    public Streak searchLongestStreak(Position startPoint) {
+        ArrayList<Streak> streaks = this.searchStreaks(startPoint);
 
-        Streak longestStreak = new Streak(STREAK_COUNT_END, this.getLastTurn(), Direction.NORTH);
+        Streak longestStreak = null;
+        int longestStreakLength = 1;
         for (Streak s : streaks) {
-            if (s.getStreakLength() > longestStreak.getStreakLength()) {
+            if (s.getStreakLength() > longestStreakLength) {
                 longestStreak = s;
             }
         }
@@ -171,7 +173,7 @@ public class Board implements Iterable<Position> {
         return longestStreak;
     }
 
-    public ArrayList<Streak> searchStreaks() {
+    public ArrayList<Streak> searchStreaks(Position startPoint) {
         Direction[] directions = new Direction[]{
                 Direction.NORTH,
                 Direction.NORTH_EAST,
@@ -181,28 +183,32 @@ public class Board implements Iterable<Position> {
         ArrayList<Streak> streaks = new ArrayList<Streak>();
 
         for (Direction d : directions) {
-            streaks.add(this.startCountingStreak(d, d.getOpposite()));
+            Streak s = this.startCountingStreak(startPoint, d, d.getOpposite());
+            if (s == null) continue;
+            streaks.add(s);
         }
 
         return streaks;
     }
 
-    public Streak startCountingStreak(Direction directionOne, Direction directionTwo) {
-        Position lastTurn = this.log.get(getTurnCount() - 1);
-        Streak streak = new Streak(STREAK_COUNT_END, lastTurn, directionOne);
-        streak = countStreak(directionOne, lastTurn, streak);
-        streak = countStreak(directionTwo, lastTurn, streak);
+    public Streak startCountingStreak(Position startPoint, Direction directionOne, Direction directionTwo) {
+        Streak streak = new Streak(STREAK_COUNT_END, startPoint, directionOne);
+        streak = countStreak(directionOne, startPoint, streak);
+        streak = countStreak(directionTwo, startPoint, streak);
+
+        if (streak.getStreakLength() == 1) return null;
+
         return streak;
     }
-        
+
     /**
      * Counts the streak form a position.
      * @param direction
      * @param pos
      * @param streak
-     * @return 
+     * @return
      */
-    public Streak countStreak(Direction direction, Position pos, Streak streak) {
+    private Streak countStreak(Direction direction, Position pos, Streak streak) {
         return this.countStreak(direction, pos, streak, this.getStone(pos));
     }
 
@@ -228,7 +234,7 @@ public class Board implements Iterable<Position> {
         streak.countUp(nextPos);
         return countStreak(direction, nextPos, streak, color);
     }
-    
+
     /**
      * Gives the last made turn.
      * @return position
@@ -240,26 +246,26 @@ public class Board implements Iterable<Position> {
         }
         return this.log.get(getTurnCount() - 1);
     }
-    
+
     /**
      * Returns true if there are no more posible turns and false if there are more.
-     * @return 
+     * @return
      */
     public boolean isBoardFull()
     {
         return (getTurnCount() == Size.BOARD.column() * Size.BOARD.row());
     }
-    
+
     /**
      * Returns true if the game can be contiuned. If the Method returns false someone has wone
      * the game or the board is full
-     * @return 
+     * @return
      */
     public boolean isGameRunning()
     {
         return (! this.isBoardFull() && this.turnEndedGame() == 0);
     }
-    
+
     /**
      * Gives the count of done turns
      * @return turns
@@ -268,20 +274,20 @@ public class Board implements Iterable<Position> {
     {
         return this.log.size();
     }
-    
+
     /**
      * Gives back the next stone
-     * @return 
+     * @return
      */
     public Stone nextStone()
     {
         if(this.getTurnCount() % 2 == 0) {
             return Stone.YELLOW;
         }
-        
+
         return Stone.RED;
     }
-    
+
     /**
      * Gives the last added stone.
      * @return stone
@@ -300,14 +306,14 @@ public class Board implements Iterable<Position> {
      */
     public void undoLastTurn() {
         Position pos = this.getLastTurn();
-        
+
         if(pos != null)
-        {    
+        {
             this.log.remove(pos);
             this.board[pos.getRow()][pos.getColumn()] = null;
         }
     }
-    
+
     /**
      * Colons the board.
      * @return board
@@ -319,7 +325,7 @@ public class Board implements Iterable<Position> {
                 tmpBoard[i][j] = this.board[i][j];
             }
         }
-        
+
         ArrayList<Position> tmpLog = new ArrayList<Position>();
         for (Position p : this.log) {
             tmpLog.add(p.clone());
@@ -327,7 +333,7 @@ public class Board implements Iterable<Position> {
 
         return new Board(tmpBoard, tmpLog);
     }
-    
+
     /**
      * Pars the Board into a string.
      * @return Board as string
@@ -351,8 +357,8 @@ public class Board implements Iterable<Position> {
 
         return s; //To change body of generated methods, choose Tools | Templates.
     }
-   
-    
+
+
     public ArrayList<Position> determinePossiblePositions() {
         ArrayList<Position> possiblePositions = new ArrayList();
         for (int i = 0; i < Size.BOARD.column(); i++) {
@@ -363,11 +369,11 @@ public class Board implements Iterable<Position> {
         }
         return possiblePositions;
     }
-    
+
     /**
      * Returns the lowest possible position in a column. "Possible" means that the field is currently set to null, so not occupied yet.
      * If there is no field left in this column null is returned.
-     * 
+     *
      * @param col
      *
      * @return The lowest possible position
@@ -403,7 +409,7 @@ public class Board implements Iterable<Position> {
         return new Iterator<Position>() {
             private int index = 0;
             private int size = board.length * board[0].length;
-            
+
             @Override
             public boolean hasNext() {
                 return index < size;

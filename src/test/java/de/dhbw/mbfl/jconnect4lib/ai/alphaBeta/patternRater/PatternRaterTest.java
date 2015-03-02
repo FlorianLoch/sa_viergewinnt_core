@@ -11,13 +11,18 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
+ * The following tests cover all 5 possibilities of rating behaviour
+ * - Simple addition
+ * - Multiplying
+ *           Multiplier
+ *           P   N
+ * Rating P  X   X
+ * Rating N  X   X
+ *
  *
  * @author florian
  */
 public class PatternRaterTest {
-    /**
-     * Test of rate method, of class PatternRater.
-     */
     @Test
     public void testRateWithDefaultWeighting() {
         final Board b = new Board();
@@ -70,7 +75,7 @@ public class PatternRaterTest {
     }
 
     @Test
-    public void testRateWithCustomWeightingAndMultiplierZero() {
+    public void testRateWithCustomWeightingAndMultiplier() {
         PatternRater instance = new PatternRater();
         instance.addPatternDetector(new PatternDetector() {
             @Override
@@ -83,12 +88,35 @@ public class PatternRaterTest {
             @Override
             protected RatingResult searchPatternImpl(Board board) {
                 assertTrue(board != null);
-                return new RatingResult(4, 2);
+                return new RatingResult(4, -2);
             }
         }, 2, true);
 
         Board b = new Board();
         int rating = instance.rate(b);
-        assertEquals("Rating should be 4 * 84 * 4 * 2 - 4 * 42 * 2 * 2", 2016, rating);
+        assertEquals("Rating should be 4 * 84 * 4 * 2 - 4 * 42 / (2 * -2 * -1)", 2646, rating);
+    }
+
+    @Test
+    public void testRateWithCustomWeightingAndMultiplierWithNegativeValues() {
+        PatternRater instance = new PatternRater();
+        instance.addPatternDetector(new PatternDetector() {
+            @Override
+            protected RatingResult searchPatternImpl(Board board) {
+                assertTrue(board != null);
+                return new RatingResult(-4, -10);
+            }
+        }, 4, false);
+        instance.addPatternDetector(new PatternDetector() {
+            @Override
+            protected RatingResult searchPatternImpl(Board board) {
+                assertTrue(board != null);
+                return new RatingResult(4, -2);
+            }
+        }, 2, true);
+
+        Board b = new Board();
+        int rating = instance.rate(b);
+        assertEquals("Rating should be 4 * -4 / (4 * 2) - 4 * -10 * (-2 * 2 * -1)", 158, rating);
     }
 }

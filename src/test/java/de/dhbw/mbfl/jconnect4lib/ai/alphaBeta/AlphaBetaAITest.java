@@ -114,7 +114,7 @@ public class AlphaBetaAITest {
 
         Position proposal = instance.calculateTurn(board);
 
-        assertEquals(new Position("F2"), proposal);
+        assertEquals(new Position("B2"), proposal);
     }
 
     // Situation is as described here: https://github.com/FlorianLoch/sa_viergewinnt_server/issues/3

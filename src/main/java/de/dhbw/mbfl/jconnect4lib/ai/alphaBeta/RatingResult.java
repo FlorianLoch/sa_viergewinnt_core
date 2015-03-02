@@ -5,6 +5,8 @@
  */
 package de.dhbw.mbfl.jconnect4lib.ai.alphaBeta;
 
+import java.lang.reflect.Field;
+
 /**
  *
  * @author Florian Loch (florian dot loch at gmail dot com)
@@ -30,15 +32,33 @@ public class RatingResult {
     public int getRatingPlayerTwo() {
         return this.playerTwo;
     }
-    
-    public void addRating(RatingResult rating, int weighting, boolean multiplier) {
+
+    private static int computeRatingForPlayer(int currentRating, int ratingToAdd, int weighting, boolean multiplier) {
         if (multiplier) {
-            this.playerOne *= rating.getRatingPlayerOne() * weighting;
-            this.playerTwo *= rating.getRatingPlayerTwo() * weighting;
-            return;
+            if (currentRating >= 0) {
+                if (ratingToAdd < 0) {
+                    currentRating /= ratingToAdd * weighting * -1;
+                    return currentRating;
+                }
+                currentRating *= ratingToAdd * weighting;
+            }
+            else {
+                if (ratingToAdd <= 0) {
+                    currentRating *= ratingToAdd * weighting * -1;
+                    return currentRating;
+                }
+                currentRating /= ratingToAdd * weighting;
+            }
+
+            return currentRating;
         }
 
-        this.playerOne += rating.getRatingPlayerOne() * weighting;
-        this.playerTwo += rating.getRatingPlayerTwo() * weighting;
+        currentRating += ratingToAdd * weighting;
+        return currentRating;
+    }
+
+    public void addRating(RatingResult rating, int weighting, boolean multiplier) {
+        this.playerOne = computeRatingForPlayer(this.playerOne, rating.getRatingPlayerOne(), weighting, multiplier);
+        this.playerTwo = computeRatingForPlayer(this.playerTwo, rating.getRatingPlayerTwo(), weighting, multiplier);
     }
 }

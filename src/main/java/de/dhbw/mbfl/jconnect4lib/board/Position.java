@@ -100,7 +100,14 @@ public class Position {
         
         return (p.col == this.col && p.row == this.row);
     }
-    
+
+    @Override
+    public int hashCode() {
+        int result = col;
+        result = 31 * result + row;
+        return result;
+    }
+
     public Position clone() {
         return new Position(this.col, this.row);
     }
