@@ -18,12 +18,13 @@ public enum RatingCache {
     }
 
     public Integer lookupBoard(Board board) {
-        return this.cache.get(board);
+//        return this.cache.get(board);
+        return null;
     }
 
     public void putBoard(Board board, Integer rating) {
-        if (this.cache.size() < 10E5) {
-            this.cache.put(board, rating);
-        }
+//        if (this.cache.size() < 10E5) {
+//            this.cache.put(board, rating);
+//        }
     }
 }
