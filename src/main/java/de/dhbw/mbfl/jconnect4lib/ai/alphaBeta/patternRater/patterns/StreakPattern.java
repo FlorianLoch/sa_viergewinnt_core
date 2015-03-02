@@ -3,11 +3,9 @@ package de.dhbw.mbfl.jconnect4lib.ai.alphaBeta.patternRater.patterns;
 import de.dhbw.mbfl.jconnect4lib.ai.alphaBeta.RatingResult;
 import de.dhbw.mbfl.jconnect4lib.ai.alphaBeta.patternRater.PatternDetector;
 import de.dhbw.mbfl.jconnect4lib.board.*;
-import javafx.geometry.Pos;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.LinkedHashSet;
 import java.util.Stack;
 
 /**
