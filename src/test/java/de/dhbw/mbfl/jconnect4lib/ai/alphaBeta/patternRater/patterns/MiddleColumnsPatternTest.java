@@ -7,11 +7,11 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-public class MiddleColumnsTest {
+public class MiddleColumnsPatternTest {
 
     @Test
     public void testMiddleColumnsRater() {
-        PatternDetector instance = new MiddleColumns();
+        PatternDetector instance = new MiddleColumnsPattern();
         Board board = new Board();
         board.addStone("B1");
         board.addStone("C1");

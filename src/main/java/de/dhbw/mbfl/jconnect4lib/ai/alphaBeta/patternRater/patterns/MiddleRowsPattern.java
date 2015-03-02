@@ -10,7 +10,7 @@ import de.dhbw.mbfl.jconnect4lib.board.Stone;
 /**
  * Created by florian on 24.02.15.
  */
-public class MiddleRows extends PatternDetector {
+public class MiddleRowsPattern extends PatternDetector {
 
     @Override
     protected RatingResult searchPatternImpl(Board board) {

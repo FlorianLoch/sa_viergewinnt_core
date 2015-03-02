@@ -7,8 +7,8 @@ package de.dhbw.mbfl.jconnect4lib.ai.alphaBeta;
 
 import de.dhbw.mbfl.jconnect4lib.ai.BoardRater;
 import de.dhbw.mbfl.jconnect4lib.ai.alphaBeta.patternRater.PatternRater;
-import de.dhbw.mbfl.jconnect4lib.ai.alphaBeta.patternRater.patterns.MiddleColumns;
-import de.dhbw.mbfl.jconnect4lib.ai.alphaBeta.patternRater.patterns.MiddleRows;
+import de.dhbw.mbfl.jconnect4lib.ai.alphaBeta.patternRater.patterns.MiddleColumnsPattern;
+import de.dhbw.mbfl.jconnect4lib.ai.alphaBeta.patternRater.patterns.MiddleRowsPattern;
 import de.dhbw.mbfl.jconnect4lib.board.Board;
 import de.dhbw.mbfl.jconnect4lib.board.Size;
 import java.io.FileWriter;
@@ -33,8 +33,8 @@ public class AlphaBeta {
     public static void main(String[] args) throws IOException{
         logFile = new FileWriter("alphaBeta.log");
         PatternRater patternRater = new PatternRater();
-        patternRater.addPatternDetector(new MiddleColumns());
-        patternRater.addPatternDetector(new MiddleRows());
+        patternRater.addPatternDetector(new MiddleColumnsPattern());
+        patternRater.addPatternDetector(new MiddleRowsPattern());
 
         for (String levelToCheck : args) {
             Board currentBoard = new Board();
@@ -62,8 +62,9 @@ public class AlphaBeta {
     
     public static AlphaBetaResult findBestTurn(Board currentBoard, int foresight, BoardRater rater, NextTurnsComputer nextTurnsComputer) {
         int currentDepth = currentBoard.getTurnCount();
-        int maxDepth = currentDepth + foresight;
-        if (maxDepth > Size.BOARD.size()) maxDepth = 42; //Actually Size.Board.size()-1 is the last playable level, but Size.Board.size() is needed for evaluating that turn
+        int maxPossibleForesight = Size.BOARD.size() - currentDepth;
+        if (foresight > maxPossibleForesight) foresight = maxPossibleForesight;
+        int maxDepth = currentDepth + foresight; //Actually Size.Board.size()-1 is the last playable level, but Size.Board.size() is needed for evaluating that turn
         
         if (currentBoard.turnEndedGame() != Board.STATE_NOTYETOVER) throw new IllegalArgumentException("The game associated with the given board is already over.");
 
