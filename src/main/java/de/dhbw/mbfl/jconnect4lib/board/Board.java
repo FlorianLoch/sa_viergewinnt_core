@@ -167,6 +167,7 @@ public class Board implements Iterable<Position> {
         for (Streak s : streaks) {
             if (s.getStreakLength() > longestStreakLength) {
                 longestStreak = s;
+                longestStreakLength = s.getStreakLength();
             }
         }
 

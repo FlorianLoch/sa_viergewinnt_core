@@ -403,21 +403,32 @@ public class BoardTest extends EasyMockSupport
         Board b = new Board();
         b.addStone("A1");
         b.addStone("B1");
+
         b.addStone("A2");
         b.addStone("B2");
+
         b.addStone("A3");
         b.addStone("B3");
 
-        Streak s = b.searchLongestStreak(b.getLastTurn());
+        b.addStone("E1");
+        b.addStone("C1");
 
-        assertEquals(3, s.getStreakLength());
-        assertEquals(Direction.NORTH, s.getFirstDirection());
-        assertEquals(Direction.SOUTH, s.getSecondDirection());
+        assertEquals(2, b.searchLongestStreak(b.getLastTurn()).getStreakLength());
+        assertEquals(3, b.searchLongestStreak(new Position("B2")).getStreakLength());
 
         b.addStone("A4");
-        s = b.searchLongestStreak(b.getLastTurn());
 
-        assertEquals(4, s.getStreakLength());
+        assertEquals(4, b.searchLongestStreak(b.getLastTurn()).getStreakLength());
+    }
+
+    @Test
+    public void testSearchStreakButNoStreakFound() {
+        Board b = new Board();
+        b.addStone("A1");
+
+        Streak s = b.searchLongestStreak(b.getLastTurn());
+
+        assertNull(s);
     }
 
     /**

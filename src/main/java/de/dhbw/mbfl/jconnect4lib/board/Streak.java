@@ -30,8 +30,7 @@ public class Streak
         return streak.size();
     }
 
-    public void countUp(Position position)
-    {
+    public void countUp(Position position) {
         this.streak.add(position);
     }
 

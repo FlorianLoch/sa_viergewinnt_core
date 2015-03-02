@@ -1,16 +1,11 @@
 package de.dhbw.mbfl.jconnect4lib.ai.alphaBeta;
 
 import de.dhbw.mbfl.jconnect4lib.board.Board;
-import de.dhbw.mbfl.jconnect4lib.board.BoardUtils;
 import de.dhbw.mbfl.jconnect4lib.board.Position;
-import de.dhbw.mbfl.jconnect4lib.board.Stone;
 import org.junit.Test;
 
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.PrintWriter;
-
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class AlphaBetaAITest {
 
@@ -102,32 +97,4 @@ public class AlphaBetaAITest {
         assertEquals(new Position("D3"), p);
     }
 
-    @Test
-    public void testCalculateTurnEndSituation() {
-        final String BOARD_ALLOCATION = "E1;D1$C1;D2$D3;D4$E2;D5$F1;D6$C2;B1$C3;C4$E3;E4$E5;C5$C6;E6$G1;A1$G2;A2$G3;G4$A3;A4$A5;A6$G5;G6";
-        AlphaBetaAI instance = new AlphaBetaAI();
-        Board board = new Board();
-
-        BoardUtils.addStonesToBoard(board, BOARD_ALLOCATION);
-
-        System.out.println(board);
-
-        Position proposal = instance.calculateTurn(board);
-
-        assertEquals(new Position("B2"), proposal);
-    }
-
-    // Situation is as described here: https://github.com/FlorianLoch/sa_viergewinnt_server/issues/3
-    @Test
-    public void testCriticalSituation() {
-        final String BOARD_ALLOCATION = "D1;C1$D2;C2$D3;D4$C3;D5$E1;D6$F1";
-        AlphaBetaAI instance = new AlphaBetaAI();
-        Board board = new Board();
-
-        BoardUtils.addStonesToBoard(board, BOARD_ALLOCATION);
-
-        Position proposal = instance.calculateTurn(board, 8);
-
-        assertEquals(new Position("G1"), proposal); //Because the algorithm detects, that he will loose whatever he does
-    }
 }
