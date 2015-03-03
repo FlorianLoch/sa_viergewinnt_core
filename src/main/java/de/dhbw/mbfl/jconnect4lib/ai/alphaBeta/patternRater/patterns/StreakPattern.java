@@ -4,6 +4,7 @@ import de.dhbw.mbfl.jconnect4lib.ai.alphaBeta.RatingResult;
 import de.dhbw.mbfl.jconnect4lib.ai.alphaBeta.patternRater.PatternDetector;
 import de.dhbw.mbfl.jconnect4lib.board.*;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Stack;
@@ -12,21 +13,37 @@ import java.util.Stack;
  * Created by florian on 01.03.15.
  */
 public class StreakPattern extends PatternDetector {
-    private Board board;
     private Stack<Position> playerOnePositions = new Stack<Position>();
     private Stack<Position> playerTwoPositions = new Stack<Position>();
 
     @Override
     protected RatingResult searchPatternImpl(Board board) {
-        this.board = board;
+        this.fillUpPlayerPositionLists(board);
+        ArrayList<Streak> streaksPlayerOne = this.findAllStreaks(board, this.playerOnePositions);
+        ArrayList<Streak> streaksPlayerTwo = this.findAllStreaks(board, this.playerTwoPositions);
 
-        ArrayList<Streak> streaksPlayerOne = this.findAllStreaks(this.playerOnePositions);
-        ArrayList<Streak> streaksPlayerTwo = this.findAllStreaks(this.playerTwoPositions);
+        streaksPlayerOne = this.filterAllMaximizableStreaks(streaksPlayerOne);
+        streaksPlayerTwo = this.filterAllMaximizableStreaks(streaksPlayerTwo);
+
+        // TODO Rate diagonal streaks higher because likelihood of being overseen by human opponent is much higher
+        // TODO Also horizontal streaks are much better than vertical ones
 
         return new RatingResult(streaksPlayerOne.size(), streaksPlayerTwo.size());
     }
 
-    public ArrayList<Streak> findAllStreaks(Stack<Position> playerPositions) {
+    public ArrayList<Streak> filterAllMaximizableStreaks(ArrayList<Streak> streaks) {
+        ArrayList<Streak> essence = new ArrayList<Streak>();
+
+        for (Streak s : streaks) {
+            if (s.couldBeMaximized()) {
+                essence.add(s);
+            }
+        }
+
+        return essence;
+    }
+
+    public ArrayList<Streak> findAllStreaks(Board board, Stack<Position> playerPositions) {
         ArrayList<Streak> allStreaks = new ArrayList<Streak>();
         Direction[] directions = new Direction[]{
                 Direction.NORTH,
@@ -36,15 +53,17 @@ public class StreakPattern extends PatternDetector {
         };
 
         for (Direction d : directions) {
-            this.fillUpPlayerPositionLists();
-            ArrayList<Streak> foundStreaks = this.findStreaksInDirection(d, playerPositions);
+            Stack<Position> playerPositionsCopy = new Stack<Position>();
+            copyStack(playerPositions, playerPositionsCopy);
+
+            ArrayList<Streak> foundStreaks = this.findStreaksInDirection(board, d, playerPositionsCopy);
             allStreaks.addAll(foundStreaks);
         }
 
         return allStreaks;
     }
 
-    private ArrayList<Streak> findStreaksInDirection(Direction direction, Stack<Position> playerPositions) {
+    private ArrayList<Streak> findStreaksInDirection(Board board, Direction direction, Stack<Position> playerPositions) {
         HashSet<Position> alreadyVisitedPositions = new HashSet<Position>();
         ArrayList<Streak> allStreaks = new ArrayList<Streak>();
 
@@ -53,7 +72,7 @@ public class StreakPattern extends PatternDetector {
 
             if (alreadyVisitedPositions.contains(p)) continue;
 
-            Streak streakFound = this.board.startCountingStreak(p, direction, direction.getOpposite());
+            Streak streakFound = board.startCountingStreak(p, direction, direction.getOpposite());
             if (streakFound == null) continue;
 
             allStreaks.add(streakFound);
@@ -66,18 +85,24 @@ public class StreakPattern extends PatternDetector {
         return allStreaks;
     }
 
-    private void fillUpPlayerPositionLists() {
+    private void fillUpPlayerPositionLists(Board board) {
         this.playerOnePositions.clear();
         this.playerTwoPositions.clear();
 
-        for (Position p : this.board) {
-            Stone s = this.board.getStone(p);
+        for (Position p : board) {
+            Stone s = board.getStone(p);
             if (s == Stone.YELLOW) {
                 this.playerOnePositions.add(p);
             }
             else if (s == Stone.RED) {
                 this.playerTwoPositions.add(p);
             }
+        }
+    }
+
+    public static <T> void copyStack(Stack<T> from, Stack<T> to) {
+        for (T o : from) {
+            to.add(o);
         }
     }
 }

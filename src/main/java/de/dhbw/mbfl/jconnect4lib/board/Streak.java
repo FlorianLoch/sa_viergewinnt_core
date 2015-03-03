@@ -16,7 +16,7 @@ public class Streak
     private int endStreak;
     private ArrayList<Position> streak;
     private Direction firstDirection;
-    private int couldBeExtendedBy;
+    private int couldBeExtendedBy; //How many fields could the streak grow on the board? This counting doesn't take opponents moves into account, it just checks whether there MIGHT be space for extending this streak
     
     public Streak(int endStreak, Position position, Direction direction)
     {
@@ -40,11 +40,7 @@ public class Streak
         this.couldBeExtendedBy++;
     }
 
-    public int getCouldBeExtendedBy() {
-        return this.couldBeExtendedBy;
-    }
-
-    public boolean couldBeExtended() {
+    public boolean couldBeMaximized() {
         return (this.streak.size() + couldBeExtendedBy >= this.endStreak);
     }
 

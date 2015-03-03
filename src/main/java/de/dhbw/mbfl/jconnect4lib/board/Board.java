@@ -241,7 +241,7 @@ public class Board implements Iterable<Position> {
             countingMaxPossibleLength = true;
             streak.increaseMaxiumumPossibleLength();
 
-            if (streak.couldBeExtended()) {
+            if (streak.couldBeMaximized()) {
                 return streak;
             }
          }

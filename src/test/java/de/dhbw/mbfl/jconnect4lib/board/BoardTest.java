@@ -433,12 +433,12 @@ public class BoardTest extends EasyMockSupport
         b.addStone("C1");
 
         Streak s = b.searchLongestStreak(b.getLastTurn()); //b.getLastTurn() == new Position("C1")
-        assertTrue(s.couldBeExtended());
+        assertTrue(s.couldBeMaximized());
 
         b.addStone("D1");
 
         s = b.searchLongestStreak(new Position("C1"));
-        assertFalse(s.couldBeExtended());
+        assertFalse(s.couldBeMaximized());
 
         b.undoLastTurn();
 
@@ -446,7 +446,7 @@ public class BoardTest extends EasyMockSupport
         b.addStone("E1");
 
         s = b.searchLongestStreak(new Position("C1"));
-        assertTrue(s.couldBeExtended());
+        assertTrue(s.couldBeMaximized());
         assertEquals(Board.STATE_NOTYETOVER, b.turnEndedGame()); //Make sure that the gap between C1 and E1 is taken into account
     }
 
@@ -460,12 +460,12 @@ public class BoardTest extends EasyMockSupport
         b.addStone("A2");
 
         Streak s = b.searchLongestStreak(b.getLastTurn()); //b.getLastTurn() == new Position("A2")
-        assertTrue(s.couldBeExtended());
+        assertTrue(s.couldBeMaximized());
 
         b.addStone("A3");
 
         s = b.searchLongestStreak(new Position("A2"));
-        assertFalse(s.couldBeExtended());
+        assertFalse(s.couldBeMaximized());
     }
 
     @Test
@@ -478,17 +478,17 @@ public class BoardTest extends EasyMockSupport
         b.addStone("C2");
 
         Streak s = b.searchLongestStreak(b.getLastTurn()); //b.getLastTurn() == new Position("C2")
-        assertTrue(s.couldBeExtended());
+        assertTrue(s.couldBeMaximized());
 
         b.addStone("B1");
         b.addStone("B2");
         b.addStone("B3");
 
         s = b.searchLongestStreak(new Position("C2"));
-        assertFalse(s.couldBeExtended());
+        assertFalse(s.couldBeMaximized());
 
         s = b.searchLongestStreak(new Position("D2"));
-        assertTrue(s.couldBeExtended());
+        assertTrue(s.couldBeMaximized());
     }
 
     @Test

@@ -18,22 +18,16 @@ public abstract class PatternDetector {
     // The default weighting for any pattern is initially 1
     private int weighting = 1;
     private boolean multiplier = false;
-    protected Board board;
-    
+
     /**
      * @param board The board on which the pattern shall be searched
      * @return How often the pattern has been found
     */
     public RatingResult searchPattern(Board board) {
-        this.board = board;
-        return this.searchPatternImpl(this.board);
+        return this.searchPatternImpl(board);
     }
     
     protected abstract RatingResult searchPatternImpl(Board board);
-    
-    protected Stone getPlayerToRateFor() {
-        return this.board.getLastStone();
-    }
     
     public int getWeighting() {
         return this.weighting;
