@@ -28,6 +28,8 @@ public class StreakPattern extends PatternDetector {
         // TODO Rate diagonal streaks higher because likelihood of being overseen by human opponent is much higher
         // TODO Also horizontal streaks are much better than vertical ones
 
+        // TODO Decide on how to rate streaks - just the amount of found streaks isn't a good metric
+
         return new RatingResult(streaksPlayerOne.size(), streaksPlayerTwo.size());
     }
 

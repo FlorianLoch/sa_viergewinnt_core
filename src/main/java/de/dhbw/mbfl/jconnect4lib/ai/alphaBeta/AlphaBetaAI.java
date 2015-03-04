@@ -10,6 +10,7 @@ import de.dhbw.mbfl.jconnect4lib.ai.AI;
 import de.dhbw.mbfl.jconnect4lib.ai.alphaBeta.patternRater.PatternRater;
 import de.dhbw.mbfl.jconnect4lib.ai.alphaBeta.patternRater.patterns.MiddleColumnsPattern;
 import de.dhbw.mbfl.jconnect4lib.ai.alphaBeta.patternRater.patterns.MiddleRowsPattern;
+import de.dhbw.mbfl.jconnect4lib.ai.alphaBeta.patternRater.patterns.StreakPattern;
 import de.dhbw.mbfl.jconnect4lib.board.Board;
 import de.dhbw.mbfl.jconnect4lib.board.Position;
 
@@ -24,6 +25,7 @@ public class AlphaBetaAI implements AI {
         PatternRater patternRater = new PatternRater();
         patternRater.addPatternDetector(new MiddleColumnsPattern());
         patternRater.addPatternDetector(new MiddleRowsPattern());
+        patternRater.addPatternDetector(new StreakPattern(), 1, true);
 
         int adaptiveDepth = computeAdaptiveSearchDepth(board, depth);
 
