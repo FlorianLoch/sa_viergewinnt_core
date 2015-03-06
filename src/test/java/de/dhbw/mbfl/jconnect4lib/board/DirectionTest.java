@@ -45,5 +45,4 @@ public class DirectionTest
     {
         assertEquals("Wrong vertical direction in " + data.direction.toString(), data.vertical, data.direction.verticalDirection());
     }
-    
 }

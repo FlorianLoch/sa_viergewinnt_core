@@ -31,13 +31,13 @@ public class StreakPatternTest extends EasyMockSupport {
         board.addStone("C2");
         board.addStone("D2");
 
-        board.addStone("D3");
-        board.addStone("F1");
+        board.addStone("C3");
+        board.addStone("E1");
 
         RatingResult rating = this.instance.searchPatternImpl(board);
 
-        assertEquals(2, rating.getRatingPlayerOne());
-        assertEquals(0, rating.getRatingPlayerTwo()); //Because this streaks cannot be enlarged anymore - it is fenced by yellow stones
+        assertEquals(1+4, rating.getRatingPlayerOne());
+        assertEquals(1+3, rating.getRatingPlayerTwo()); //Because this streaks cannot be enlarged anymore - it is fenced by yellow stones
     }
 
     @Test

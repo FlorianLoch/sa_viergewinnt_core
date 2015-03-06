@@ -83,6 +83,10 @@ public enum Direction
         return null;
     }
 
+    public boolean isVertical() {
+        return (this == NORTH || this == SOUTH);
+    }
+
     @Override
     public String toString()
     {
