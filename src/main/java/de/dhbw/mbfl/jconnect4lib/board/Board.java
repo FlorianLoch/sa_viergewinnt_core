@@ -444,4 +444,20 @@ public class Board implements Iterable<Position> {
             }
         };
     }
+
+    public String getGameplayHistory() {
+        String history = "";
+
+        for (int i = 0; i < this.log.size(); i++) {
+            history += this.log.get(i);
+
+            if (i + 1 == this.log.size()) {
+                break;
+            }
+
+            history += (i % 2 == 1) ? "$" : ";";
+        }
+
+        return history;
+    }
 }

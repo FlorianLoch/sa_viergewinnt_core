@@ -725,4 +725,14 @@ public class BoardTest extends EasyMockSupport
         
         assertFalse(board.areBoardOccupationsEqual(board2));
     }
+
+    @Test
+    public void testGetHistory() {
+        Board b = new Board();
+        b.addStone("D1");
+        b.addStone("B1");
+        b.addStone("D2");
+
+        assertEquals("D1;B1$D2", b.getGameplayHistory());
+    }
 }
