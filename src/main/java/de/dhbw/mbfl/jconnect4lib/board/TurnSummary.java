@@ -13,7 +13,6 @@ public class TurnSummary {
     private Position turn;
     private boolean won;
     private boolean remis;
-    private Streak winningStreak;
 
     public TurnSummary(Position turn, boolean won, boolean remis) {
         this.turn = turn;

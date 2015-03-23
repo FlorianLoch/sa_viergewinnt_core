@@ -19,7 +19,8 @@ import de.dhbw.mbfl.jconnect4lib.board.Position;
  * @author Florian Loch (florian dot loch at gmail dot com)
  */
 public class AlphaBetaAI implements AI {
-    public static final int MAX_DEPTH = 6; //This causes the AI to make an odd number of foresight steps. This leads to better results than using an even amount of steps
+    public static final int DEFAULT_DEPTH = 6; //This causes the AI to make an odd number of foresight steps. This leads to better results than using an even amount of steps
+    private int depth;
 
     public Position calculateTurn(Board board, int depth) {
         PatternRater patternRater = new PatternRater();
@@ -40,8 +41,20 @@ public class AlphaBetaAI implements AI {
         return startDepth + (turnsPlayed / 4);
     }
 
+
+    public AlphaBetaAI() {
+        this(DEFAULT_DEPTH);
+    }
+
+    public AlphaBetaAI(int depth) {
+        if (1 > depth) {
+            throw new IllegalArgumentException("Depth cannot be less than 1");
+        }
+        this.depth = depth;
+    }
+
     @Override
     public Position calculateTurn(Board board) {
-        return this.calculateTurn(board, MAX_DEPTH);
+        return this.calculateTurn(board, this.depth);
     }
 }
