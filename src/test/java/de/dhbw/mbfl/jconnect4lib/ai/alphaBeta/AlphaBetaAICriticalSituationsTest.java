@@ -39,10 +39,7 @@ public class AlphaBetaAICriticalSituationsTest {
         this.boardAllocation = boardAllocation;
         this.expectedState = expectedState;
         this.expectedProposedTurn = expectedProposedTurn;
-    }
 
-    @Before
-    public void setup() {
         this.board = new Board();
 
         BoardUtils.addStonesToBoard(this.board, this.boardAllocation);
