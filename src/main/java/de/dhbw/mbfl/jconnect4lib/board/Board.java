@@ -21,16 +21,17 @@ public class Board implements Iterable<Position> {
     private Stone[][] board;
     private ArrayList<Position> log;
 
-    private GameState turnEndedGameCache;
+    private GameState turnEndedGameCache = null;
 
     public Board()
     {
-        this(new Stone[Size.BOARD.row()][Size.BOARD.column()], new ArrayList<Position>());
+        this(new Stone[Size.BOARD.row()][Size.BOARD.column()], new ArrayList<Position>(), null);
     }
 
-    private Board(Stone[][] board, ArrayList<Position> log) {
+    private Board(Stone[][] board, ArrayList<Position> log, GameState turnEndedGameCache) {
         this.board = board;
         this.log = log;
+        this.turnEndedGameCache = turnEndedGameCache;
     }
 
     public BoardIdentity computeBoardIdentity() {
@@ -93,12 +94,13 @@ public class Board implements Iterable<Position> {
      */
     @Deprecated
     public Board addStone(Position pos, Stone stone) throws PositionOccupiedException, OutOfBoardException {
-
         if (!this.isOnBoard(pos)) throw new OutOfBoardException(pos);
         if (this.getStone(pos) != null) throw new PositionOccupiedException(pos);
 
         this.log.add(pos);
         this.board[pos.getRow()][pos.getColumn()] = stone;
+
+        clearCaches();
 
         return this;
     }
@@ -340,11 +342,17 @@ public class Board implements Iterable<Position> {
         {
             this.log.remove(pos);
             this.board[pos.getRow()][pos.getColumn()] = null;
+
+            clearCaches();
         }
     }
 
+    private void clearCaches() {
+        this.turnEndedGameCache = null;
+    }
+
     /**
-     * Colons the board.
+     * Clones the board.
      * @return board
      */
     public Board clone() {
@@ -360,7 +368,7 @@ public class Board implements Iterable<Position> {
             tmpLog.add(p.clone());
         }
 
-        return new Board(tmpBoard, tmpLog);
+        return new Board(tmpBoard, tmpLog, this.turnEndedGameCache);
     }
 
     /**

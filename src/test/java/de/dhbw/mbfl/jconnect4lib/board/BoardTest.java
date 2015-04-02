@@ -656,7 +656,32 @@ public class BoardTest extends EasyMockSupport
         assertEquals("Last Stone must be a red stone", Stone.RED, board.getLastStone());
         assertNull("Stone on the undone position must be null", board.getStone(thierd));
     }
-    
+
+    @Test
+    public void testTurnEndedGameCache() {
+        Board board = new Board();
+        board.addStone("A1");
+        board.addStone("G1");
+        board.addStone("B1");
+        board.addStone("F1");
+        board.addStone("C1");
+        board.addStone("E1");
+
+        int result1 = board.turnEndedGame();
+
+        board.addStone("D1");
+
+        int result2 = board.turnEndedGame();
+
+        board.undoLastTurn();
+
+        int result3 = board.turnEndedGame();
+
+        assertEquals(Board.STATE_NOTYETOVER, result1);
+        assertEquals(Board.STATE_WIN, result2);
+        assertEquals(Board.STATE_NOTYETOVER, result3);
+    }
+
     /**
      * Test of clone method, of class Board.
      */
