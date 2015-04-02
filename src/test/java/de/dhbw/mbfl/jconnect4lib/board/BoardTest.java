@@ -663,9 +663,7 @@ public class BoardTest extends EasyMockSupport
     @Test
     public void testClone() {
         Board board = new Board();
-        System.out.println("Error");
         board.addStone(new Position(10));
-        System.out.println("error");
         board.addStone(new Position(12));
         
         Board clone = board.clone();

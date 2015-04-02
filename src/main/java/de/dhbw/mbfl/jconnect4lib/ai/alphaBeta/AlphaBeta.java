@@ -27,23 +27,7 @@ public class AlphaBeta {
     private final int maxAbsoluteDepth;
     private long ratedBoards;
     private long cutOffs;
-    
-    private static FileWriter logFile;
 
-    public static void main(String[] args) throws IOException{
-        logFile = new FileWriter("alphaBeta.log");
-        PatternRater patternRater = new PatternRater();
-        patternRater.addPatternDetector(new MiddleColumnsPattern());
-        patternRater.addPatternDetector(new MiddleRowsPattern());
-
-        for (String levelToCheck : args) {
-            Board currentBoard = new Board();
-            AlphaBeta.findBestTurn(currentBoard, Integer.parseInt(levelToCheck), patternRater);
-        }
-        
-        logFile.close();
-    }
-    
     private AlphaBeta(BoardRater rater, NextTurnsComputer nextTurnsComputer, int maxAbsoluteDepth) {
         this.rater = rater;
 

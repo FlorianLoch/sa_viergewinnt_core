@@ -14,6 +14,8 @@ import de.dhbw.mbfl.jconnect4lib.ai.alphaBeta.patternRater.patterns.StreakPatter
 import de.dhbw.mbfl.jconnect4lib.board.Board;
 import de.dhbw.mbfl.jconnect4lib.board.Position;
 
+import java.util.Scanner;
+
 /**
  *
  * @author Florian Loch (florian dot loch at gmail dot com)
@@ -21,6 +23,17 @@ import de.dhbw.mbfl.jconnect4lib.board.Position;
 public class AlphaBetaAI implements AI {
     public static final int DEFAULT_DEPTH = 6; //This causes the AI to make an odd number of foresight steps. This leads to better results than using an even amount of steps
     private int depth;
+
+    //For benchmarking purposes
+    public static void main(String[] args) {
+        Scanner scn = new Scanner(System.in);
+        scn.nextLine();
+
+        AlphaBetaAI ai = new AlphaBetaAI();
+        Board board = new Board();
+
+        Position computed = ai.calculateTurn(board, 5);
+    }
 
     public Position calculateTurn(Board board, int depth) {
         PatternRater patternRater = new PatternRater();

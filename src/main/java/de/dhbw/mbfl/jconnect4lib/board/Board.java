@@ -21,6 +21,8 @@ public class Board implements Iterable<Position> {
     private Stone[][] board;
     private ArrayList<Position> log;
 
+    private GameState turnEndedGameCache;
+
     public Board()
     {
         this(new Stone[Size.BOARD.row()][Size.BOARD.column()], new ArrayList<Position>());
@@ -147,16 +149,24 @@ public class Board implements Iterable<Position> {
      * @return state of the game after given turn (0, 1, 2)
      */
     public int turnEndedGame() {
-        if (getTurnCount() == 0) return STATE_NOTYETOVER; //Otherwise this check will crash when it gets performed on a new board instance (because in startCountingStreak() lastTurn can not be determined)
-
-        Streak longestStreak = this.searchLongestStreak(this.getLastTurn());
-        if (longestStreak != null && longestStreak.isStreakEndingGame()) return STATE_WIN;
-
-        if (getTurnCount() == Size.BOARD.column() * Size.BOARD.row()) {
-            return STATE_REMI;
+        if (null == this.turnEndedGameCache) {
+            this.turnEndedGameCache = turnEndedGameImpl();
         }
 
-        return STATE_NOTYETOVER;
+        return this.turnEndedGameCache.getIntRepresentation();
+    }
+
+    public GameState turnEndedGameImpl() {
+        if (getTurnCount() == 0) return GameState.NOT_YET_OVER; //Otherwise this check will crash when it gets performed on a new board instance (because in startCountingStreak() lastTurn can not be determined)
+
+        Streak longestStreak = this.searchLongestStreak(this.getLastTurn());
+        if (longestStreak != null && longestStreak.isStreakEndingGame()) return GameState.WIN;
+
+        if (getTurnCount() == Size.BOARD.column() * Size.BOARD.row()) {
+            return GameState.REMIS;
+        }
+
+        return GameState.NOT_YET_OVER;
     }
 
     public Streak searchLongestStreak(Position startPoint) {
@@ -232,12 +242,14 @@ public class Board implements Iterable<Position> {
             return streak;
         }
 
-        if (this.getStone(nextPos) == color) {
+        Stone nextStone = this.getStone(nextPos);
+
+        if (color == nextStone) {
             if (!countingMaxPossibleLength) {
                 streak.countUp(nextPos);
             }
         }
-        else if (this.getStone(nextPos) == null) {
+        else if (null == nextStone) {
             countingMaxPossibleLength = true;
             streak.increaseMaxiumumPossibleLength();
 
