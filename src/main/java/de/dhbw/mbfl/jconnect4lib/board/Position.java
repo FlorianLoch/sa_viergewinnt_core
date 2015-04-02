@@ -72,18 +72,17 @@ public class Position {
     }
     
     /**
-     * Around a position there are eight posible Positions with a Direction you can couse
+     * Around a position there are eight possible Positions with a Direction you can cause
      * one of this positions.
      * @param direction
      * @return new Position
      */
-    public Position newPosition(Direction direction)
-    {
-        return new Position(this.col + direction.horizontalDirection(), row + direction.verticalDirection());
+    public Position newPosition(Direction direction) {
+        return new Position(this.col + direction.horizontalDirection(), this.row + direction.verticalDirection());
     }
     
     /**
-     * Gives the Positon as a String. For example A1 the letter represents the collumn and
+     * Gives the Position as a String. For example A1 the letter represents the column and
      * the number the row.
      * @return string position
      */

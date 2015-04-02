@@ -258,7 +258,6 @@ public class Board implements Iterable<Position> {
             }
          }
         else {
-            //getStone(NextPos) == <COLOR OF OPPONENT>
             return streak;
         }
 
