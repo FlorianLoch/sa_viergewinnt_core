@@ -9,6 +9,7 @@ import de.dhbw.mbfl.jconnect4lib.board.Board;
 import de.dhbw.mbfl.jconnect4lib.board.Difference;
 import de.dhbw.mbfl.jconnect4lib.board.Position;
 import de.dhbw.mbfl.jconnect4lib.board.Stone;
+import de.dhbw.mbfl.jconnect4lib.exceptions.NoChangeException;
 import de.dhbw.mbfl.jconnect4lib.exceptions.ValidationException;
 import java.util.ArrayList;
 import org.easymock.EasyMockSupport;
@@ -38,7 +39,7 @@ public class NoChangeTest extends EasyMockSupport
         }
         catch(ValidationException ex)
         {
-            assertThat(ex.getMessage(), containsString(NoChangeValidator.MSG));
+            assertThat(ex, instanceOf(NoChangeException.class));
         }
         
         verifyAll();

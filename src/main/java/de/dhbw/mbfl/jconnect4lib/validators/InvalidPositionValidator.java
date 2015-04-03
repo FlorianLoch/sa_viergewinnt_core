@@ -4,6 +4,7 @@ import de.dhbw.mbfl.jconnect4lib.board.Board;
 import de.dhbw.mbfl.jconnect4lib.board.Difference;
 import de.dhbw.mbfl.jconnect4lib.board.Direction;
 import de.dhbw.mbfl.jconnect4lib.board.Position;
+import de.dhbw.mbfl.jconnect4lib.exceptions.InvalidPositionException;
 import de.dhbw.mbfl.jconnect4lib.exceptions.ValidationException;
 import java.util.ArrayList;
 
@@ -14,7 +15,6 @@ import java.util.ArrayList;
  */
 public class InvalidPositionValidator implements Validator
 {
-    public static final String MSG = "Fehlerhafte Position. Unter dem neuen Stein (%s) muss sich ein weiterer Stein befinden.";  
     
     /**
      * Tests if the Stone is on the right position.
@@ -30,7 +30,7 @@ public class InvalidPositionValidator implements Validator
             Position difPos = difference.getPosition();
             if (difPos.getRow() >= 1 && board.getStone(difPos.newPosition(Direction.SOUTH)) == null)
             {
-                throw new ValidationException(String.format(MSG, difPos), difPos);
+                throw new InvalidPositionException(difPos);
             }
         }
     }

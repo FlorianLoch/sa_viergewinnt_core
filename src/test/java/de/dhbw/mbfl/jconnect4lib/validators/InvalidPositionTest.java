@@ -10,6 +10,7 @@ import de.dhbw.mbfl.jconnect4lib.board.Difference;
 import de.dhbw.mbfl.jconnect4lib.board.Direction;
 import de.dhbw.mbfl.jconnect4lib.board.Position;
 import de.dhbw.mbfl.jconnect4lib.board.Stone;
+import de.dhbw.mbfl.jconnect4lib.exceptions.InvalidPositionException;
 import de.dhbw.mbfl.jconnect4lib.exceptions.ValidationException;
 import java.util.ArrayList;
 import org.easymock.EasyMockSupport;
@@ -102,7 +103,7 @@ public class InvalidPositionTest extends EasyMockSupport
         }
         catch(ValidationException ex)
         {
-            assertThat(ex.getMessage(), containsString("Fehlerhafte Position."));
+            assertThat(ex, instanceOf(InvalidPositionException.class));
         }
         
         verifyAll();

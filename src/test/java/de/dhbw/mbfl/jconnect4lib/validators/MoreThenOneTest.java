@@ -10,10 +10,12 @@ import de.dhbw.mbfl.jconnect4lib.board.Difference;
 import de.dhbw.mbfl.jconnect4lib.board.Position;
 import de.dhbw.mbfl.jconnect4lib.board.Stone;
 import de.dhbw.mbfl.jconnect4lib.exceptions.ValidationException;
+import de.dhbw.mbfl.jconnect4lib.exceptions.MoreThenOneException;
 import java.util.ArrayList;
 import org.easymock.EasyMockSupport;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import static org.hamcrest.CoreMatchers.*;
 
 /**
  *
@@ -80,10 +82,11 @@ public class MoreThenOneTest extends EasyMockSupport
         try
         {
             validator.validate(difs, board);
-            fail("Here is no exeption expected.");
+            fail("Here is an exeption expected.");
         }
         catch(ValidationException ex)
         {
+            assertThat(ex, instanceOf(MoreThenOneException.class));
         }
         
         verifyAll();

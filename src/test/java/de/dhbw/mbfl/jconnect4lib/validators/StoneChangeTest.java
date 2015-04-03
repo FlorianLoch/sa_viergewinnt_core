@@ -9,12 +9,13 @@ import de.dhbw.mbfl.jconnect4lib.board.Board;
 import de.dhbw.mbfl.jconnect4lib.board.Difference;
 import de.dhbw.mbfl.jconnect4lib.board.Position;
 import de.dhbw.mbfl.jconnect4lib.board.Stone;
+import de.dhbw.mbfl.jconnect4lib.exceptions.StoneChangedException;
 import de.dhbw.mbfl.jconnect4lib.exceptions.ValidationException;
 import java.util.ArrayList;
 import org.easymock.EasyMockSupport;
-import static org.hamcrest.CoreMatchers.containsString;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import static org.hamcrest.CoreMatchers.*;
 
 /**
  *
@@ -91,7 +92,7 @@ public class StoneChangeTest extends EasyMockSupport
         }
         catch(ValidationException ex)
         {
-            assertThat(ex.getMessage(), containsString("Stone at position"));
+            assertThat(ex, instanceOf(StoneChangedException.class));
         }
         
         verifyAll();
@@ -115,7 +116,7 @@ public class StoneChangeTest extends EasyMockSupport
         }
         catch(ValidationException ex)
         {
-            assertThat(ex.getMessage(), containsString("Stone at position"));
+            assertThat(ex, instanceOf(StoneChangedException.class));
         }
         
         verifyAll();

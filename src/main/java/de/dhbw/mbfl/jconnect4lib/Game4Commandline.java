@@ -32,24 +32,8 @@ public class Game4Commandline
 
         while(true)
         {
-            Position pos = readPositionFromInput(input);
-
-            System.out.println();
-
+            
             try {
-                TurnSummary playerSummary = game.doPlayerTurn(pos);
-                if(playerSummary.isRemis())
-                {
-                    System.out.println("Remi");
-                    break;
-                }
-
-                if(playerSummary.isWon())
-                {
-                    System.out.println("You won!");
-                    break;
-                }
-
                 TurnSummary aiSummary = game.doAITurn();
                 if(aiSummary.isRemis())
                 {
@@ -63,7 +47,23 @@ public class Game4Commandline
                     break;
                 }
 
-                System.out.println(game.getCurrentBoardAsString());                
+                System.out.println(game.getCurrentBoardAsString());    
+                
+                Position pos = readPositionFromInput(input);
+                System.out.println();
+                TurnSummary playerSummary = game.doPlayerTurn(pos);
+                
+                if(playerSummary.isRemis())
+                {
+                    System.out.println("Remi");
+                    break;
+                }
+
+                if(playerSummary.isWon())
+                {
+                    System.out.println("You won!");
+                    break;
+                }
             }
             catch (ValidationException ex) {
                 System.out.println(ex);
