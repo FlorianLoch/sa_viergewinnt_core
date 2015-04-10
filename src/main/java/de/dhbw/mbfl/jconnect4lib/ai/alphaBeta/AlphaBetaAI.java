@@ -26,13 +26,19 @@ public class AlphaBetaAI implements AI {
 
     //For benchmarking purposes
     public static void main(String[] args) {
-        Scanner scn = new Scanner(System.in);
-        scn.nextLine();
+        long startTime = System.nanoTime();
+        if (args.length == 1 && args[0].equals("wait")) {
+            Scanner scn = new Scanner(System.in);
+            scn.nextLine();
+        }
 
         AlphaBetaAI ai = new AlphaBetaAI();
         Board board = new Board();
 
-        Position computed = ai.calculateTurn(board, 5);
+        Position computed = ai.calculateTurn(board, 12);
+
+        long duration = System.nanoTime() - startTime;
+        System.out.println("Computation took " + duration + "ns (~" + duration / 10E6 + "ms)");
     }
 
     public Position calculateTurn(Board board, int depth) {

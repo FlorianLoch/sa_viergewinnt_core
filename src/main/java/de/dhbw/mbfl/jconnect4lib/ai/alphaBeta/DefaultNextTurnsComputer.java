@@ -23,7 +23,7 @@ class DefaultNextTurnsComputer implements NextTurnsComputer {
         
         if (currentBoard.turnEndedGame() != Board.STATE_NOTYETOVER) return sortedPossibleTurns;
         
-        //Try to add a stone in each column
+        //Add a stone in each column
         for (Position p : currentBoard.determinePossiblePositions()) {
             Board clonedBoard = currentBoard.clone();
             clonedBoard.addStone(p);
@@ -32,11 +32,11 @@ class DefaultNextTurnsComputer implements NextTurnsComputer {
         
         //"Presort" to enable higher "cutting" rate    
         for (Board b : possibleTurns) {
-            if (b.turnEndedGame() == Board.STATE_NOTYETOVER) {
-                sortedPossibleTurns.offerLast(b);
+            if (b.turnEndedGame() == Board.STATE_WIN) {
+                sortedPossibleTurns.offerFirst(b);
             }
             else {
-                sortedPossibleTurns.offerFirst(b);
+                sortedPossibleTurns.addLast(b);
             }
         }
         

@@ -397,9 +397,12 @@ public class Board implements Iterable<Position> {
 
 
     public ArrayList<Position> determinePossiblePositions() {
-        ArrayList<Position> possiblePositions = new ArrayList();
-        for (int i = 0; i < Size.BOARD.column(); i++) {
-            Position lowestInColumn = this.determineLowestFreeFieldInColumn(i);
+        ArrayList<Position> possiblePositions = new ArrayList(Size.BOARD.column());
+
+        int[] sequence = new int[] {3, 4, 2, 5, 1, 6, 0};
+
+        for (int i = 0; i < sequence.length; i++) {
+            Position lowestInColumn = this.determineLowestFreeFieldInColumn(sequence[i]);
             if (lowestInColumn != null) {
                 possiblePositions.add(lowestInColumn);
             }
