@@ -17,29 +17,29 @@ public abstract class BoardRater {
 
     public int rate(Board board) {
         //Consult cache first
-        RatingCache cache = RatingCache.PATTERN_RATER;
+//        RatingCache cache = RatingCache.PATTERN_RATER;
 
-        Integer rating = cache.lookupBoard(board);
-        if (rating != null) return rating;
+//        Integer rating = cache.lookupBoard(board);
+//        if (rating != null) return rating;
 
-        int currentDepth = board.getTurnCount();
         int state = board.turnEndedGame();
 
         if (state == Board.STATE_WIN) {
+            int currentDepth = board.getTurnCount();
             if ((currentDepth - 1) % 2 == 1) { //-1 actually inverts the result
-                cache.putBoard(board, Integer.MIN_VALUE);
+//                cache.putBoard(board, Integer.MIN_VALUE);
                 return Integer.MIN_VALUE;
             } else {
-                cache.putBoard(board, Integer.MAX_VALUE);
+//                cache.putBoard(board, Integer.MAX_VALUE);
                 return Integer.MAX_VALUE;
             }
         } else if (state == Board.STATE_REMI) {
-            cache.putBoard(board, 0);
+//            cache.putBoard(board, 0);
             return 0;
         }
 
         int calculatedRating = this.rateImpl(board).getRating();
-        cache.putBoard(board, calculatedRating);
+//        cache.putBoard(board, calculatedRating);
         return calculatedRating;
     }
 

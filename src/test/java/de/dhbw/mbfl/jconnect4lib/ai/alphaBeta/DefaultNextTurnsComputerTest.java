@@ -89,6 +89,8 @@ public class DefaultNextTurnsComputerTest {
         Board board = new Board();
         LinkedList<Board> list = instance.computeNextTurns(board);
 
+        Size.BOARD.unlog().changeSize(7, 6);
+
         assertEquals("More boards than expected has been computed!", expectedBoardsCount, list.size());
 
         for (int i = 0; i < list.size(); i++) {
@@ -96,7 +98,5 @@ public class DefaultNextTurnsComputerTest {
                 fail("A board has been computed that has not been expected (perhaps just wrong sequence)");
             }
         }
-
-        Size.BOARD.unlog().changeSize(7, 6);
     }
 }

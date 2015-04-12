@@ -14,17 +14,17 @@ public enum RatingCache {
     private HashMap<Board, Integer> cache;
 
     RatingCache() {
-        this.cache = new HashMap<Board, Integer>();
+        this.cache = new HashMap<Board, Integer>((int)10E5);
     }
 
     public Integer lookupBoard(Board board) {
-//        return this.cache.get(board);
-        return null;
+        return this.cache.get(board);
+//        return null;
     }
 
     public void putBoard(Board board, Integer rating) {
-//        if (this.cache.size() < 10E5) {
-//            this.cache.put(board, rating);
-//        }
+        if (this.cache.size() < 10E5) {
+            this.cache.put(board, rating);
+        }
     }
 }

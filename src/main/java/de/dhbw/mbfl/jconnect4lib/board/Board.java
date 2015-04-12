@@ -38,17 +38,11 @@ public class Board implements Iterable<Position> {
         return new BoardIdentity(this);
     }
 
-    public boolean areBoardOccupationsEqual(Object o) {
-        if (!(o instanceof Board)) return false;
+    public boolean areBoardOccupationsEqual(Board secondBoard) {
+        if (size() != secondBoard.size() || this.board.length != secondBoard.board.length) return false;
 
-        Board b = (Board) o;
-
-        if (this.size() != b.size()) return false;
-
-        Iterator<Position> iter = b.iterator();
-
-        for (Position p : this) {
-            if (b.getStone(iter.next()) != getStone(p)) return false;
+        for (int i = 0; i < this.board.length; i++) {
+            if (!Arrays.equals(this.board[i], secondBoard.board[i])) return false;
         }
 
         return true;
