@@ -38,7 +38,7 @@ public class AlphaBetaAI implements AI {
         Position computed = ai.calculateTurn(board, 12);
 
         long duration = System.nanoTime() - startTime;
-        System.out.println("Computation took " + duration + "ns (~" + duration / 10E6 + "ms)");
+        System.out.println("Computation took " + duration + "ns (~" + duration / 10E5 + "ms)");
     }
 
     public Position calculateTurn(Board board, int depth) {

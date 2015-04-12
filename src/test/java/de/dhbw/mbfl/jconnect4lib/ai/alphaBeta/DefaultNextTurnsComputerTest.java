@@ -7,6 +7,7 @@ package de.dhbw.mbfl.jconnect4lib.ai.alphaBeta;
 
 import de.dhbw.mbfl.jconnect4lib.board.Board;
 import de.dhbw.mbfl.jconnect4lib.board.Position;
+import de.dhbw.mbfl.jconnect4lib.board.Size;
 import de.dhbw.mbfl.jconnect4lib.board.Stone;
 import java.util.LinkedList;
 import org.junit.Test;
@@ -17,7 +18,7 @@ import static org.junit.Assert.*;
  * @author florian
  */
 public class DefaultNextTurnsComputerTest {
-    
+
     public DefaultNextTurnsComputerTest() {
     }
 
@@ -27,7 +28,7 @@ public class DefaultNextTurnsComputerTest {
     @Test
     public void testComputeNextTurnsWinSituation() {
         DefaultNextTurnsComputer instance = new DefaultNextTurnsComputer();
-    
+
         Board currentBoard = new Board();
         currentBoard.addStone(new Position(0, 0));
         currentBoard.addStone(new Position(1, 0));
@@ -36,37 +37,66 @@ public class DefaultNextTurnsComputerTest {
         currentBoard.addStone(new Position(0, 2));
         currentBoard.addStone(new Position(1, 2));
         currentBoard.addStone(new Position(0, 3));
-        
+
         assertTrue("The game is over", currentBoard.turnEndedGame() == Board.STATE_WIN);
 
         assertTrue("No more turns get computed for this board", instance.computeNextTurns(currentBoard).isEmpty());
     }
 
     @Test
-    public void testComputeNextTurnsStartSituation() {
+    public void testComputeNextTurnsStartSituationOn7xXBoard() {
         DefaultNextTurnsComputer instance = new DefaultNextTurnsComputer();
 
         LinkedList<Board> expected = new LinkedList<Board>();
-        for (int i = 0; i < 7; i++) {
-            Board b = new Board();
-            b.addStone(new Position(i, 0));
-            expected.add(b);
-        }
+        expected.add(new Board().addStone(new Position(3)));
+        expected.add(new Board().addStone(new Position(2)));
+        expected.add(new Board().addStone(new Position(4)));
+        expected.add(new Board().addStone(new Position(1)));
+        expected.add(new Board().addStone(new Position(5)));
+        expected.add(new Board().addStone(new Position(0)));
+        expected.add(new Board().addStone(new Position(6)));
+
         int expectedBoardsCount = expected.size();
 
         Board board = new Board();
         LinkedList<Board> list = instance.computeNextTurns(board);
 
-        for (Board b : list) {
-            for (Board b2 : expected) {
-                if (b.areBoardOccupationsEqual(b2)) {
-                    expected.remove(b2);
-                    break;
-                }
+        assertEquals("No more than the expected boards have been computed", expectedBoardsCount, list.size());
+
+        for (int i = 0; i < list.size(); i++) {
+            if (!list.get(i).areBoardOccupationsEqual(expected.get(i))) {
+                fail("A board has been computed that has not been expected (perhaps just wrong sequence)");
+            }
+        }
+    }
+
+    @Test
+    public void testComputeNextTurnsStartSituationOn6xXBoard() {
+        Size.BOARD.unlog().changeSize(6, 6);
+
+        DefaultNextTurnsComputer instance = new DefaultNextTurnsComputer();
+
+        LinkedList<Board> expected = new LinkedList<Board>();
+        expected.add(new Board().addStone(new Position(3)));
+        expected.add(new Board().addStone(new Position(2)));
+        expected.add(new Board().addStone(new Position(4)));
+        expected.add(new Board().addStone(new Position(1)));
+        expected.add(new Board().addStone(new Position(5)));
+        expected.add(new Board().addStone(new Position(0)));
+
+        int expectedBoardsCount = expected.size();
+
+        Board board = new Board();
+        LinkedList<Board> list = instance.computeNextTurns(board);
+
+        assertEquals("More boards than expected has been computed!", expectedBoardsCount, list.size());
+
+        for (int i = 0; i < list.size(); i++) {
+            if (!list.get(i).areBoardOccupationsEqual(expected.get(i))) {
+                fail("A board has been computed that has not been expected (perhaps just wrong sequence)");
             }
         }
 
-        assertEquals("All expected board should have been computed", expected.size(), 0);
-        assertEquals("Not more then the expected boards should have been computed", expectedBoardsCount, list.size());
+        Size.BOARD.unlog().changeSize(7, 6);
     }
 }
