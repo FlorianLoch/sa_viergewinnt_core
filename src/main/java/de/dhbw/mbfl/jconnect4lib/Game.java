@@ -33,7 +33,11 @@ public class Game {
         this.validators = validators;
         this.ai = ai;
     }
-    
+
+    public AI getAi() {
+        return ai;
+    }
+
     /**
      * Default initialisation of the Validators.
      * @return 
