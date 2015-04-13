@@ -76,4 +76,8 @@ public class AlphaBetaAI implements AI {
     public Position calculateTurn(Board board) {
         return this.calculateTurn(board, this.depth);
     }
+
+    public int getDepth() {
+        return depth;
+    }
 }
