@@ -99,23 +99,6 @@ public class Game {
     }
     
     /**
-     * Get next free row in the given collumn and return the result as Position.
-     * @param col
-     * @return position if one if found and null if none free row is found.
-     */
-    public Position getNextPosition4Col(int col) {
-        for(int i = 0; i < Size.BOARD.row(); i++)
-        {
-            Position pos = new Position(col, i);
-            if(board.getStone(pos) == null){
-                return pos;
-            }
-        }
-        
-        return null;
-    }
-    
-    /**
      * Validates the turn of the player if no error was found the position of the
      * new stone will be returned.
      * @param board
