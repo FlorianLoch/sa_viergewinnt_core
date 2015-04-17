@@ -4,6 +4,7 @@ import de.dhbw.mbfl.jconnect4lib.ai.AI;
 import de.dhbw.mbfl.jconnect4lib.board.Board;
 import de.dhbw.mbfl.jconnect4lib.board.Difference;
 import de.dhbw.mbfl.jconnect4lib.board.Position;
+import de.dhbw.mbfl.jconnect4lib.board.Size;
 import de.dhbw.mbfl.jconnect4lib.board.Stone;
 import de.dhbw.mbfl.jconnect4lib.board.TurnSummary;
 import de.dhbw.mbfl.jconnect4lib.exceptions.ValidationException;
@@ -95,6 +96,23 @@ public class Game {
         
         int state = this.board.turnEndedGame();
         return new TurnSummary(userTurn, state == Board.STATE_WIN, state == Board.STATE_REMI);
+    }
+    
+    /**
+     * Get next free row in the given collumn and return the result as Position.
+     * @param col
+     * @return position if one if found and null if none free row is found.
+     */
+    public Position getNextPosition4Col(int col) {
+        for(int i = 0; i < Size.BOARD.row(); i++)
+        {
+            Position pos = new Position(col, i);
+            if(board.getStone(pos) == null){
+                return pos;
+            }
+        }
+        
+        return null;
     }
     
     /**
