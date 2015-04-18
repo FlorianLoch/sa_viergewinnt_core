@@ -28,11 +28,6 @@ public class StreakPattern extends PatternDetector {
         int ratingPlayerOne = calculateRating(streaksPlayerOne);
         int ratingPlayerTwo = calculateRating(streaksPlayerTwo);
 
-        // TODO Rate diagonal streaks higher because likelihood of being overseen by human opponent is much higher
-        // TODO Also horizontal streaks are much better than vertical ones
-
-        // TODO Decide on how to rate streaks - just the amount of found streaks isn't a good metric
-
         return new RatingResult(ratingPlayerOne, ratingPlayerTwo);
     }
 
@@ -42,14 +37,15 @@ public class StreakPattern extends PatternDetector {
         for (Streak s: streaksPlayerOne) {
             int streakRating = 0;
             if (s.getStreakLength() == 3) {
-                streakRating += 8;
+                streakRating = 8;
             }
             else if (s.getStreakLength() == 2) {
-                streakRating += 2;
+                streakRating = 2;
             }
 
             if (s.getFirstDirection().isVertical()) {
-                streakRating /= 2; //Vertical streaks are not that great...
+                streakRating /= 2;  //Vertical streaks are not that great... Diagonally and horizontal streaks are much better, because horizontal ones
+                                    //might lead to traps (diagonal ones also) and diagonally placed streaks are likeli to be overssen by human opponents
             }
 
             rating += streakRating;
