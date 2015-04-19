@@ -13,6 +13,7 @@ import de.dhbw.mbfl.jconnect4lib.ai.alphaBeta.patternRater.patterns.MiddleRowsPa
 import de.dhbw.mbfl.jconnect4lib.ai.alphaBeta.patternRater.patterns.StreakPattern;
 import de.dhbw.mbfl.jconnect4lib.board.Board;
 import de.dhbw.mbfl.jconnect4lib.board.Position;
+import de.dhbw.mbfl.jconnect4lib.board.Size;
 
 import java.util.Scanner;
 
@@ -35,13 +36,21 @@ public class AlphaBetaAI implements AI {
         AlphaBetaAI ai = new AlphaBetaAI();
         Board board = new Board();
 
-        Position computed = ai.calculateTurn(board, 12);
+        Position computed = ai.calculateTurn(board, 42);
 
         long duration = System.nanoTime() - startTime;
         System.out.println("Computation took " + duration + "ns (~" + duration / 10E5 + "ms)");
     }
 
     public Position calculateTurn(Board board, int depth) {
+        if (Size.BOARD.size() == depth) {
+            SimpleRater simpleRater = new SimpleRater();
+
+            AlphaBetaResult res = AlphaBeta.findBestTurn(board, depth, simpleRater, null);
+
+            return res.getComputedTurn();
+        }
+
         PatternRater patternRater = new PatternRater();
         patternRater.addPatternDetector(new MiddleColumnsPattern());
         patternRater.addPatternDetector(new MiddleRowsPattern());

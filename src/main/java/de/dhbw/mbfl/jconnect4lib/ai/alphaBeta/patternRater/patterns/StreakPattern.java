@@ -31,10 +31,10 @@ public class StreakPattern extends PatternDetector {
         return new RatingResult(ratingPlayerOne, ratingPlayerTwo);
     }
 
-    private static int calculateRating(ArrayList<Streak> streaksPlayerOne) {
+    private static int calculateRating(ArrayList<Streak> streaksPlayer) {
         int rating = 1; //Because this rater might be used as multiplier it would be bad to return 0 -> it would destroy the rating;
 
-        for (Streak s: streaksPlayerOne) {
+        for (Streak s: streaksPlayer) {
             int streakRating = 0;
             if (s.getStreakLength() == 3) {
                 streakRating = 8;

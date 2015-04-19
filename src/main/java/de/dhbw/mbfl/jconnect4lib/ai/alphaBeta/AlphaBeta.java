@@ -54,7 +54,7 @@ public class AlphaBeta {
 
         AlphaBeta alg = new AlphaBeta(rater, nextTurnsComputer, maxDepth);
 
-        long startTime = System.currentTimeMillis();
+        long startTime = System.nanoTime();
 
         AlphaBetaResult result = alg.alphaBeta(currentBoard, currentDepth, Integer.MIN_VALUE, Integer.MAX_VALUE);
 
@@ -67,10 +67,10 @@ public class AlphaBeta {
             result = findBestTurn(currentBoard, foresight - 1, rater, nextTurnsComputer);
         }
 
-        long duration = System.currentTimeMillis() - startTime;
+        long duration = System.nanoTime() - startTime;
 
         log("Depth: " + maxDepth);
-        log("Duration: " + duration + "ms");
+        log("Duration: " + duration + "ns");
         log("Rated boards: " + alg.ratedBoards);
         log("CutOffs: " + alg.cutOffs);
         log("Foresight: " + foresight);
@@ -154,11 +154,5 @@ public class AlphaBeta {
         msg = date + ": " + msg;
 
         System.out.println("-> " + msg);
-//        try {
-//            logFile.append(msg + "\n");
-//            logFile.flush();
-//        } catch (Exception e) {
-//            System.out.println("Could not write to log file: " + e);
-//        }
     }
 }
