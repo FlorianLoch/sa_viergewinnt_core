@@ -26,7 +26,7 @@ public abstract class BoardRater {
 
         if (state == Board.STATE_WIN) {
             int currentDepth = board.getTurnCount();
-            if ((currentDepth - 1) % 2 == 1) { //-1 actually inverts the result
+            if ((currentDepth - 1) % 2 == 1) { //-1 actually inverts the result //turn with index 0 is equivalent to turn-count of 1
 //                cache.putBoard(board, Integer.MIN_VALUE);
                 return Integer.MIN_VALUE;
             } else {

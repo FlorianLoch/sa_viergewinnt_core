@@ -9,7 +9,7 @@ public class Difference {
     private Stone newStone;
     private Position position;
     
-    private static final String TOSTRING_TEMPLATE = "$s at $s changed to $s";
+    private static final String TOSTRING_TEMPLATE = "%s at %s changed to %s";
 
     public Difference(Stone oldStone, Stone newStone, Position position) {
         this.oldStone = oldStone;
