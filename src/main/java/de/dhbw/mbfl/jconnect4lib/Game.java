@@ -46,9 +46,9 @@ public class Game {
     private static ArrayList<Validator> initValidatorList() {
         ArrayList<Validator> validators = new ArrayList<Validator>();
         validators.add(new NoChangeValidator());
+        validators.add(new StoneChangedValidator());
         validators.add(new InvalidPositionValidator());
         validators.add(new MoreThanOneValidator());
-        validators.add(new StoneChangedValidator());
         
         return validators;
     }
@@ -108,12 +108,8 @@ public class Game {
     private Position handleUserTurn(Board board) throws ValidationException {
         ArrayList<Difference> differences = this.board.determineDifferences(board);
         
-        try {
-            for (Validator validator : this.validators) {
-                validator.validate(differences, board);
-            }
-        } catch (ValidationException ex) {
-            throw ex;
+        for (Validator validator : this.validators) {
+            validator.validate(differences, board);
         }
         
         return differences.get(0).getPosition();
