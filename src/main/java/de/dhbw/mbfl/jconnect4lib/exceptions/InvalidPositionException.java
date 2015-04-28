@@ -14,11 +14,12 @@ import de.dhbw.mbfl.jconnect4lib.board.Position;
 public class InvalidPositionException extends ValidationException
 {
     public static final String MSG = "Wrong position. Under the new stone '%s' must be in another stone.";
-    private Position invalidPosition;
+    private final Position invalidPosition;
     
     public InvalidPositionException(Position invalidPosition)
     {
         super(String.format(MSG, invalidPosition));
+        this.invalidPosition = invalidPosition;
     }
     
     public Position getInvalidPosition()
