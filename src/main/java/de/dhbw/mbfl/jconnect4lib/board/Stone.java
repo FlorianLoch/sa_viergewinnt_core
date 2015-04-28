@@ -6,12 +6,12 @@ package de.dhbw.mbfl.jconnect4lib.board;
  * @author Maurice Busch & Florian Loch
  */
 public enum Stone {
-    YELLOW("\u001B[33m\u25cf\u001B[0m", "YELLOW stone"), RED("\u001B[31m\u25cf\u001B[0m", "RED stone");
+    YELLOW("\u001B[33m\u25cf\u001B[0m", "YELLOW"), RED("\u001B[31m\u25cf\u001B[0m", "RED");
 
-    private String desc = "";
-    private String sign = "";
-    
-    private Stone(String sign, String desc) {
+    private String desc;
+    private String sign;
+
+    Stone(String sign, String desc) {
         this.sign = sign;
         this.desc = desc;
     }
@@ -22,6 +22,10 @@ public enum Stone {
      */
     public String getSign() {
         return sign;
+    }
+
+    public String getDesc() {
+        return desc;
     }
 
     /**
@@ -40,6 +44,6 @@ public enum Stone {
 
     @Override
     public String toString() {
-        return this.desc;
+        return this.desc + " stone";
     }
 }

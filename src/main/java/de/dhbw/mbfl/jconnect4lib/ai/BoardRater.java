@@ -28,10 +28,10 @@ public abstract class BoardRater {
             int currentDepth = board.getTurnCount();
             if ((currentDepth - 1) % 2 == 1) { //-1 actually inverts the result //turn with index 0 is equivalent to turn-count of 1
 //                cache.putBoard(board, Integer.MIN_VALUE);
-                return Integer.MIN_VALUE;
+                return Integer.MIN_VALUE; //Win for red, because yellow always starts and therefore depth 1-1=0 is yellows first turn
             } else {
 //                cache.putBoard(board, Integer.MAX_VALUE);
-                return Integer.MAX_VALUE;
+                return Integer.MAX_VALUE; //Win for yellow
             }
         } else if (state == Board.STATE_REMI) {
 //            cache.putBoard(board, 0);

@@ -6,6 +6,7 @@
 package de.dhbw.mbfl.jconnect4lib.ai.alphaBeta;
 
 import de.dhbw.mbfl.jconnect4lib.board.Position;
+import de.dhbw.mbfl.jconnect4lib.board.Stone;
 
 /**
  *
@@ -48,5 +49,20 @@ public class AlphaBetaResult {
         s += this.subsequentTurn.toString(step + 1);
         
         return s;
+    }
+
+    /**
+     *
+     * @return the color that is able to win or null if not yet sure
+     */
+    public Stone gameCanBeWonBy() {
+        if (Integer.MIN_VALUE == this.value) {
+            return Stone.RED;
+        }
+        else if (Integer.MAX_VALUE == this.value) {
+            return Stone.YELLOW;
+        }
+
+        return null;
     }
 }

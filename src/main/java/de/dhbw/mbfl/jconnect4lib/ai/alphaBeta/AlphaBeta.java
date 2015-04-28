@@ -58,6 +58,13 @@ public class AlphaBeta {
 
         AlphaBetaResult result = alg.alphaBeta(currentBoard, currentDepth, Integer.MIN_VALUE, Integer.MAX_VALUE);
 
+        if (result.gameCanBeWonBy() != null) {
+            log("Game can be won by " + result.gameCanBeWonBy().getDesc());
+        }
+        else {
+            log("Not yet sure who will win...");
+        }
+
         if (result.getComputedTurn() == null) {
             //No turn has been found, instead of taken some (bad) turn try again with lower foresight
             //With this the algorithm is making a bet on mistakes to be done by the opponent
@@ -70,7 +77,7 @@ public class AlphaBeta {
         long duration = System.nanoTime() - startTime;
 
         log("Depth: " + maxDepth);
-        log("Duration: " + duration + "ns");
+        log("Duration: " + duration / 10E5f + "ms");
         log("Rated boards: " + alg.ratedBoards);
         log("CutOffs: " + alg.cutOffs);
         log("Foresight: " + foresight);
