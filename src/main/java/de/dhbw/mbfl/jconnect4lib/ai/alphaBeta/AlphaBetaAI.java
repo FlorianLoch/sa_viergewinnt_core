@@ -26,21 +26,21 @@ public class AlphaBetaAI implements AI {
     private int depth;
 
     //For benchmarking purposes
-    public static void main(String[] args) {
-        long startTime = System.nanoTime();
-        if (args.length == 1 && args[0].equals("wait")) {
-            Scanner scn = new Scanner(System.in);
-            scn.nextLine();
-        }
-
-        AlphaBetaAI ai = new AlphaBetaAI();
-        Board board = new Board();
-
-        Position computed = ai.calculateTurn(board, 42);
-
-        long duration = System.nanoTime() - startTime;
-        System.out.println("Computation took " + duration + "ns (~" + duration / 10E5 + "ms)");
-    }
+//    public static void main(String[] args) {
+//        long startTime = System.nanoTime();
+//        if (args.length == 1 && args[0].equals("wait")) {
+//            Scanner scn = new Scanner(System.in);
+//            scn.nextLine();
+//        }
+//
+//        AlphaBetaAI ai = new AlphaBetaAI();
+//        Board board = new Board();
+//
+//        Position computed = ai.calculateTurn(board, 42);
+//
+//        long duration = System.nanoTime() - startTime;
+//        System.out.println("Computation took " + duration + "ns (~" + duration / 10E5 + "ms)");
+//    }
 
     public Position calculateTurn(Board board, int depth) {
         if (Size.BOARD.size() == depth) {

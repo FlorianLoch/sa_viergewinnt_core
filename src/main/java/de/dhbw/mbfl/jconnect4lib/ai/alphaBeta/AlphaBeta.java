@@ -40,10 +40,7 @@ public class AlphaBeta {
         this.cutOffs = 0;
     }
 
-    public static AlphaBetaResult findBestTurn(Board currentBoard, int foresight, BoardRater rater) {
-        return findBestTurn(currentBoard, foresight, rater, null);
-    }
-    
+
     public static AlphaBetaResult findBestTurn(Board currentBoard, int foresight, BoardRater rater, NextTurnsComputer nextTurnsComputer) {
         int currentDepth = currentBoard.getTurnCount();
         int maxPossibleForesight = Size.BOARD.size() - currentDepth;
