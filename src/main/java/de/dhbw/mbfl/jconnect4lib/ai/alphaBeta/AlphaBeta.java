@@ -6,10 +6,12 @@
 package de.dhbw.mbfl.jconnect4lib.ai.alphaBeta;
 
 import de.dhbw.mbfl.jconnect4lib.ai.BoardRater;
+import de.dhbw.mbfl.jconnect4lib.ai.RatingCache;
 import de.dhbw.mbfl.jconnect4lib.ai.alphaBeta.patternRater.PatternRater;
 import de.dhbw.mbfl.jconnect4lib.ai.alphaBeta.patternRater.patterns.MiddleColumnsPattern;
 import de.dhbw.mbfl.jconnect4lib.ai.alphaBeta.patternRater.patterns.MiddleRowsPattern;
 import de.dhbw.mbfl.jconnect4lib.board.Board;
+import de.dhbw.mbfl.jconnect4lib.board.Position;
 import de.dhbw.mbfl.jconnect4lib.board.Size;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -27,6 +29,7 @@ public class AlphaBeta {
     private final int maxAbsoluteDepth;
     private long ratedBoards;
     private long cutOffs;
+    private AlphaBetaCache cache;
 
     private AlphaBeta(BoardRater rater, NextTurnsComputer nextTurnsComputer, int maxAbsoluteDepth) {
         this.rater = rater;
@@ -38,6 +41,8 @@ public class AlphaBeta {
         
         this.ratedBoards = 0;
         this.cutOffs = 0;
+
+        this.cache = new AlphaBetaCache();
     }
 
 
@@ -78,17 +83,33 @@ public class AlphaBeta {
         log("Rated boards: " + alg.ratedBoards);
         log("CutOffs: " + alg.cutOffs);
         log("Foresight: " + foresight);
+        log("Asked to cache: " + alg.cache.getAskedCounter());
+        log("Resolved by cache: " + alg.cache.getResolvedByCacheCounter());
+        log("Fill level of cache: " + alg.cache.getFillLevel());
         log("Proposed turn:");
         log(result.toString());
         
         return result;
-    } 
-    
+    }
+
     private AlphaBetaResult alphaBeta(Board currentBoard, int currentDepth, int alpha, int beta) {
+        AlphaBetaResult cachedResult = this.cache.lookup(currentBoard);
+        if (cachedResult != null) {
+            return cachedResult;
+        }
+
+        AlphaBetaResult result = alphaBetaInner(currentBoard, currentDepth, alpha, beta);
+
+        this.cache.store(currentBoard, result);
+
+        return result;
+    }
+
+    private AlphaBetaResult alphaBetaInner(Board currentBoard, int currentDepth, int alpha, int beta) {
         if (currentDepth == this.maxAbsoluteDepth) {
             int value = this.rater.rate(currentBoard);
             this.ratedBoards++;
-            return new AlphaBetaResult(null, value, null);
+            return new AlphaBetaResult(null, value);
         }
 
         LinkedList<Board> possibleNextBoards = this.nextTurnsGenerator.computeNextTurns(currentBoard);
@@ -100,12 +121,11 @@ public class AlphaBeta {
             //We just have to check whether the game is drawn or won - this is done by BoardRater
             int value = this.rater.rate(currentBoard);
             this.ratedBoards++;
-            return new AlphaBetaResult(null, value, null);
+            return new AlphaBetaResult(null, value);
         }
 
         //Suggest the first item in the list of possible next boards in case no turn is found (i. e. all found turns are equal to the initial value of max)
-        Board bestNextBoard = null;//possibleNextBoards.getFirst();
-        AlphaBetaResult bestNextTurn = null;
+        Position bestNextTurn = null;
 
         //if maximize
         //This also means, that (we expect that human player always starts right now) values of the AI
@@ -117,8 +137,7 @@ public class AlphaBeta {
 
                 if (result.getValue() > max) {
                     max = result.getValue();
-                    bestNextTurn = result;
-                    bestNextBoard = b;
+                    bestNextTurn = b.getLastTurn();
                 }
 
                 if (max >= beta) {  //In case this turn achieves a higher score than the best
@@ -129,7 +148,7 @@ public class AlphaBeta {
                     break;
                 }
             }
-            return new AlphaBetaResult((bestNextBoard == null) ? null : bestNextBoard.getLastTurn(), max, bestNextTurn);
+            return new AlphaBetaResult(bestNextTurn, max);
         }
 
         //if !maximize
@@ -139,8 +158,7 @@ public class AlphaBeta {
 
             if (result.getValue() < min) {
                 min = result.getValue();
-                bestNextTurn = result;
-                bestNextBoard = b;
+                bestNextTurn = b.getLastTurn();
             }
 
             if (min <= alpha) {
@@ -148,7 +166,7 @@ public class AlphaBeta {
                 break;
             }
         }
-        return new AlphaBetaResult((bestNextBoard == null) ? null : bestNextBoard.getLastTurn(), min, bestNextTurn);
+        return new AlphaBetaResult(bestNextTurn, min);
     }
 
     private static void log(String msg) {

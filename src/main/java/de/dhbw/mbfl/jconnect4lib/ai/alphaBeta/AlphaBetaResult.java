@@ -15,12 +15,10 @@ import de.dhbw.mbfl.jconnect4lib.board.Stone;
 public class AlphaBetaResult {
     private Position computedTurn;
     private int value;
-    private AlphaBetaResult subsequentTurn;
 
-    public AlphaBetaResult(Position computedTurn, int value, AlphaBetaResult subsequentTurn) {
+    public AlphaBetaResult(Position computedTurn, int value) {
         this.computedTurn = computedTurn;
         this.value = value;
-        this.subsequentTurn = subsequentTurn;
     }
     
     public Position getComputedTurn() {
@@ -31,24 +29,9 @@ public class AlphaBetaResult {
         return this.value;
     }
     
-    public AlphaBetaResult getSubsequentTurn() {
-        return this.subsequentTurn;
-    }
-    
     @Override
     public String toString() {
-        return this.toString(1);
-    }
-    
-    public String toString(int step) {
-        String s = step + ": Value: " + this.value + " | Turn: " + this.computedTurn;
-        s += "\n";
-        
-        if (this.subsequentTurn == null) return s + "End.";
-        
-        s += this.subsequentTurn.toString(step + 1);
-        
-        return s;
+        return "Value: " + this.value + " | Turn: " + this.computedTurn;
     }
 
     /**

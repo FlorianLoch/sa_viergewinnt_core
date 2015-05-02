@@ -64,7 +64,7 @@ class DefaultNextTurnsComputer implements NextTurnsComputer {
 
             if (Board.STATE_WIN == clonedBoard.turnEndedGame()) {
                 possibleTurns.addFirst(clonedBoard);
-                continue;
+                return possibleTurns;
             }
 
             possibleTurns.addLast(clonedBoard);

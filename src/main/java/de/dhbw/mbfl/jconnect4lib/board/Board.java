@@ -433,7 +433,7 @@ public class Board implements Iterable<Position> {
 
     @Override
     public int hashCode() {
-        return Arrays.hashCode(this.board);
+        return Arrays.deepHashCode(this.board);
     }
 
     @Override

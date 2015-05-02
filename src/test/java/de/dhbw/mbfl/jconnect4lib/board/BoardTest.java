@@ -758,4 +758,22 @@ public class BoardTest extends EasyMockSupport
 
         assertEquals("D1;B1$D2", b.getGameplayHistory());
     }
+
+    @Test
+    public void testHashEquality() {
+        Board b = new Board();
+        b.addStone("B1");
+        b.addStone("C1");
+        b.addStone("D1");
+
+        Board b2 = new Board();
+        b2.addStone("D1");
+        b2.addStone("C1");
+        b2.addStone("B1");
+
+        assertNotEquals("Array hashcode() inequality", new int[]{1, 2, 3}.hashCode(), new int[]{1, 2, 3}.hashCode());
+
+        assertEquals("Hashcode equality", b.hashCode(), b2.hashCode());
+        assertEquals("Equals() eqaulity", b, b2);
+    }
 }

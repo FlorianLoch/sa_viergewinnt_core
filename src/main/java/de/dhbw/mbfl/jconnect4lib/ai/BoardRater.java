@@ -18,7 +18,7 @@ public abstract class BoardRater {
     public int rate(Board board) {
         //Consult cache first
 //        RatingCache cache = RatingCache.PATTERN_RATER;
-
+//
 //        Integer rating = cache.lookupBoard(board);
 //        if (rating != null) return rating;
 
