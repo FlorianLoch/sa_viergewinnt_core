@@ -13,8 +13,13 @@ public class AlphaBetaCache {
 
     private int askedCounter = 0;
     private int resolvedByCacheCounter = 0;
+    private int levelOffset;
 
     private HashMap<Board, AlphaBetaResult> cache = new HashMap<Board, AlphaBetaResult>(LIMIT);
+
+    public AlphaBetaCache(int levelOffset) {
+        this.levelOffset = levelOffset;
+    }
 
     public AlphaBetaResult lookup(Board board) {
         if (board.getTurnCount() >= CACHE_WHEN_BELOW_LEVEL) return null;
@@ -29,7 +34,7 @@ public class AlphaBetaCache {
     }
 
     public void store(Board board, AlphaBetaResult result) {
-        if (this.cache.size() < LIMIT && board.getTurnCount() < CACHE_WHEN_BELOW_LEVEL) {
+        if (this.cache.size() < LIMIT && board.getTurnCount() < (this.levelOffset + CACHE_WHEN_BELOW_LEVEL)) {
             this.cache.put(board, result);
         }
     }

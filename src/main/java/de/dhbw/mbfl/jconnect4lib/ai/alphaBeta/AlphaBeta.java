@@ -41,8 +41,6 @@ public class AlphaBeta {
         
         this.ratedBoards = 0;
         this.cutOffs = 0;
-
-        this.cache = new AlphaBetaCache();
     }
 
 
@@ -54,11 +52,17 @@ public class AlphaBeta {
         
         if (currentBoard.turnEndedGame() != Board.STATE_NOTYETOVER) throw new IllegalArgumentException("The game associated with the given board is already over.");
 
-        AlphaBeta alg = new AlphaBeta(rater, nextTurnsComputer, maxDepth);
 
         long startTime = System.nanoTime();
+        AlphaBeta alg = new AlphaBeta(rater, nextTurnsComputer, maxDepth);
 
-        AlphaBetaResult result = alg.alphaBeta(currentBoard, currentDepth, Integer.MIN_VALUE, Integer.MAX_VALUE);
+        boolean searchingForFirstPlayer = (currentDepth % 2) == 0;
+
+        AlphaBetaResult result = alg.alphaBeta(currentBoard, currentDepth, (searchingForFirstPlayer) ? 10 : Integer.MIN_VALUE, (!searchingForFirstPlayer) ? -10 : Integer.MAX_VALUE);
+
+        if (result.getComputedTurn() == null) {
+            result = alg.alphaBeta(currentBoard, currentDepth, Integer.MIN_VALUE, Integer.MAX_VALUE);
+        }
 
         if (result.gameCanBeWonBy() != null) {
             log("Game can be won by " + result.gameCanBeWonBy().getDesc());
@@ -86,13 +90,18 @@ public class AlphaBeta {
         log("Asked to cache: " + alg.cache.getAskedCounter());
         log("Resolved by cache: " + alg.cache.getResolvedByCacheCounter());
         log("Fill level of cache: " + alg.cache.getFillLevel());
-        log("Proposed turn:");
-        log(result.toString());
+        log("Proposed turn: " + result.toString());
         
         return result;
     }
 
     private AlphaBetaResult alphaBeta(Board currentBoard, int currentDepth, int alpha, int beta) {
+        this.cache = new AlphaBetaCache(currentDepth);
+
+        return alphaBetaOuter(currentBoard, currentDepth, alpha, beta);
+    }
+
+    private AlphaBetaResult alphaBetaOuter(Board currentBoard, int currentDepth, int alpha, int beta) {
         AlphaBetaResult cachedResult = this.cache.lookup(currentBoard);
         if (cachedResult != null) {
             return cachedResult;
@@ -133,7 +142,7 @@ public class AlphaBeta {
         if ((currentDepth % 2) == 0) {
             int max = alpha;
             for (Board b : possibleNextBoards) {
-                AlphaBetaResult result = alphaBeta(b, currentDepth + 1, max, beta);
+                AlphaBetaResult result = alphaBetaOuter(b, currentDepth + 1, max, beta);
 
                 if (result.getValue() > max) {
                     max = result.getValue();
@@ -154,7 +163,7 @@ public class AlphaBeta {
         //if !maximize
         int min = beta;
         for (Board b : possibleNextBoards) {
-            AlphaBetaResult result = alphaBeta(b, currentDepth + 1, alpha, min);
+            AlphaBetaResult result = alphaBetaOuter(b, currentDepth + 1, alpha, min);
 
             if (result.getValue() < min) {
                 min = result.getValue();

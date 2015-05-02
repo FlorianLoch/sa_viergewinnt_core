@@ -35,6 +35,7 @@ public class AlphaBetaAI implements AI {
 
         AlphaBetaAI ai = new AlphaBetaAI();
         Board board = new Board();
+        board.addStone("D1");
 
         Position computed = ai.calculateTurn(board, 8);
 
