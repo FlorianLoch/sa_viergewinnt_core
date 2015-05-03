@@ -23,17 +23,67 @@ public class Game4Commandline
      */
     public static void main(String[] args)
     {
-        AlphaBetaAI ai = new AlphaBetaAI();
+        Scanner input = new Scanner(System.in);
+
+        System.out.println("Who shall start? AI (a) or player (p)?");
+        String whoShallStart = input.nextLine().toLowerCase();
+        boolean aiStarts;
+        if (whoShallStart.equals("a")) {
+            aiStarts = true;
+        }
+        else if (whoShallStart.equals("p")) {
+            aiStarts = false;
+        }
+        else {
+            System.out.println("Sorry, your input was invalid. Please try again!");
+            return;
+        }
+
+        int foresight = 10;
+        System.out.println("Which level of foresight shall the AI use (leave blank for default of " + foresight + ")?");
+        String foresightInput = input.nextLine();
+        if (!foresightInput.isEmpty()) {
+            foresight = Integer.parseInt(foresightInput);
+        }
+
+        AlphaBetaAI ai = new AlphaBetaAI(foresight);
         Game game = new Game(ai);
 
-        Scanner input = new Scanner(System.in);        
-        int col = 0;
-        int row = 0;
+        if (aiStarts) {
+            game.doAITurn();
+            System.out.println(game.getCurrentBoardAsString());
+        }
 
         while(true)
         {
             
             try {
+                TurnSummary playerSummary = null;
+                boolean exceptionThrown = false;
+                do {
+                    exceptionThrown = false;
+                    try {
+                        Position pos = readPositionFromInput(input);
+                        System.out.println();
+                        playerSummary = game.doPlayerTurn(pos);
+                    }catch (RuntimeException ex) {
+                        ex.printStackTrace();
+                        exceptionThrown = true;
+                    }
+                } while (exceptionThrown);
+
+                if(playerSummary.isRemis())
+                {
+                    System.out.println("Remi");
+                    break;
+                }
+
+                if(playerSummary.isWon())
+                {
+                    System.out.println("You won!");
+                    break;
+                }
+
                 TurnSummary aiSummary = game.doAITurn();
                 if(aiSummary.isRemis())
                 {
@@ -47,23 +97,7 @@ public class Game4Commandline
                     break;
                 }
 
-                System.out.println(game.getCurrentBoardAsString());    
-                
-                Position pos = readPositionFromInput(input);
-                System.out.println();
-                TurnSummary playerSummary = game.doPlayerTurn(pos);
-                
-                if(playerSummary.isRemis())
-                {
-                    System.out.println("Remi");
-                    break;
-                }
-
-                if(playerSummary.isWon())
-                {
-                    System.out.println("You won!");
-                    break;
-                }
+                System.out.println(game.getCurrentBoardAsString());
             }
             catch (ValidationException ex) {
                 System.out.println(ex);
@@ -79,6 +113,10 @@ public class Game4Commandline
         do {
             System.out.println("Please enter a valid field: ");
             posStr = input.nextLine().toUpperCase();
+
+            if (posStr.equals("QUIT")) {
+                System.exit(0);
+            }
         } while ((pos = new Position(posStr)) == null);
         
         return pos;
