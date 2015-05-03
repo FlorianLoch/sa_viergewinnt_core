@@ -35,7 +35,6 @@ public class AlphaBetaAI implements AI {
 
         AlphaBetaAI ai = new AlphaBetaAI();
         Board board = new Board();
-        board.addStone("D1");
 
         Position computed = ai.calculateTurn(board, 12);
 
@@ -59,7 +58,7 @@ public class AlphaBetaAI implements AI {
 
         int adaptiveDepth = computeAdaptiveSearchDepth(board, depth);
 
-        AlphaBetaResult res = AlphaBeta.findBestTurn(board, adaptiveDepth, patternRater, null);
+        AlphaBetaResult res = AlphaBeta.findBestTurn(board, adaptiveDepth, patternRater, new HeuristicNextTurnsComputer());
         
         return res.getComputedTurn();
     }
