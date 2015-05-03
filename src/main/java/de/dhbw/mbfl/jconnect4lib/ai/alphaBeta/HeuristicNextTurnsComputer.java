@@ -22,7 +22,7 @@ public class HeuristicNextTurnsComputer implements NextTurnsComputer {
         this.rater = new PatternRater();
         this.rater.addPatternDetector(new MiddleColumnsPattern());
         this.rater.addPatternDetector(new MiddleRowsPattern());
-        this.rater.addPatternDetector(new StreakPattern(), 1, true);
+        //this.rater.addPatternDetector(new StreakPattern(), 1, true);
     }
 
     @Override
@@ -55,14 +55,26 @@ public class HeuristicNextTurnsComputer implements NextTurnsComputer {
             worklist.add(new BoardRating(b, this.rater.rate(b)));
         }
 
-        Collections.sort(worklist, new Comparator<BoardRating>() {
-            @Override
-            public int compare(BoardRating o1, BoardRating o2) {
-                if (o1.rating > o2.rating) return 1;
-                if (o1.rating == o2.rating) return 0;
-                return -1;
-            }
-        });
+        if ((currentBoard.getTurnCount() + 1) % 2 == 1) {
+            Collections.sort(worklist, new Comparator<BoardRating>() {
+                @Override
+                public int compare(BoardRating o1, BoardRating o2) {
+                    if (o1.rating > o2.rating) return -1;
+                    if (o1.rating == o2.rating) return 0;
+                    return 1;
+                }
+            });
+        }
+        else {
+            Collections.sort(worklist, new Comparator<BoardRating>() {
+                @Override
+                public int compare(BoardRating o1, BoardRating o2) {
+                    if (o1.rating > o2.rating) return 1;
+                    if (o1.rating == o2.rating) return 0;
+                    return -1;
+                }
+            });
+        }
 
         turnsInOptimizedOrder = new LinkedList<Board>();
         for (BoardRating boardRating : worklist) {

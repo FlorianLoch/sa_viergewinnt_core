@@ -37,7 +37,7 @@ public class AlphaBetaAI implements AI {
         Board board = new Board();
         board.addStone("D1");
 
-        Position computed = ai.calculateTurn(board, 8);
+        Position computed = ai.calculateTurn(board, 12);
 
         long duration = System.nanoTime() - startTime;
         System.out.println("Computation took " + duration + "ns (~" + duration / 10E5 + "ms)");
@@ -47,7 +47,7 @@ public class AlphaBetaAI implements AI {
         if (Size.BOARD.size() == depth) {
             SimpleRater simpleRater = new SimpleRater();
 
-            AlphaBetaResult res = AlphaBeta.findBestTurn(board, depth, simpleRater, null);
+            AlphaBetaResult res = AlphaBeta.findBestTurn(board, depth, simpleRater, new HeuristicNextTurnsComputer());
 
             return res.getComputedTurn();
         }
