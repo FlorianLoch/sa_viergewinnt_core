@@ -9,7 +9,7 @@ import java.util.HashMap;
  */
 public class AlphaBetaCache {
     private static final int LIMIT = (int) 10E3;
-    public static final int CACHE_WHEN_BELOW_LEVEL = 9;
+    public static final int CACHE_WHEN_BELOW_LEVEL = 10;
 
     private int askedCounter = 0;
     private int resolvedByCacheCounter = 0;
