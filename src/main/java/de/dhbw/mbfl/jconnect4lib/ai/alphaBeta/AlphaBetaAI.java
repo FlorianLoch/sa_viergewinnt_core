@@ -33,10 +33,12 @@ public class AlphaBetaAI implements AI {
             scn.nextLine();
         }
 
-        AlphaBetaAI ai = new AlphaBetaAI();
-        Board board = new Board();
+        for (int i = 1; i <= 20; i++) {
+            AlphaBetaAI ai = new AlphaBetaAI();
+            Board board = new Board();
 
-        Position computed = ai.calculateTurn(board, 12);
+            Position computed = ai.calculateTurn(board, i);
+        }
 
         long duration = System.nanoTime() - startTime;
         System.out.println("Computation took " + duration + "ns (~" + duration / 10E5 + "ms)");
