@@ -20,18 +20,17 @@ public class MiddleColumnsPattern extends PatternDetector {
 
     @Override
     protected RatingResult searchPatternImpl(Board board) {
-        int center = (int) Size.BOARD.column() / 2;
+        int center = Size.BOARD.column() / 2;
         int ratingPlayerOne = 0;
         int ratingPlayerTwo = 0;
 
         for (Position p : board) {
             int distanceToCenter = p.getColumn() - center;
-            if (p.getColumn() < center) {
-                distanceToCenter *= -1;
-            }
+            distanceToCenter = Math.abs(distanceToCenter);
 
-            if (board.getStone(p) == Stone.YELLOW) ratingPlayerOne += center - distanceToCenter;
-            if (board.getStone(p) == Stone.RED) ratingPlayerTwo += center - distanceToCenter;
+            Stone s = board.getStone(p);
+            if (s == Stone.YELLOW) ratingPlayerOne += center - distanceToCenter;
+            if (s == Stone.RED) ratingPlayerTwo += center - distanceToCenter;
         }
 
         return new RatingResult(ratingPlayerOne, ratingPlayerTwo);

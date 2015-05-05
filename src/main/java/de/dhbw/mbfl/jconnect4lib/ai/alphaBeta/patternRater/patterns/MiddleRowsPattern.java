@@ -14,15 +14,13 @@ public class MiddleRowsPattern extends PatternDetector {
 
     @Override
     protected RatingResult searchPatternImpl(Board board) {
-        int center = (int) Size.BOARD.row() / 2 - 1; //Artificially lower the center by 1, this also acts as workaround for 7*6 default board
+        int center = Size.BOARD.row() / 2 - 1; //Artificially lower the center by 1
         int ratingPlayerOne = 0;
         int ratingPlayerTwo = 0;
 
         for (Position p : board) {
             int distanceToCenter = p.getRow() - center;
-            if (p.getRow() < center) {
-                distanceToCenter *= -1;
-            }
+            distanceToCenter = Math.abs(distanceToCenter);
 
             int value = center - distanceToCenter;
 

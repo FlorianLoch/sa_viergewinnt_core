@@ -37,10 +37,10 @@ public class StreakPattern extends PatternDetector {
         for (Streak s: streaksPlayer) {
             int streakRating = 0;
             if (s.getStreakLength() == 3) {
-                streakRating = 8;
+                streakRating = 16;
             }
             else if (s.getStreakLength() == 2) {
-                streakRating = 2;
+                streakRating = 4;
             }
 
             if (s.getFirstDirection().isVertical()) {

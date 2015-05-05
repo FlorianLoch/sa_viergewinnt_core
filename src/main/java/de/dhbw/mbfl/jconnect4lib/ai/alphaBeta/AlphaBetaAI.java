@@ -23,6 +23,7 @@ import java.util.Scanner;
  */
 public class AlphaBetaAI implements AI {
     public static final int DEFAULT_DEPTH = 6; //This causes the AI to make an odd number of foresight steps. This leads to better results than using an even amount of steps
+    public static final int ADAPTIVE_INCREASEMENT_STARTING_AT = 20;
     private int depth;
 
     //For benchmarking purposes
@@ -45,14 +46,6 @@ public class AlphaBetaAI implements AI {
     }
 
     public Position calculateTurn(Board board, int depth) {
-        if (Size.BOARD.size() == depth) {
-            SimpleRater simpleRater = new SimpleRater();
-
-            AlphaBetaResult res = AlphaBeta.findBestTurn(board, depth, simpleRater, new HeuristicNextTurnsComputer());
-
-            return res.getComputedTurn();
-        }
-
         PatternRater patternRater = new PatternRater();
         patternRater.addPatternDetector(new MiddleColumnsPattern());
         patternRater.addPatternDetector(new MiddleRowsPattern());
@@ -68,7 +61,9 @@ public class AlphaBetaAI implements AI {
     private static int computeAdaptiveSearchDepth(Board board, int startDepth) {
         int turnsPlayed = board.getTurnCount();
 
-        return startDepth + (turnsPlayed / 4);
+        if (turnsPlayed < ADAPTIVE_INCREASEMENT_STARTING_AT) return startDepth;
+
+        return startDepth + (int) Math.ceil(((turnsPlayed - ADAPTIVE_INCREASEMENT_STARTING_AT) / 4.0));
     }
 
 

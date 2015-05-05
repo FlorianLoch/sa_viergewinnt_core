@@ -5,7 +5,6 @@
  */
 package de.dhbw.mbfl.jconnect4lib.ai;
 
-import de.dhbw.mbfl.jconnect4lib.ai.RatingCache;
 import de.dhbw.mbfl.jconnect4lib.ai.alphaBeta.RatingResult;
 import de.dhbw.mbfl.jconnect4lib.board.Board;
 

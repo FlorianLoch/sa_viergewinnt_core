@@ -26,10 +26,10 @@ public class EasyAI implements AI {
     private static int WOULD_HELP_PLAYER = -1;
     private static int POTENTIALLY_STUPID_MOVE = 0; //Better do a stupid move than helping the player without beeing forced to. This makes one not look that retarted.
     private static int NOTHING_HAPPENS = 1;
-    private static int PLAYER_WIN_NEXT = 2;
+    private static int PLAYER_WINS_NEXT = 2;
     private static int AI_WINS_NEXT = 3;
-    private static int PLAYER_WIN = 4;
-    private static int AI_WIN = 5;
+    private static int PLAYER_WINS = 4;
+    private static int AI_WINS = 5;
 
     private int turnCounter = 0;
     private boolean random;
@@ -98,7 +98,7 @@ public class EasyAI implements AI {
         board.addStone(pos);
         if (board.turnEndedGame() == Board.STATE_WIN) {
             board.undoLastTurn();
-            return AI_WIN;
+            return AI_WINS;
         }
         board.undoLastTurn();
 
@@ -106,7 +106,7 @@ public class EasyAI implements AI {
         board.addStone(pos);
         if (board.turnEndedGame() == Board.STATE_WIN) {
             board.undoLastTurn();
-            return PLAYER_WIN;
+            return PLAYER_WINS;
         }
         board.undoLastTurn();
 
@@ -138,7 +138,7 @@ public class EasyAI implements AI {
             if (board.turnEndedGame() == Board.STATE_WIN) {
                 board.undoLastTurn();
                 board.undoLastTurn();
-                return PLAYER_WIN_NEXT;
+                return PLAYER_WINS_NEXT;
             }
             board.undoLastTurn();
             board.undoLastTurn();
