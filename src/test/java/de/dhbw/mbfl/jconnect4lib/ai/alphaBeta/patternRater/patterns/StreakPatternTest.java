@@ -36,8 +36,8 @@ public class StreakPatternTest extends EasyMockSupport {
 
         RatingResult rating = this.instance.searchPatternImpl(board);
 
-        assertEquals(1+4, rating.getRatingPlayerOne());
-        assertEquals(1+3, rating.getRatingPlayerTwo()); //Because this streaks cannot be enlarged anymore - it is fenced by yellow stones
+        assertEquals(1+8, rating.getRatingPlayerOne());
+        assertEquals(1+6, rating.getRatingPlayerTwo()); //Because this streaks cannot be enlarged anymore - it is fenced by yellow stones
     }
 
     @Test
