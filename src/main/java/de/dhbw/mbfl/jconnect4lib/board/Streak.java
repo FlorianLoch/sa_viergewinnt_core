@@ -5,6 +5,7 @@
  */
 package de.dhbw.mbfl.jconnect4lib.board;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /**
@@ -15,6 +16,7 @@ public class Streak
 {
     private int endStreak;
     private ArrayList<Position> streak;
+    private ArrayList<Position> extendableTo;
     private Direction firstDirection;
     private int couldBeExtendedBy; //How many fields could the streak grow on the board? This counting doesn't take opponents moves into account, it just checks whether there MIGHT be space for extending this streak
     
@@ -22,6 +24,7 @@ public class Streak
     {
         this.couldBeExtendedBy = 0;
         this.streak = new ArrayList<Position>();
+        this.extendableTo = new ArrayList<Position>();
         this.streak.add(position);
         this.endStreak = endStreak;
         this.firstDirection = direction;
@@ -36,7 +39,8 @@ public class Streak
         this.streak.add(position);
     }
 
-    public void increaseMaxiumumPossibleLength() {
+    public void increaseMaxiumumPossibleLength(Position position) {
+        this.extendableTo.add(position);
         this.couldBeExtendedBy++;
     }
 
@@ -59,5 +63,9 @@ public class Streak
 
     public Direction getSecondDirection() {
         return this.firstDirection.getOpposite();
+    }
+
+    public ArrayList<Position> getExtendableTo() {
+        return extendableTo;
     }
 }

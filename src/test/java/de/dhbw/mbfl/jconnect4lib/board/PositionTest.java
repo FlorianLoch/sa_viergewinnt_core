@@ -130,4 +130,36 @@ public class PositionTest
         assertEquals("Direction south west is in column not correct.", 0, southWest.getColumn());
         assertEquals("Direction south west is in row not correct.", 0, southWest.getRow());
     }
+
+    @Test
+    public void testAbove() {
+        Position origin = new Position("D2");
+        Position above = origin.above();
+
+        assertEquals(new Position("D3"), above);
+    }
+
+    @Test
+    public void testAbove2() {
+        Position origin = new Position("A6");
+        Position above = origin.above();
+
+        assertEquals(null, above);
+    }
+
+    @Test
+    public void testBelow() {
+        Position origin = new Position("E4");
+        Position below = origin.below();
+
+        assertEquals(new Position("E3"), below);
+    }
+
+    @Test
+    public void testBelow2() {
+        Position origin = new Position("G1");
+        Position below = origin.below();
+
+        assertEquals(null, below);
+    }
 }

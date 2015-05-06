@@ -246,12 +246,12 @@ public class Board implements Iterable<Position> {
             }
         }
         else if (null == nextStone) {
-            countingMaxPossibleLength = true;
-            streak.increaseMaxiumumPossibleLength();
-
             if (streak.couldBeMaximized()) {
                 return streak;
             }
+
+            countingMaxPossibleLength = true;
+            streak.increaseMaxiumumPossibleLength(nextPos);
          }
         else {
             return streak;

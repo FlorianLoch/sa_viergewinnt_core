@@ -132,4 +132,20 @@ public class Position {
         
         return null;
     }
+
+    public Position above() {
+        if (this.row + 1 < Size.BOARD.row()) {
+            return new Position(this.col, this.row + 1);
+        }
+
+        return null;
+    }
+
+    public Position below() {
+        if (this.row > 0) {
+            return new Position(this.col, this.row - 1);
+        }
+
+        return null;
+    }
 }

@@ -25,13 +25,16 @@ public class StreakPattern extends PatternDetector {
         streaksPlayerOne = this.filterAllMaximizableStreaks(streaksPlayerOne);
         streaksPlayerTwo = this.filterAllMaximizableStreaks(streaksPlayerTwo);
 
-        int ratingPlayerOne = calculateRating(streaksPlayerOne);
-        int ratingPlayerTwo = calculateRating(streaksPlayerTwo);
+        int superimposedTrapsOne = findSuperimposedTraps(streaksPlayerOne, board);
+        int superimposedTrapsTwo = findSuperimposedTraps(streaksPlayerTwo, board);
+
+        int ratingPlayerOne = calculateRating(streaksPlayerOne, superimposedTrapsOne);
+        int ratingPlayerTwo = calculateRating(streaksPlayerTwo, superimposedTrapsTwo);
 
         return new RatingResult(ratingPlayerOne, ratingPlayerTwo);
     }
 
-    private static int calculateRating(ArrayList<Streak> streaksPlayer) {
+    private static int calculateRating(ArrayList<Streak> streaksPlayer, int superimposedTraps) {
         int rating = 1; //Because this rater might be used as multiplier it would be bad to return 0 -> it would destroy the rating;
 
         for (Streak s: streaksPlayer) {
@@ -51,7 +54,7 @@ public class StreakPattern extends PatternDetector {
             rating += streakRating;
         }
 
-        return rating;
+        return rating * (2 * superimposedTraps + 1); //+1 because otherwise we are in trouble for situations without superimposed traps
     }
 
     public ArrayList<Streak> filterAllMaximizableStreaks(ArrayList<Streak> streaks) {
@@ -64,6 +67,31 @@ public class StreakPattern extends PatternDetector {
         }
 
         return essence;
+    }
+
+    public int findSuperimposedTraps(ArrayList<Streak> streaks, Board board) {
+        int occurrences = 0;
+
+        HashSet<Position> positions = new HashSet<Position>();
+
+        for (Streak s : streaks) {
+            if (s.getStreakLength() < 3) continue;
+            if (s.getFirstDirection() == Direction.NORTH || s.getFirstDirection() == Direction.SOUTH);
+            positions.add(s.getExtendableTo().get(0));
+        }
+
+        for (Position p : positions) {
+            Position above = p.above();
+
+            if (above != null) {
+                if (positions.contains(above)) {
+                    occurrences++;
+                }
+            }
+            //Do not check below, that is how we solve the problem caused by duplicates
+        }
+
+        return occurrences;
     }
 
     public ArrayList<Streak> findAllStreaks(Board board, Stack<Position> playerPositions) {
