@@ -48,7 +48,9 @@ public class AlphaBeta {
 
         boolean searchingForFirstPlayer = (currentDepth % 2) == 0;
 
-        AlphaBetaResult result = alg.alphaBeta(currentBoard, currentDepth, (searchingForFirstPlayer) ? 10 : Integer.MIN_VALUE, (!searchingForFirstPlayer) ? -10 : Integer.MAX_VALUE);
+        int expectation = currentDepth / 3 * 8;
+
+        AlphaBetaResult result = alg.alphaBeta(currentBoard, currentDepth, (searchingForFirstPlayer) ? expectation : Integer.MIN_VALUE, (!searchingForFirstPlayer) ? -10 : Integer.MAX_VALUE);
 
         if (result.getComputedTurn() == null) {
             result = alg.alphaBeta(currentBoard, currentDepth, Integer.MIN_VALUE, Integer.MAX_VALUE);

@@ -34,7 +34,7 @@ public class AlphaBetaAI implements AI {
             scn.nextLine();
         }
 
-        for (int i = 12; i <= 12; i++) {
+        for (int i = 1; i <= 12; i++) {
             AlphaBetaAI ai = new AlphaBetaAI();
             Board board = new Board();
 

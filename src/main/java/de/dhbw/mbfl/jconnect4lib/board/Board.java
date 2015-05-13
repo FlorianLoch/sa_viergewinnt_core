@@ -208,25 +208,10 @@ public class Board implements Iterable<Position> {
         return streak;
     }
 
-    /**
-     * Counts the streak form a position.
-     * @param direction
-     * @param pos
-     * @param streak
-     * @return
-     */
     private Streak countStreak(Direction direction, Position pos, Streak streak) {
         return this.countStreak(direction, pos, streak, this.getStone(pos), false);
     }
 
-    /**
-     * Counts the streak from the position with a color.
-     * @param direction
-     * @param pos
-     * @param streak
-     * @param color
-     * @return the streak
-     */
     private Streak countStreak(Direction direction, Position pos, Streak streak, Stone color, boolean countingMaxPossibleLength) {
         if (streak.isStreakEndingGame()) {
             return streak;
